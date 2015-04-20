@@ -1,4 +1,4 @@
-class CreateScheduleItem < ActiveRecord::Migration
+class CreateScheduleItems < ActiveRecord::Migration
   def change
     create_table :schedule_items do |t|
       t.string :title

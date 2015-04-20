@@ -1,9 +1,9 @@
 class Account < ActiveRecord::Base
-  has_many :scheduleitems
+  has_many :calendars
 
-  validates_prescence_of :user
-  validates_prescence_of :pass
-  validates_prescence_of :email
+  validates :user, presence: true
+  validates :pass, presence: true
+  validates :email, presence: true
 
   def change
   end

@@ -23,9 +23,10 @@
 		</div>
 		<div class="maincontainer">
 			<div class="subcontainer">
-        <table id="account_info">
-          <tr><th>Username:</th><td><%= @account.user %></td>
-          <tr><th>Email:</th><td><%= @account.email %></td>
+        <table id="calendars">
+          <%= @calendars.each do |c| %>
+              <tr><td><% link_to c.name, c, remote: true %></td></tr>
+          <% end %>
         </table>
 			</div>
 		</div>
