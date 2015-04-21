@@ -7,22 +7,10 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 	</head>
 	<body>
-		<div class="menublock">
-			<div class="menutitlecontainer">
-				<div class="menutitle">Timetrak <sub>Scheduler</sub></div>
-			</div>
-			<div class="menucontainer" style="margin-right: 2em;">
-				<div class="menuitem">LOGOUT</div>
-			</div>
-			<div class="menucontainer">
-				<div class="menuitem">MY ACCOUNT</div>
-			</div>
-			<div class="menucontainer">
-				<div class="menuitem">CALENDARS</div>
-			</div>
-		</div>
+		<%= render 'layouts/header' %>
 		<div class="maincontainer">
 			<div class="subcontainer">
+				My Account:
         <table id="account_info">
           <tr><th>Username:</th><td><%= @account.user %></td>
           <tr><th>Email:</th><td><%= @account.email %></td>

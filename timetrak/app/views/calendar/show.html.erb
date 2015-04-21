@@ -1,0 +1,31 @@
+<DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8">
+		<title>Timetrak</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	</head>
+	<body>
+		<%= render 'layouts/header' %>
+		<div class="maincontainer">
+			<div class="subcontainer">
+        <div>
+          <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>
+            <p><<</p>
+          <% end %>
+          <%= "#{@date.strftime("%B")} #{@date.year}"%>
+          <%= link_to calendar_path(date: @date + 1.month), class: "calendar_selector" do %>
+            <p>>></p>
+          <% end %>
+        </div>
+        <div>
+          <%= calendar @date do |date| %>
+            <%= date.day %>
+          <% end %>
+        </div>
+			</div>
+		</div>
+	</body>
+  <%= yield -%>
+</html>

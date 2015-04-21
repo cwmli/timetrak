@@ -1,0 +1,30 @@
+<DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8">
+		<title>Timetrak</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	</head>
+	<body>
+		<div class="menublock">
+		  <div class="menutitlecontainer">
+		    <div class="menutitle">Timetrak <sub>Scheduler</sub></div>
+		  </div>
+		  <div class="menucontainer" style="margin-right: 2em;">
+		    <%= link_to "SIGN IN", accounts_path(@accounts, action: "new"), class: "menuitem" %>
+		  </div>
+		  <div class="menucontainer">
+		    <%= link_to "ABOUT", welcome_path(@welcome, anchor: "about"), class: "menuitem" %>
+		  </div>
+		  <div class="menucontainer">
+		    <%= link_to "FEATURES", welcome_path(@welcome, anchor: "features"),class: "menuitem" %>
+		  </div>
+		</div>
+		<div class="maincontainer">
+			<div class="subcontainer">
+			</div>
+		</div>
+	</body>
+  <%= yield -%>
+</html>

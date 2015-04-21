@@ -181,11 +181,11 @@ div.menutitle{
 }
 .menuitem {
 	position: relative;
-	display: table-cell;
+  display: block;
 	height: 40px;
 	background: white;
 
-	vertical-align: middle;
+	line-height: 40px;
 	text-align: center;
 	font-size: 14px;
 	font-family: 'District', Tahoma, Geneva, sans-serif;
@@ -274,3 +274,26 @@ div.subcontainer{
 	color: white;
 }
 .subform { color: white;}
+/*---------------------CALENDAR-----------------------------*/
+calendar{
+  border-collapse: collapse;
+}
+calendar > tr{
+  background: white;
+}
+calendar > tr:hover{
+  background: #E6E6E6;
+}
+calendar > th{
+  font-family: 'District', Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  text-align: center;
+
+
+}
+calendar > td{
+  font-family: 'District', Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  text-align: center;
+
+}
