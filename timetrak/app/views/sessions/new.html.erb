@@ -9,12 +9,18 @@
 	<body>
 		<%= render 'layouts/header' %>
 		<div class="maincontainer">
+			<%= flash[:danger] %>
 			<div class="subcontainer">
-				My Account:
-        <table class="calendar">
-          <tr><th>Username:</th><td><%= @account.username %></td>
-          <tr><th>Email:</th><td><%= @account.email %></td>
-        </table>
+        <%= form_for(:session, url: login_path) do |f| %>
+          <%= f.label :username %>
+          <%= f.text_field :username %>
+
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+
+          <%= f.submit "Login" %>
+        <% end %>
+        <p>Need an account? <%= link_to "Register now!", new_account_path %></p>
 			</div>
 		</div>
 	</body>

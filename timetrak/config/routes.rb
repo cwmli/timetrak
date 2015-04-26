@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
-  class Application < Rails::Application
-    config.autoload_paths << Rails.root.join('lib')
-  end
-    get 'welcome/index'
+  get 'sessions/new'
 
-    resource :calendar, only: [:show], controller: :calendar
+    get 'welcome', to: 'welcome#index'
+    resource :calendar, only: :show, controller: 'calendar'
+
+    get    'login'   => 'sessions#new'
+    post   'login'   => 'sessions#create'
+    delete 'logout'  => 'sessions#destroy'
 
     resources :accounts, except: :index do
-      resources :scheduleitems
+      resources :events
     end
 
     root 'welcome#index'

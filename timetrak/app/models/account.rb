@@ -1,10 +1,11 @@
 class Account < ActiveRecord::Base
-  has_many :calendars
+  has_many :events
 
-  validates :user, presence: true
-  validates :pass, presence: true
-  validates :email, presence: true
+  validates :username, presence: true
+  validates :password_digest, presence: true
+  validates :email, presence: true,
+                    format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i},
+                    on: :create
 
-  def change
-  end
+  has_secure_password
 end

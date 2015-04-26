@@ -2,16 +2,20 @@ class AccountsController < ApplicationController
   #responsible for account management
   def show #show account details
     @account = Account.find(params[:id])
+    @events = @account.events #show all events
   end
 
   def new
+    @account = Account.new
   end
 
   def create
-    @account = Account.new(params.require(:account).permit(:user, :pass, :email))
+    @account = Account.new(params.require(:account).permit(:username, :password, :password_confirmation, :email))
     if @account.save
-      redirect_to action: 'show', notice: 'Account created successfully.'
+      flash[:success] = 'Account registered successfully'
+      render 'new'
     else
+      flash[:error]
       render 'new' #failed try again
     end
   end

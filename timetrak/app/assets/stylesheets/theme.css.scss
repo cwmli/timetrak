@@ -125,10 +125,10 @@ a, a:visited{
 /*----------------Menu related styling-----------------*/
 div.menublock {
 	display: inline-block;
-	background: white;
+	background: #F1F1F1;
 	width:100%;
 	height: auto;
-	border-bottom: 1px solid #E6E6E6;
+	border-bottom: 1px solid #CFCFCF;
 	box-shadow: 0px -1px 7px #888888;
 }
 
@@ -137,7 +137,7 @@ div.menutitlecontainer{
 }
 div.menutitle{
 	display: table-cell;
-	background: white;
+	background: #F1F1F1;
 	height: 40px;
 
 	vertical-align: middle;
@@ -183,7 +183,7 @@ div.menutitle{
 	position: relative;
   display: block;
 	height: 40px;
-	background: white;
+	background: #F1F1F1;
 
 	line-height: 40px;
 	text-align: center;
@@ -246,10 +246,10 @@ div.maincontainer{
 	overflow: hidden;
 }
 div.subcontainer{
-	width: 100%;
-	height: 100%;
+	width: auto;
+  height: 70%;
 	overflow: auto;
-	padding-right: 15px;
+  padding: 50px 65px 50px 50px
 }
 /*-----------------------OTHER DIVS-----------------------------*/
 .floatcontainer{
@@ -275,25 +275,79 @@ div.subcontainer{
 }
 .subform { color: white;}
 /*---------------------CALENDAR-----------------------------*/
-calendar{
+.calendar{
   border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  float: left;
+
+  width: 75%;
+  height: auto;
 }
-calendar > tr{
+.calendar > tbody > tr{
   background: white;
 }
-calendar > tr:hover{
-  background: #E6E6E6;
-}
-calendar > th{
+
+.calendar > tbody > tr > th{
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  background: #E4E4E4;
+
   font-family: 'District', Tahoma, Geneva, sans-serif;
-  font-size: 12px;
+  font-size: 20px;
   text-align: center;
 
+  width: 14.28%;
+  height: auto;
 
+  padding: 10px;
 }
-calendar > td{
-  font-family: 'District', Tahoma, Geneva, sans-serif;
-  font-size: 12px;
-  text-align: center;
+.calendar > tbody > tr > td:hover{ background: #CFCFCF;}
+.calendar > tbody > tr > td{
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
 
+  font-family: 'District', Tahoma, Geneva, sans-serif;
+  font-size: 18px;
+  padding-left: 10px;
+
+  width: 14.28%;
+  padding-top: 2%;
+  padding-bottom: 5%;
+}
+
+.month{
+  font-family: 'District', Tahoma, Geneva, sans-serif;
+  font-size: 50px;
+}
+
+.not-month {
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  background: #F4F4F4;
+
+  font-family: 'District', Tahoma, Geneva, sans-serif;
+  font-size: 18px;
+  padding-left: 10px;
+
+  width: 14.28%;
+  padding-top: 2%;
+  padding-bottom: 5%;
+}
+
+.today{
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  background: #FFFFB2;
+
+  font-family: 'District', Tahoma, Geneva, sans-serif;
+  font-size: 18px;
+  padding-left: 10px;
+
+  width: 14.28%;
+  padding-top: 2%;
+  padding-bottom: 5%;
 }

@@ -10,19 +10,19 @@
 		<%= render 'layouts/header' %>
 		<div class="maincontainer">
 			<div class="subcontainer">
-        <div>
-          <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>
-            <p><<</p>
-          <% end %>
+        <div class="month">
+          <%= link_to account_calendar_path(date: @date - 1.month), class: "calendar_selector" do %>
+          	<<
+					<% end %>
           <%= "#{@date.strftime("%B")} #{@date.year}"%>
-          <%= link_to calendar_path(date: @date + 1.month), class: "calendar_selector" do %>
-            <p>>></p>
-          <% end %>
+          <%= link_to account_calendar_path(date: @date + 1.month), class: "calendar_selector" do %>
+          	>>
+					<% end %>
         </div>
         <div>
-          <%= calendar @date do |date| %>
-            <%= date.day %>
-          <% end %>
+          <%= calendar(@date) do |date|%>
+						<%= date.day %>
+					<% end %>
         </div>
 			</div>
 		</div>

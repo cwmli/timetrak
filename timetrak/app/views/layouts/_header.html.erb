@@ -1,4 +1,5 @@
 <div class="menublock">
+  <% if logged_in? %>
   <div class="menutitlecontainer">
     <div class="menutitle">Timetrak <sub>Scheduler</sub></div>
   </div>
@@ -6,9 +7,23 @@
     <a class="menuitem" >LOGOUT</a>
   </div>
   <div class="menucontainer">
-    <a class="menuitem">MY ACCOUNT</a>
+    <%= link_to "MY ACCOUNT", account_path(@account), class: "menuitem" %>
   </div>
   <div class="menucontainer">
-    <a class="menuitem">CALENDARS</a>
+    <%= link_to "CALENDAR", calendar_path, class: "menuitem" %>
   </div>
+  <% else %>
+  <div class="menutitlecontainer">
+    <div class="menutitle">Timetrak <sub>Scheduler</sub></div>
+  </div>
+  <div class="menucontainer" style="margin-right: 2em;">
+    <%= link_to "LOGIN", login_path, class: "menuitem" %>
+  </div>
+  <div class="menucontainer">
+    <%= link_to "ABOUT", welcome_path(@welcome, anchor: "about"), class: "menuitem" %>
+  </div>
+  <div class="menucontainer">
+    <%= link_to "FEATURES", welcome_path(@welcome, anchor: "features"),class: "menuitem" %>
+  </div>
+  <% end %>
 </div>

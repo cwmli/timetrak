@@ -1,11 +1,11 @@
 class Calendar < Struct.new(:view, :date, :callback)
   HEADER = %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
-  START_DAY = sunday
+  START_DAY = :sunday
   delegate :content_tag, to: :view
 
   def table
     content_tag :table, class: "calendar" do
-      header + week_rows
+      header + week_rows #attach week rows to header
     end
   end
 
@@ -29,7 +29,7 @@ class Calendar < Struct.new(:view, :date, :callback)
 
   def day_classes(day)
     classes = []
-    classes << "Today" if day == Date.today
+    classes << "today" if day == Date.today #check if the cell is current day
     classes << "not-month" if day.month != date.month
     classes.empty? ? nil : classes.join(" ")
   end
