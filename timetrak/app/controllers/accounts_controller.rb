@@ -2,7 +2,11 @@ class AccountsController < ApplicationController
   #responsible for account management
   def show #show account details
     @account = Account.find(params[:id])
-    @events = @account.events #show all events
+    if @account == current_account
+      @events = @account.events #show all events
+    else
+      flash.now[:error] = "Unauthorized access. Please <a href='#{login_path}'>login</a> to continue.".html_safe
+    end
   end
 
   def new
@@ -11,7 +15,7 @@ class AccountsController < ApplicationController
 
   def create
     @account = Account.new(params.require(:account).permit(:username, :password, :password_confirmation, :email))
-    if @account.save
+    if @account.save && @account.password == @account.password_confirmation
       login @account
       remember @account
       flash[:success] = 'Welcome to Timetrak Scheduler!'

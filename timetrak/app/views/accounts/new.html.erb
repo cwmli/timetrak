@@ -4,23 +4,19 @@
 			<%= render 'layouts/error_msgs' %>
 			<div class="subcontainer">
 				Create An Account:
-        <table id="account_info">
 					<%= form_for @account do |a| %>
-	          <tr><%= a.label :username do %>
-							<%= a.text_field :username %>
-						<% end %></tr>
-						<tr><%= a.label :password do %>
-							<%= a.password_field :password %>
-						<% end %></tr>
-						<tr><%= a.label :password_confirmation do %>
-							<%= a.password_field :password_confirmation %>
-						<% end %></tr>
-						<tr><%= a.label :email do %>
-							<%= a.text_field :email %>
-						<% end %></tr>
+					<table>
+	          <tr><td><%= a.label :username %></td>
+							<td><%= a.text_field :username %></td></tr>
+						<tr><td><%= a.label :password %></td>
+							<td><%= a.password_field :password %></td></tr>
+						<tr><td>Confirm Password</td>
+							<td><%= a.password_field :password_confirmation %></td></tr>
+						<tr><td><%= a.label :email%></td>
+							<td><%= a.text_field :email %></td></tr>
 	          <tr><td><%= a.submit "Create Account"%></td></tr>
-					<% end %>
 				</table>
+				<% end %>
 			</div>
 		</div>
 </body>

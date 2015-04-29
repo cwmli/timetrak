@@ -1,14 +1,16 @@
 <body>
 		<%= render 'layouts/header' %>
 		<div class="maincontainer">
-			<%= flash[:success] %>
+			<%= flash[:error] %>
+			<% if logged_in? %>
 			<div class="subcontainer">
 				My Account:
-        <table class="calendar">
+        <table>
           <tr><th>Username:</th><td><%= @account.username %></td>
           <tr><th>Email:</th><td><%= @account.email %></td>
         </table>
 			</div>
+			<% end %>
 		</div>
 </body>
 <%= yield -%>

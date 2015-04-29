@@ -9,7 +9,7 @@
     <%= link_to "LOGOUT", logout_path, class: "menuitem", method: :delete %>
   </div>
   <div class="menucontainer">
-    <%= link_to @current_account.username.upcase ,account_path(session[:account_id]), class: "menuitem" %>
+    <%= link_to @current_account.username.upcase ,account_path(current_account), class: "menuitem" %>
   </div>
   <div class="menucontainer">
     <%= link_to "CALENDAR", calendar_path, class: "menuitem" %>

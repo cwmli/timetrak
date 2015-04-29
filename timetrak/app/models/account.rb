@@ -1,6 +1,9 @@
 class Account < ActiveRecord::Base
+  extend FriendlyId
   attr_accessor :remember_token
   has_many :events
+
+  friendly_id :username, use: [:slugged, :finders]
 
   validates :username, presence: true, length: {  maximum: 12 }
   validates :email, presence: true,
