@@ -10,6 +10,11 @@
           <%= f.label :password %>
           <%= f.password_field :password %>
 
+					<%= f.label :remember_me do %>
+						<%= f.check_box :remember_me %>
+						<span>Remember me</span>
+					<% end %>
+
           <%= f.submit "Login" %>
         <% end %>
         Need an account? <%= link_to "Register now!", new_account_path %>

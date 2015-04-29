@@ -12,8 +12,10 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(params.require(:account).permit(:username, :password, :password_confirmation, :email))
     if @account.save
-      flash.now[:success] = 'Account registered successfully'
-      render 'new'
+      login @account
+      remember @account
+      flash[:success] = 'Welcome to Timetrak Scheduler!'
+      redirect_to @account
     else
       flash.now[:error]
       render 'new' #failed try again

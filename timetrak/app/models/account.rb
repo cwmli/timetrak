@@ -1,11 +1,36 @@
 class Account < ActiveRecord::Base
+  attr_accessor :remember_token
   has_many :events
 
-  validates :username, presence: true
-  validates :password_digest, presence: true
+  validates :username, presence: true, length: {  maximum: 12 }
   validates :email, presence: true,
                     format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i},
                     on: :create
 
   has_secure_password
+  validates :password, length: {  minimum: 6  }
+
+  def Account.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
+  def Account.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def remember
+    self.remember_token = Account.new_token
+    update_attribute(:remember_digest, Account.digest(remember_token))
+  end
+
+  def authenticated?(remember_token)
+    return false if remember_digest.nil?
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  end
+
+  def forget
+    update_attribute(:remember_digest, nil)
+  end
 end

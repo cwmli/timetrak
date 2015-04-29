@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
     account = Account.find_by(username: params[:session][:username])
     if account && account.authenticate(params[:session][:password])
       login account
+      params[:session][:remember_me] == '1' ? remember(account) : forget(account)
       redirect_to account
     else
       flash.now[:danger] = 'Invalid username/password combination'
@@ -14,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    logout
+    logout if logged_in?
     redirect_to welcome_path
   end
 end
