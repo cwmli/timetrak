@@ -1,16 +1,8 @@
-<DOCTYPE html>
-<html lang="en-US">
-	<head>
-		<meta charset="UTF-8">
-		<title>Timetrak</title>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-	</head>
-	<body>
+<body>
 		<%= render 'layouts/header' %>
 		<div class="maincontainer">
 			<%= render 'layouts/error_msgs' %>
-			<%= flash[:error] %>
+			<%= flash[:success] %>
 			<div class="subcontainer">
 				Create An Account:
         <table id="account_info">
@@ -24,6 +16,5 @@
 				</table>
 			</div>
 		</div>
-	</body>
-  <%= yield -%>
-</html>
+</body>
+<%= yield -%>

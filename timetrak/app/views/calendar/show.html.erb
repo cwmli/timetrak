@@ -1,12 +1,4 @@
-<DOCTYPE html>
-<html lang="en-US">
-	<head>
-		<meta charset="UTF-8">
-		<title>Timetrak</title>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-	</head>
-	<body>
+<body>
 		<%= render 'layouts/header' %>
 		<div class="maincontainer">
 			<div class="subcontainer">
@@ -26,6 +18,5 @@
         </div>
 			</div>
 		</div>
-	</body>
-  <%= yield -%>
-</html>
+</body>
+<%= yield -%>

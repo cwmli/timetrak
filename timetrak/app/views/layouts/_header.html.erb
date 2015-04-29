@@ -1,7 +1,9 @@
 <div class="menublock">
   <% if logged_in? %>
   <div class="menutitlecontainer">
-    <div class="menutitle">Timetrak <sub>Scheduler</sub></div>
+    <%= link_to account_path(session[:account_id]) do %>
+      <div class="menutitle">Timetrak<sub>Scheduler</sub></div>
+    <% end %>
   </div>
   <div class="menucontainer" style="margin-right: 2em;">
     <%= link_to "LOGOUT", logout_path, class: "menuitem", method: :delete %>
@@ -14,7 +16,9 @@
   </div>
   <% else %>
   <div class="menutitlecontainer">
-    <div class="menutitle">Timetrak <sub>Scheduler</sub></div>
+    <%= link_to welcome_path do %>
+      <div class="menutitle">Timetrak<sub>Scheduler</sub></div>
+    <% end %>
   </div>
   <div class="menucontainer" style="margin-right: 2em;">
     <%= link_to "LOGIN", login_path, class: "menuitem" %>

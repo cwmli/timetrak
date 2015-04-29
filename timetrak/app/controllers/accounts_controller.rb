@@ -12,10 +12,10 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(params.require(:account).permit(:username, :password, :password_confirmation, :email))
     if @account.save
-      flash[:success] = 'Account registered successfully'
+      flash.now[:success] = 'Account registered successfully'
       render 'new'
     else
-      flash[:error]
+      flash.now[:error]
       render 'new' #failed try again
     end
   end
