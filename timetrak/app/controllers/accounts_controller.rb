@@ -27,7 +27,7 @@ class AccountsController < ApplicationController
   def update
     @account = Account.find(params[:id])
     if @account.update_attributes(params[:account])
-      redirect_to action: 'show', notice: 'Account information updated.'
+      render action: 'show', notice: 'Account information updated.'
     else
       render 'edit', notice: 'An error occurred and your information was not updated.' #unsucessful save try again
     end
