@@ -17,109 +17,26 @@ a, a:visited{
 }/*force no decoration*/
 
 /*----------------BUTTONS------------------------------*/
-#menu_button{
-	border-style: none;
-	color: inherit;
-	font-size: 1vw;
-	width: auto;
-	padding: 0.25vw;
+div.close-block{
+  display: inline-block;
+  background: white;
 
-	background: transparent;
+  float: right;
+
+  color: #818181;
+  font-size: 24px;
+  text-align: center;
+  line-height: 20px;
+
+  width: 20px;
+
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
 }
-#menu_button:hover{
-	cursor: pointer;
-	cursor: hand;
-	color: white;
-}
+div.close-block:hover{
+  cursor: hand;
 
-#action_CLOSE{
-	display: inline-block;
-	background: transparent;
-	border-style: none;
-	border-width: thin;
-	border-radius: 1vw;
-
-	padding-left: .4vw;
-	padding-right: .4vw;
-
-	float:right;
-
-	text-align: center;
-	font-family: Arial, sans-serif;
-	font-size: 1.25vw;
-	color: #A6A6A6;
-
-	-webkit-transition: background 0.25s, color 0.25s;
-	transition: background 0.25s, color 0.25s;
-
-	-webkit-transition-timing-function: ease;
-	transition-timing-function: ease;
-}
-#action_CLOSE:hover{
-	cursor: pointer;
-	cursor: hand;
-
-	background: #FF1919;
-	border-color: #FF1919;
-	color: white;
-}
-
-#action_DELETE{
-	display: inline-block;
-	background: transparent;
-	border-style: none;
-	border-width: thin;
-	border-radius: 0.25vw;
-	padding-left: .5vw;
-	padding-right: .5vw;
-	width: auto;
-
-	text-align: center;
-	font-size: .9vw;
-	color: #A6A6A6;
-
-	-webkit-transition: background 0.25s, color 0.25s;
-	transition: background 0.25s, color 0.25s;
-
-	-webkit-transition-timing-function: ease;
-	transition-timing-function: ease;
-}
-#action_DELETE:hover{
-	cursor: pointer;
-	cursor: hand;
-
-	background: #FF1919;
-	border-color: #FF1919;
-	color: white;
-}
-
-#action_EDIT{
-	display: inline-block;
-	background: transparent;
-	border-style: none;
-	border-radius: .25vw;
-	padding-left: .5vw;
-	padding-right: .5vw;
-	width: auto;
-
-	text-align: center;
-	font-size: .9vw;
-	color: #A6A6A6;
-
-	-webkit-transition: background 0.25s, color 0.25s;
-	transition: background 0.25s, color 0.25s;
-
-	-webkit-transition-timing-function: ease;
-	transition-timing-function: ease;
-}
-
-#action_EDIT:hover{
-	cursor: pointer;
-	cursor: hand;
-
-	background: #19A3D1;
-	border-color: #19A3D1;
-	color: white;
+  background: black;
 }
 /*----------------Menu related styling-----------------*/
 div.menublock {
@@ -289,6 +206,7 @@ div.subcontainer{
   background: #E4E4E4;
 
   font-size: 20px;
+  font-weight: normal;
   text-align: center;
 
   width: 14.28%;
@@ -344,8 +262,10 @@ div.subcontainer{
 .events_block{
   display: block;
   float: right;
-  margin: 5px;
-  border: 1px solid #E8E8E8;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
 
   background: white;
 
@@ -353,6 +273,6 @@ div.subcontainer{
   color: black;
 
   width:  20%;
-  height: 90%;
-  padding: 15px;
+  height: 500px;
+  padding: 12px;
 }

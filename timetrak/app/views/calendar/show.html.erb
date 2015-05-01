@@ -4,11 +4,11 @@
 			<div class="subcontainer">
         <div class="month">
           <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>
-          	<<
+						«
 					<% end %>
           <%= "#{@date.strftime("%B")} #{@date.year}"%>
           <%= link_to calendar_path(date: @date + 1.month), class: "calendar_selector" do %>
-          	>>
+						»
 					<% end %>
         </div>
         <div>
@@ -17,9 +17,22 @@
 					<% end %>
         </div>
 				<div class="events_block">
-					<%= @events.each do |e| %>
-						e
-					<% end %>
+					<table>
+						<span style="font-size: 16px;">UPCOMING EVENTS:</span>
+						<div class="close-block" onclick="show_element">
+							+
+						</div>
+						<br><br>
+						<% if !@events.empty? #the user has events%>
+							<%= @events.each do |e| %>
+								<tr>
+									<td>e.title</td><td>e.startdate</td><td>e.enddate</td>
+								</tr>
+							<% end %>
+						<% else %>
+								You have no upcoming events.
+						<% end %>
+					</table>
 				</div>
 				<%= yield %>
 			</div>
