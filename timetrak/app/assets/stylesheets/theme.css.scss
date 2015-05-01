@@ -275,8 +275,8 @@ div.subcontainer{
 
   float: left;
 
-  width: 75%;
-  height: auto;
+  width: 70%;
+  height: 500px;
 }
 .calendar > tbody > tr{
   background: white;
@@ -339,4 +339,20 @@ div.subcontainer{
   width: 14.28%;
   padding-top: 2%;
   padding-bottom: 5%;
+}
+
+.events_block{
+  display: block;
+  float: right;
+  margin: 5px;
+  border: 1px solid #E8E8E8;
+
+  background: white;
+
+  font-size: 14px;
+  color: black;
+
+  width:  20%;
+  height: 90%;
+  padding: 15px;
 }

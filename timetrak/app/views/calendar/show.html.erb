@@ -16,7 +16,12 @@
 						<%= date.day %>
 					<% end %>
         </div>
+				<div class="events_block">
+					<%= @events.each do |e| %>
+						e
+					<% end %>
+				</div>
+				<%= yield %>
 			</div>
 		</div>
 </body>
-<%= yield -%>
