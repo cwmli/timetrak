@@ -1,5 +1,35 @@
 <body>
+	<div class="mask"></div>
 		<%= render 'layouts/header' %>
+		<div class="float-form">
+			<table align="center">
+		  <%= form_for [@account, @event] do |f| %>
+				<tr>
+					<td><%= f.label :title, "Title:" %>
+						<%= f.text_field :title, class: 'full-form' %></td>
+				</tr>
+				<tr>
+					<td><%= f.label :description, "Description:" %>
+						<%= f.text_area :description, rows: 3, class: 'no-resize' %></td>
+				</tr>
+				<tr>
+					<td><%= f.label :location, "Location:" %>
+						<%= f.text_field :location, class: 'full-form' %></td>
+						</tr>
+				<tr>
+					<td><%= f.label :startdate, "From:" %>
+						<%= f.datetime_field :startdate, class: 'full-form' %></td>
+						</tr>
+				<tr>
+					<td><%= f.label :enddate, "To:" %>
+						<%= f.datetime_field :enddate, class: 'full-form' %></td>
+						</tr>
+				<tr>
+					<td><%= f.label :notify, "Notify Me:" %>
+						<%= f.check_box :notify %></td>
+				</table>
+		  <% end %>
+		</div>
 		<div class="maincontainer">
 			<div class="subcontainer">
         <div class="month">
@@ -11,28 +41,30 @@
 						»
 					<% end %>
         </div>
-        <div>
-          <%= calendar(@date) do |date|%>
-						<%= date.day %>
-					<% end %>
-        </div>
-				<div class="events_block">
-					<table>
-						<span style="font-size: 16px;">UPCOMING EVENTS:</span>
-						<div class="close-block" onclick="show_element">
-							+
-						</div>
-						<br><br>
-						<% if !@events.empty? #the user has events%>
-							<%= @events.each do |e| %>
-								<tr>
-									<td>e.title</td><td>e.startdate</td><td>e.enddate</td>
-								</tr>
-							<% end %>
-						<% else %>
-								You have no upcoming events.
+				<div style="height:500px;">
+	        <div>
+	          <%= calendar(@date) do |date|%>
+							<%= date.day %>
 						<% end %>
-					</table>
+	        </div>
+					<div class="events_block">
+						<table>
+							<span style="font-size: 16px;">UPCOMING EVENTS:</span>
+							<div class="close-block" onclick="show_element">
+								+
+							</div>
+							<br><br>
+							<% if !@events.empty? #the user has events%>
+								<%= @events.each do |e| %>
+									<tr>
+										<td>e.title</td><td>e.startdate</td><td>e.enddate</td>
+									</tr>
+								<% end %>
+							<% else %>
+									You have no upcoming events.
+							<% end %>
+						</table>
+					</div>
 				</div>
 				<%= yield %>
 			</div>

@@ -10,7 +10,7 @@ module SessionsHelper
       account = account.find_by(id: account_id)
       if account && account.authenticated?(cookies[:remember_token])
         log_in account
-        @current_user = account
+        @current_account = account
       end
     end
   end
