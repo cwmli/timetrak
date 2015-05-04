@@ -1,36 +1,45 @@
 <body>
-	<div class="mask"></div>
+	<div id="mask" style="visibility:hidden;"></div>
 		<%= render 'layouts/header' %>
-		<div class="float-form">
+		<div id="float-form" style="visibility:hidden;">
+			<div class="close-block" onclick="change_form_visibility()">
+				X
+			</div>
+			Create an Event:
 			<table align="center">
 		  <%= form_for [@account, @event] do |f| %>
 				<tr>
-					<td><%= f.label :title, "Title:" %>
-						<%= f.text_field :title, class: 'full-form' %></td>
+					<td>
+						<%= f.text_field :title, placeholder: "Add a title", class: 'full-form' %></td>
 				</tr>
 				<tr>
-					<td><%= f.label :description, "Description:" %>
-						<%= f.text_area :description, rows: 3, class: 'no-resize' %></td>
+					<td>
+						<%= f.text_area :description, placeholder: "Add a description", rows: 3, class: 'no-resize' %></td>
 				</tr>
 				<tr>
-					<td><%= f.label :location, "Location:" %>
-						<%= f.text_field :location, class: 'full-form' %></td>
-						</tr>
+					<td>
+						<%= f.text_field :location, placeholder: "Add a location", class: 'full-form' %></td>
+				</tr>
 				<tr>
-					<td><%= f.label :startdate, "From:" %>
-						<%= f.datetime_field :startdate, class: 'full-form' %></td>
-						</tr>
+						<td>
+						<%= f.datetime_field :startdate, placeholder: "Start time", value: @date, class: 'full-form' %></td>
+				</tr>
 				<tr>
-					<td><%= f.label :enddate, "To:" %>
-						<%= f.datetime_field :enddate, class: 'full-form' %></td>
-						</tr>
+					<td>
+						<%= f.datetime_field :enddate, placeholder: "End time", class: 'full-form' %></td>
+				</tr>
 				<tr>
-					<td><%= f.label :notify, "Notify Me:" %>
+					<td><%= f.datetime_field :notifydate, placeholder: "Add a notification" %>
 						<%= f.check_box :notify %></td>
+				<tr>
+					<td><%= f.submit "New Event", class: "submit-button full-form" %></td>
+				</tr>
 				</table>
 		  <% end %>
 		</div>
 		<div class="maincontainer">
+			<%= flash[:error] %>
+			<%= flash[:success] %>
 			<div class="subcontainer">
         <div class="month">
           <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>
@@ -50,14 +59,14 @@
 					<div class="events_block">
 						<table>
 							<span style="font-size: 16px;">UPCOMING EVENTS:</span>
-							<div class="close-block" onclick="show_element">
+							<div class="new-block" onclick="change_form_visibility()">
 								+
 							</div>
 							<br><br>
-							<% if !@events.empty? #the user has events%>
-								<%= @events.each do |e| %>
+							<% if @events.any? #the user has events%>
+								<% @events.each do |e| %>
 									<tr>
-										<td>e.title</td><td>e.startdate</td><td>e.enddate</td>
+										<td><%= e.title %></td><td><%= e.startdate %></td><td><%= e.enddate %></td>
 									</tr>
 								<% end %>
 							<% else %>

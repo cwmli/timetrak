@@ -4,7 +4,14 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(params.require(:title, :startdate, :enddate).permit(:event))
+    @event = current_account.events.build(event_params)
+    if @event.save
+      flash[:success] = 'Event created successfully.'
+      redirect_to calendar_path
+    else
+      flash[:danger] = 'Error occurred.'
+      redirect_to calendar_path
+    end
   end
 
   def edit
@@ -14,16 +21,23 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
     if @event.update_attributes(params[:event])
-      render calendar_path
+      flash[:success] = 'Updated event.'
+      redirect_to calendar_path
     else
-      render calendar_path
-      flash.now[:danger] = 'Unable to update event.'
+      flash[:danger] = 'Unable to update event.'
+      redirect_to calendar_path
     end
   end
 
   def delete
     Event.find(params[:id]).destroy
-    render calendar_path
-    flash.now[:success] = 'Event removed.'
+    flash[:success] = 'Event removed.'
+    redirect_to calendar_path
   end
+
+  private
+
+    def event_params
+      params.require(:event).permit(:title, :description, :location, :startdate, :enddate, :notify, :notifydate)
+    end
 end

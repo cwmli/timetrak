@@ -7,7 +7,7 @@ html, body {
     overflow: hidden;
 }/*force no horizontal scroll*/
 
-.mask{
+#mask{
   position: fixed;
 
   display: block;
@@ -23,7 +23,9 @@ table{
   border-collapse: collapse;
 }
 
-*{font-family: 'District', Tahoma, Geneva, sans-serif;}
+*{
+  font-family: 'District', Tahoma, Geneva, sans-serif;
+  }
 
 a, a:visited{
 	color: inherit;
@@ -48,7 +50,7 @@ a, a:visited{
   width: 100%;
 }
 /*----------------BUTTONS------------------------------*/
-.close-block{
+.new-block{
   display: inline-block;
   background: white;
 
@@ -67,7 +69,59 @@ a, a:visited{
   border: 1px solid #DBDBDB;
   border-radius: 5px;
 }
+.new-block:hover{
+  color: white;
+
+  cursor: hand; //IE Support
+  cursor: pointer;
+
+  background: #19A3D1;
+}
+.close-block{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+  display: inline-block;
+  background: white;
+
+  float: right;
+
+  color: #818181;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+
+  padding: 1px;
+
+  width: 20px;
+  height: 20px;
+
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
+}
 .close-block:hover{
+  color: white;
+
+  cursor: hand; //IE Support
+  cursor: pointer;
+
+  background: #FF1919;
+}
+
+.submit-button{
+  display: block;
+  background: white;
+
+  color: #818181;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
+}
+.submit-button:hover{
   color: white;
 
   cursor: hand; //IE Support
@@ -201,27 +255,26 @@ div.subcontainer{
   padding: 50px 65px 50px 50px
 }
 /*-----------------------OTHER DIVS-----------------------------*/
-.float-form{
+#float-form{
   display: table;
+  width: 20%;
   position: fixed;
-
-  top: 25%;
-  left: 40%;
-
+  top: 50%;
+  left: 50%;
+  margin-top: -10%;
+  margin-left: -10%;
   z-index: 100;
 
   background: white;
   border-radius: 20px;
 
   text-align: center;
-  font-size: 24px;
 
-  width: 20%;
   min-width: 250px;
-  max-width: 500px;
-  padding: 10px;
+  max-width: 250px;
+  padding: 30px 0px 30px 0px;
 
-  font-size: 14px;
+  font-size: 18px;
 }
 /*---------------------CALENDAR-----------------------------*/
 .calendar{

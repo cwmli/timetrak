@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429225036) do
+ActiveRecord::Schema.define(version: 20150503232129) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "username"
@@ -34,8 +34,10 @@ ActiveRecord::Schema.define(version: 20150429225036) do
     t.boolean  "notify"
     t.datetime "notifydate"
     t.integer  "account_id"
+    t.string   "slug"
   end
 
   add_index "events", ["account_id"], name: "index_events_on_account_id"
+  add_index "events", ["slug"], name: "index_events_on_slug", unique: true
 
 end

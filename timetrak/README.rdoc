@@ -3,3 +3,6 @@ Timetrak runs on:
 Ruby 2.1.6 & Rails 4.2.1
 
 *Before pushing to heroku, switch from sqlite3 to postgresql
+
+To Do:
+  - split theme.css into respective files
