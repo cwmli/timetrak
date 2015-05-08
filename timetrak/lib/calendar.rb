@@ -4,34 +4,34 @@ class Calendar < Struct.new(:view, :date, :callback)
   delegate :content_tag, to: :view
 
   def table
-    content_tag :table, class: "calendar" do
+    content_tag :div, class: "calendar" do #table
       header + week_rows #attach week rows to header
     end
   end
 
   def header
-    content_tag :tr do
-      HEADER.map { |day| content_tag :th, day }.join.html_safe
+    content_tag :div, class: "calendar-row" do #table-row
+      HEADER.map { |day| content_tag(:div, day, class: "calendar-header") }.join.html_safe #table-header
     end
   end
 
   def week_rows
-    weeks.map do |week| #iterates through the weeks in the month
-      content_tag :tr do #iterates through the 7 days in the week
+    weeks.map do |week|
+      content_tag :div, class: "calendar-row" do
         week.map { |day| day_cell(day) }.join.html_safe
       end
     end.join.html_safe
   end
 
-  def day_cell(day)
-    content_tag :td, view.capture(day, &callback), class: day_classes(day)
+  def day_cell(day) #table-cell
+    content_tag :div,  view.capture(day, &callback), class: day_classes(day)
   end
 
   def day_classes(day)
     classes = []
-    classes << "today" if day == Date.today #check if the cell is current day
-    classes << "not-month" if day.month != date.month
-    classes.empty? ? nil : classes.join(" ")
+    classes << "calendar-cell today" if day == Date.today #check if the cell is current day
+    classes << "calendar-cell not-month" if day.month != date.month
+    classes.empty? ? "calendar-cell" : classes.join(" ")
   end
 
   def weeks

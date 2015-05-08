@@ -10,7 +10,7 @@ html, body {
 #mask{
   position: fixed;
 
-  display: block;
+  display: none;
   background: rgba(0,0,0,0.7);
 
   z-index: 99;
@@ -33,21 +33,12 @@ a, a:visited{
 }/*force no decoration*/
 
 .no-resize{
-  width: 100%;
   resize: none;
 }
 
-.float-form > table > tbody > tr > td > label{
-  float:left;
-  text-align: left;
-  width: 20%;
-  max-width: 120px;
-  min-width: 70px;
-}
-
 .full-form{
-  float: left;
   width: 100%;
+  font-size: 24px;
 }
 /*----------------BUTTONS------------------------------*/
 .new-block{
@@ -114,9 +105,10 @@ a, a:visited{
   background: white;
 
   color: #818181;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 24px;
+  line-height: 24px;
   text-align: center;
+  padding: 5px;
 
   border: 1px solid #DBDBDB;
   border-radius: 5px;
@@ -249,20 +241,21 @@ div.maincontainer{
 	overflow: hidden;
 }
 div.subcontainer{
+  display: none;
 	width: auto;
   height: 80%;
 	overflow: auto;
   padding: 50px 65px 50px 50px
 }
 /*-----------------------OTHER DIVS-----------------------------*/
-#float-form{
-  display: table;
-  width: 20%;
+.float-form{
+  display: none;
+  width: 40%;
   position: fixed;
   top: 50%;
   left: 50%;
-  margin-top: -10%;
-  margin-left: -10%;
+  margin-top: -15%;
+  margin-left: -20%;
   z-index: 100;
 
   background: white;
@@ -271,51 +264,84 @@ div.subcontainer{
   text-align: center;
 
   min-width: 250px;
-  max-width: 250px;
   padding: 30px 0px 30px 0px;
 
-  font-size: 18px;
+  font-size: 36px;
+}
+
+#float-form-table{
+  display: table;
+  margin: 0 auto;
+  width: 90%;
+  font-size: 20px;
+}
+
+#float-form-input{
+  border-style: none;
+  border-width: thin;
+  border-bottom-style: solid;
+  margin: 10px;
+  font-size: 20px;
+}
+
+#float-form-input-date{
+  display: inline-cell;
+  border-style: none;
+  border-width: thin;
+  border-bottom-style: solid;
+  margin: 10px;
+  width: auto;
+  font-size: 16px;
 }
 /*---------------------CALENDAR-----------------------------*/
 .calendar{
+  display: table;
   border-collapse: collapse;
   border: 1px solid #DBDBDB;
 
   float: left;
 
-  width: 70%;
+  width: 69%;
   height: 100%;
 }
-.calendar > tbody > tr{
+.calendar-row{
+  display: table-row;
   background: white;
 }
 
-.calendar > tbody > tr > th{
+.calendar-header{
+  display: table-cell;
   border-collapse: collapse;
   border: 1px solid #DBDBDB;
 
   background: #E4E4E4;
 
   font-size: 20px;
-  font-weight: normal;
+  font-weight: bold;
   text-align: center;
 
-  width: 14.28%;
-  height: auto;
-
   padding: 10px;
+
+  height: 20px;
+  width: 14.28%;
 }
-.calendar > tbody > tr > td:hover{ background: #CFCFCF;}
-.calendar > tbody > tr > td{
+.calendar-cell{
+  display: table-cell;
   border-collapse: collapse;
   border: 1px solid #DBDBDB;
 
   font-size: 18px;
   padding-left: 10px;
+  padding-right: 10px;
 
   width: 14.28%;
-  padding-top: 2%;
-  padding-bottom: 5%;
+  height: auto;
+}
+.calendar-event-wrapper{
+  width: 100%;
+  padding-right: 30px;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 .month{
@@ -333,8 +359,6 @@ div.subcontainer{
   padding-left: 10px;
 
   width: 14.28%;
-  padding-top: 2%;
-  padding-bottom: 5%;
 }
 
 .today{
@@ -347,8 +371,6 @@ div.subcontainer{
   padding-left: 10px;
 
   width: 14.28%;
-  padding-top: 2%;
-  padding-bottom: 5%;
 }
 
 .events_block{
@@ -364,9 +386,64 @@ div.subcontainer{
   font-size: 14px;
   color: black;
 
-  width:  20%;
-  height: auto;
+  width:  28%;
+  height: 96%;
   padding: 12px;
 
   overflow-y: auto;
+}
+
+.event-item{
+  position: relative;
+
+  margin: 3px;
+  display: block;
+  border-radius: 5px;
+  background: #E6E6E6;
+
+  padding: 2px 2px 2px 5px;
+}
+.event-item:hover{
+  cursor: hand; //IE Support
+  cursor: pointer;
+  color: white;
+  background: #CACACA;
+}
+
+.event-item-passed{
+  position: relative;
+
+  margin: 3px;
+  display: block;
+  border-radius: 5px;
+  background: #F8F8F8;
+
+  color: #B8B8B8;
+
+  padding: 2px 2px 2px 5px;
+}
+.event-item-passed:hover{
+  cursor: hand; //IE Support
+  cursor: pointer;
+  color: white;
+  background: #CACACA;
+}
+
+.sinfo-block{
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.linfo-block{
+  display: none;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+img{
+  margin-right: 10px;
+}
+p{
+  line-height: 1.5;
+  margin-left: 10px;
 }

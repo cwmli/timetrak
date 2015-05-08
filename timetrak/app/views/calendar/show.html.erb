@@ -1,44 +1,37 @@
 <body>
-	<div id="mask" style="visibility:hidden;"></div>
+	<div id="mask"></div>
 		<%= render 'layouts/header' %>
-		<div id="float-form" style="visibility:hidden;">
-			<div class="close-block" onclick="change_form_visibility()">
+		<div class="float-form" id="new-event-form">
+			<div class="close-block" id="cancel-event">
 				X
 			</div>
+			<%= flash[:danger] %>
 			Create an Event:
-			<table align="center">
-		  <%= form_for [@account, @event] do |f| %>
-				<tr>
-					<td>
-						<%= f.text_field :title, placeholder: "Add a title", class: 'full-form' %></td>
-				</tr>
-				<tr>
-					<td>
-						<%= f.text_area :description, placeholder: "Add a description", rows: 3, class: 'no-resize' %></td>
-				</tr>
-				<tr>
-					<td>
-						<%= f.text_field :location, placeholder: "Add a location", class: 'full-form' %></td>
-				</tr>
-				<tr>
-						<td>
-						<%= f.datetime_field :startdate, placeholder: "Start time", value: @date, class: 'full-form' %></td>
-				</tr>
-				<tr>
-					<td>
-						<%= f.datetime_field :enddate, placeholder: "End time", class: 'full-form' %></td>
-				</tr>
-				<tr>
-					<td><%= f.datetime_field :notifydate, placeholder: "Add a notification" %>
-						<%= f.check_box :notify %></td>
-				<tr>
-					<td><%= f.submit "New Event", class: "submit-button full-form" %></td>
-				</tr>
-				</table>
+			<div id="float-form-table">
+		  <%= form_for [@current_account, @event] do |f| %>
+			<p>
+				<%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
+				<%= f.text_area :description, placeholder: "Add a description", rows: 3, id: 'float-form-input', class: 'full-form no-resize' %>
+
+				<%= f.text_field :location, placeholder: "Add a location", id: 'float-form-input', class: 'full-form' %>
+
+				<%= image_tag "clock.png", size:"16x16" %>
+				<%= f.date_field :startdate, value: @date, id: 'float-form-input-date' %>
+				<%= f.time_field :starttime, id: 'float-form-input-date' %>
+
+				<%= f.date_field :enddate, id: 'float-form-input-date'%>
+				<%= f.time_field :endtime, id: 'float-form-input-date'%><br>
+
+				<%= image_tag "alarm.png", size:"16x16" %>
+				<%= f.date_field :notifydate, id: 'float-form-input-date' %>
+				<%= f.time_field :notifydate, id: 'float-form-input-date' %>
+				<%= f.check_box :notify, id: 'float-form-input-date'%>
+				<%= f.submit "New Event", class: "submit-button" %>
+			</p>
+			</div>
 		  <% end %>
 		</div>
 		<div class="maincontainer">
-			<%= flash[:error] %>
 			<%= flash[:success] %>
 			<div class="subcontainer">
         <div class="month">
@@ -50,24 +43,73 @@
 						»
 					<% end %>
         </div>
-				<div style="height:500px;">
-	        <div>
+					<div style="height: 90%">
 	          <%= calendar(@date) do |date|%>
+						<div class="calendar-event-wrapper">
 							<%= date.day %>
+							<% if @events_by_date[date] %>
+								<% @events_by_date[date].each do |e| %>
+									<% if e.startdate.past? %>
+									<div class="event-item-passed">
+										<%= e.title %>
+									</div>
+									<% else %>
+									<div class="event-item">
+										<%= e.title %>
+									</div>
+									<% end %>
+								<% end %>
+							<% end %>
+						</div>
 						<% end %>
-	        </div>
 					<div class="events_block">
-						<table>
-							<span style="font-size: 16px;">UPCOMING EVENTS:</span>
-							<div class="new-block" onclick="change_form_visibility()">
+							<div class="new-block" id="new-event">
 								+
 							</div>
-							<br><br>
+							<h2>UPCOMING EVENTS:</h2>
 							<% if @events.any? #the user has events%>
 								<% @events.each do |e| %>
-									<tr>
-										<td><%= e.title %></td><td><%= e.startdate %></td><td><%= e.enddate %></td>
-									</tr>
+								<div>
+									<%= form_for [@current_account, e], remote: true do |f| %>
+									<div id="<%= e.title.delete(' ')+"_block" %>">
+									<div class="sinfo-block" id="<%= e.title %>">
+										<h3><span class="editable lineinput" id="title"><%= e.title %></span></h3>
+										<p><%= image_tag "clock.png", size:"16x16" %>
+										<span class="editable dinput" id="startdate"><%= e.startdate.strftime('%B %e, %Y') %></span>
+										<span class="editable tinput" id="starttime"><%= e.starttime.strftime('%l:%M %p') %></span> TO:
+										<span class="editable dinput" id="enddate"><%= e.enddate.strftime('%b %e, %Y') %></span>
+										<span class="editable tinput" id="endtime"><%= e.endtime.strftime('%l:%M %p') %></span>
+										<span class="new-block" id="expand-info">...</span>
+										<span class="new-block" id="edit-event" title="Press to edit"><%= image_tag "edit.png", size:"16x16" %></span>
+										<%= link_to [@current_account,e], method: :delete, class: "new-block", data: {confirm: 'Confirm deletion of: '+e.title+'?'} do %>
+										<%= image_tag "trash.png", size:"16x16" %>
+										<% end %><br></p>
+									</div>
+									<div class="linfo-block" id="<%= e.title+"_expanded" %>">
+										<p>
+											<% if e.notify %>
+												<%= image_tag "alarm.png", size:"16x16" %>
+												<span class="editable dinput" id="notifydate"><%= e.notifydate.strftime('%B %e, %Y') %></span>
+												<span class="editable dinput" id="notifytime"><%= e.notifytime.strftime('%l:%M %p') %></span><br>
+											<% else %>
+												<%= image_tag "alarm.png", size:"16x16" %> You are not receiving notifications for this event.<br>
+											<% end %>
+											<% if e.location.length != 0 %>
+												<%= image_tag "location.png", size:"16x16" %> <span class="editable lineinput" id="location"><%= e.location %></span><br>
+											<% else %>
+												<%= image_tag "location.png", size:"16x16" %> <span class="editable lineinput" id="location">Add a location</span><br>
+											<% end %>
+											<% if e.description.length != 0 %>
+												<%= image_tag "note.png", size:"16x16" %> <span class="editable blobinput" id="description"><%= e.description %></span>
+											<% else %>
+												<%= image_tag "note.png", size:"16x16" %> <span class="editable blobinput" id="description">Add a description</span>
+											<% end %>
+									</p>
+									</div>
+									<hr>
+								</div>
+								<% end %>
+								</div>
 								<% end %>
 							<% else %>
 									You have no upcoming events.
