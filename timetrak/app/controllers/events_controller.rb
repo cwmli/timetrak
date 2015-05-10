@@ -9,7 +9,7 @@ class EventsController < ApplicationController
       flash[:success] = 'Event created.'
       redirect_to calendar_path
     else
-      flash[:danger] = 'Error occurred.'
+      flash[:error] = 'Error: Please make sure your event has a title and time.'
       redirect_to calendar_path
     end
   end
@@ -24,7 +24,7 @@ class EventsController < ApplicationController
       flash[:success] = 'Updated event.'
       redirect_to calendar_path
     else
-      flash[:danger] = 'Unable to update event.'
+      flash[:error] = 'Unable to update event.'
       redirect_to calendar_path
     end
   end

@@ -1,3 +1,144 @@
 // Place all the styles related to the Calendar controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.calendar{
+  display: table;
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  float: left;
+
+  width: 75%;
+  height: 100%;
+}
+.calendar-row{
+  display: table-row;
+  background: white;
+}
+
+.calendar-header{
+  display: table-cell;
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  background: #E4E4E4;
+
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+
+  padding: 10px;
+
+  height: 20px;
+  width: 14.28%;
+}
+.calendar-cell{
+  display: table-cell;
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  font-size: 18px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  width: 14.28%;
+  height: auto;
+}
+.calendar-event-wrapper{
+  width: 102%;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.month{
+  font-size: 36px;
+}
+
+.not-month {
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  background: #F4F4F4;
+
+  color: #818181;
+  font-size: 18px;
+  padding-left: 10px;
+
+  width: 14.28%;
+}
+
+.today{
+  border-collapse: collapse;
+  border: 1px solid #DBDBDB;
+
+  background: #FFFFB2;
+
+  font-size: 18px;
+  padding-left: 10px;
+
+  width: 14.28%;
+}
+
+.events_block{
+  display: block;
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
+
+  background: white;
+
+  font-size: 14px;
+  color: black;
+
+  width: auto;
+  height: 96.5%;
+  padding: 12px;
+
+  overflow-y: auto;
+}
+
+.event-item{
+  position: relative;
+
+  margin: 3px;
+  display: block;
+  border-radius: 5px;
+  background: #E6E6E6;
+
+  padding: 2px 2px 2px 5px;
+}
+.event-item:hover{
+  cursor: hand; //IE Support
+  cursor: pointer;
+  color: white;
+  background: #CACACA;
+}
+
+.event-item-passed{
+  position: relative;
+
+  margin: 3px;
+  display: block;
+  border-radius: 5px;
+  background: #F8F8F8;
+
+  color: #B8B8B8;
+
+  padding: 2px 2px 2px 5px;
+}
+.event-item-passed:hover{
+  cursor: hand; //IE Support
+  cursor: pointer;
+  color: white;
+  background: #CACACA;
+}
+
+.sinfo-block{
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.linfo-block{
+  display: none;
+  font-size: 16px;
+  line-height: 16px;
+}

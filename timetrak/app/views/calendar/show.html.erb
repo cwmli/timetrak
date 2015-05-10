@@ -1,11 +1,11 @@
 <body>
 	<div id="mask"></div>
 		<%= render 'layouts/header' %>
+		<%= render 'layouts/flash_msgs' %>
 		<div class="float-form" id="new-event-form">
 			<div class="close-block" id="cancel-event">
 				X
 			</div>
-			<%= flash[:danger] %>
 			Create an Event:
 			<div id="float-form-table">
 		  <%= form_for [@current_account, @event] do |f| %>
@@ -17,10 +17,10 @@
 
 				<%= image_tag "clock.png", size:"16x16" %>
 				<%= f.date_field :startdate, value: @date, id: 'float-form-input-date' %>
-				<%= f.time_field :starttime, id: 'float-form-input-date' %>
+				<%= f.time_field :starttime, value: '12:00', id: 'float-form-input-date' %>
 
-				<%= f.date_field :enddate, id: 'float-form-input-date'%>
-				<%= f.time_field :endtime, id: 'float-form-input-date'%><br>
+				<%= f.date_field :enddate, value: @date, id: 'float-form-input-date'%>
+				<%= f.time_field :endtime, value: '12:00', id: 'float-form-input-date'%><br>
 
 				<%= image_tag "alarm.png", size:"16x16" %>
 				<%= f.date_field :notifydate, id: 'float-form-input-date' %>
@@ -32,7 +32,6 @@
 		  <% end %>
 		</div>
 		<div class="maincontainer">
-			<%= flash[:success] %>
 			<div class="subcontainer">
         <div class="month">
           <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>
@@ -43,13 +42,12 @@
 						»
 					<% end %>
         </div>
-					<div style="height: 90%">
 	          <%= calendar(@date) do |date|%>
 						<div class="calendar-event-wrapper">
 							<%= date.day %>
 							<% if @events_by_date[date] %>
 								<% @events_by_date[date].each do |e| %>
-									<% if e.startdate.past? %>
+									<% if e.startdate < Date.today %>
 									<div class="event-item-passed">
 										<%= e.title %>
 									</div>
@@ -70,7 +68,7 @@
 							<% if @events.any? #the user has events%>
 								<% @events.each do |e| %>
 								<div>
-									<%= form_for [@current_account, e], remote: true do |f| %>
+									<%= form_for [@current_account, e] do |f| %>
 									<div id="<%= e.title.delete(' ')+"_block" %>">
 									<div class="sinfo-block" id="<%= e.title %>">
 										<h3><span class="editable lineinput" id="title"><%= e.title %></span></h3>
@@ -114,10 +112,7 @@
 							<% else %>
 									You have no upcoming events.
 							<% end %>
-						</table>
-					</div>
 				</div>
-				<%= yield %>
 			</div>
 		</div>
 </body>

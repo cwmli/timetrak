@@ -1,0 +1,79 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+div.menublock {
+	display: inline-block;
+	background: #F1F1F1;
+	width:100%;
+	height: auto;
+	border-bottom: 1px solid #CFCFCF;
+	box-shadow: 0px -1px 7px #888888;
+}
+
+div.menutitlecontainer{
+	float: left;
+}
+div.menutitle{
+	display: table-cell;
+	background: #F1F1F1;
+	height: 40px;
+
+	vertical-align: middle;
+	text-align: center;
+	font-size: 25px;
+	padding-left: 2em;
+	padding-right: 0.5em;
+}
+
+.menucontainer{
+	float: right;
+	margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.menucontainer > li{ float: left; }
+.menuitem:hover > ul{
+	visibility: visible;
+	z-index: 1;
+}
+.menuitem > ul > li:hover{
+	background: #19A3D1;
+	color: white;
+}
+.menuitem > ul{
+	padding: 0;
+	list-style-type: none;
+	background: #127292;
+
+	position: absolute;
+	top: 2.99vw;
+	right: 0;
+
+    visibility: hidden;
+	text-align: center;
+	color: white;
+	font-size: 14px;
+
+}
+.menuitem {
+	position: relative;
+  display: block;
+	height: 40px;
+	background: #F1F1F1;
+
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+	color: #333333;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+
+	-webkit-transition: background .5s, color .25s;
+	transition: background .5s, color .25s;
+	-webkit-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+}
+.menuitem:hover{
+	background:#19A3D1;
+	color: white;
+}
