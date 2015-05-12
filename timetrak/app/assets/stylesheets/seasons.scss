@@ -1,0 +1,57 @@
+// Place all the styles related to the seasons controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#season-main{
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
+
+  background: white;
+
+  font-size: 14px;
+  color: black;
+  padding: 12px;
+
+  margin: 0;
+
+  width: 47%;
+  height: 100%;
+}
+
+#season-select{
+  padding: 5px;
+  border-bottom: 1px solid #E6E6E6;
+
+  height: 30px;
+}
+
+#season-info{
+  display: none;
+  padding: 5px;
+}
+
+#team-main{
+  display: none ;
+  vertical-align: top;
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
+
+  background: white;
+
+  font-size: 14px;
+  color: black;
+  padding: 12px;
+
+  width: 47%;
+  height: 100%;
+}
+
+#team-select{
+  padding: 5px;
+}
+
+#team-info{
+  display: none;
+  padding: 5px;
+}

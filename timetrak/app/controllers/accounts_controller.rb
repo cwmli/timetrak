@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
   def show #show account details
     @account = Account.find(params[:id])
     if @account == current_account
-      @events = @account.events #show all events
+      #@events = @account.events #show all events
     else
       flash.now[:error] = "Unauthorized access. Please <a href='#{login_path}'>login</a> to continue.".html_safe
     end

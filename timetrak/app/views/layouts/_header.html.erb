@@ -12,7 +12,7 @@
     <%= link_to @current_account.username.upcase ,account_path(current_account), class: "menuitem" %>
   </div>
   <div class="menucontainer">
-    <%= link_to "CALENDAR", calendar_path, class: "menuitem" %>
+    <%= link_to "MANAGE", account_seasons_path(current_account), class: "menuitem" %>
   </div>
   <% else %>
   <div class="menutitlecontainer">

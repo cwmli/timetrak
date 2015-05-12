@@ -4,13 +4,13 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_account.events.build(event_params)
+    @event = current_account.teams.events.build(event_params)
     if @event.save
       flash[:success] = 'Event created.'
-      redirect_to calendar_path
+      redirect_to account_teams_path(current_account)
     else
       flash[:error] = 'Error: Please make sure your event has a title and time.'
-      redirect_to calendar_path
+      redirect_to account_teams_path(current_account)
     end
   end
 

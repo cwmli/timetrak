@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   def index
-    @teams = current_account.teams
+    @teams = current_account.season.teams
   end
 
   def new

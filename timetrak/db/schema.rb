@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504215826) do
+ActiveRecord::Schema.define(version: 20150511213728) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "username"
@@ -31,15 +31,40 @@ ActiveRecord::Schema.define(version: 20150504215826) do
     t.text     "location"
     t.boolean  "notify"
     t.datetime "notifydate"
-    t.integer  "account_id"
     t.string   "slug"
     t.date     "startdate"
     t.date     "enddate"
     t.time     "starttime"
     t.time     "endtime"
+    t.integer  "team_id"
   end
 
-  add_index "events", ["account_id"], name: "index_events_on_account_id"
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true
+  add_index "events", ["team_id"], name: "index_events_on_team_id"
+
+  create_table "seasons", force: :cascade do |t|
+    t.string   "title"
+    t.string   "teams"
+    t.string   "slug"
+    t.integer  "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "seasons", ["account_id"], name: "index_seasons_on_account_id"
+  add_index "seasons", ["slug"], name: "index_seasons_on_slug"
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "score"
+    t.string   "slug"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "seasons_id"
+  end
+
+  add_index "teams", ["seasons_id"], name: "index_teams_on_seasons_id"
+  add_index "teams", ["slug"], name: "index_teams_on_slug", unique: true
 
 end

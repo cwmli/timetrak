@@ -1,7 +1,9 @@
 class Account < ActiveRecord::Base
   extend FriendlyId
   attr_accessor :remember_token
-  has_many :events
+  has_many :seasons
+  has_many :teams, through: :seasons
+  has_many :events, through: :teams
 
   friendly_id :username, use: [:slugged, :finders]
 

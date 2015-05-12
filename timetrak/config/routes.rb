@@ -8,8 +8,14 @@ Rails.application.routes.draw do
     post   'login'   => 'sessions#create'
     delete 'logout'  => 'sessions#destroy'
 
+    get '/seasons/:id' => 'seasons#details'
+
     resources :accounts, except: :index do
-      resources :events
+      resources :seasons do
+        resources :teams do
+          resources :events
+        end
+      end
     end
 
     root 'welcome#index'
