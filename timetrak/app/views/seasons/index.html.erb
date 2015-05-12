@@ -2,6 +2,35 @@
   <div id="mask"></div>
   <%= render 'layouts/flash_msgs' %>
   <%= render 'layouts/header' %>
+  <div class="float-form" id="new-season-form">
+    <div class="close-block" id="cancel-season">
+      X
+    </div>
+    Create a Season:
+    <div id="float-form-table">
+    <%= form_for [@current_account, @season] do |f| %>
+    <p>
+      <%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
+      <%= f.submit "New Season", class: "submit-button" %>
+    </p>
+    </div>
+    <% end %>
+  </div>
+  <div class="float-form" id="new-team-form">
+    <div class="close-block" id="cancel-season">
+      X
+    </div>
+    Create a Season:
+    <div id="float-form-table">
+    <%= form_for [@season_nfo, @team] do |f| %>
+    <p>
+      <%= f.text_field :name, placeholder: "Enter team name", id: 'float-form-input', class: 'full-form' %>
+      <%= f.text_area :description, placeholder: "Add a desciprtion", rows: 3, id: 'float-form-input', class: 'full-form no-resize'%>
+      <%= f.submit "Add Team", class: "submit-button" %>
+    </p>
+    </div>
+    <% end %>
+  </div>
   <div class="maincontainer">
     <div class="subcontainer">
       <h2>Manage:</h2>
