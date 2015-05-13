@@ -21,7 +21,7 @@ $(document).ready(function(){
 
     $("#s-season").off("change").on("change", function(){
         var selection = $(this).find(":selected").text();//fetch name of selection
-        $.ajax({
+        $.ajax({ //RELINK TO INDEX TO PROCESS
             url: '/seasons/details/' + selection,
             data: { season_name: selection},
             type: 'GET',
