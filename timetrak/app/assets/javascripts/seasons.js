@@ -14,14 +14,18 @@ $(document).ready(function(){
       $("#mask").fadeOut();
     });
 
-    $("#new-team").off("click").on("click", function(){
+    $(document).on("click", '#new-team', function(){
       $("#new-team-form").fadeIn();
       $("#mask").fadeIn();
     });
 
+    $("#s-season").off("click").on("click", function(){
+      $("#season-info").fadeOut();
+    });
+
     $("#s-season").off("change").on("change", function(){
         var selection = $(this).find(":selected").text();//fetch name of selection
-        $.ajax({ //RELINK TO INDEX TO PROCESS
+        $.ajax({
             url: '/seasons/details/' + selection,
             data: { season_name: selection},
             type: 'GET',
@@ -31,7 +35,7 @@ $(document).ready(function(){
               if(data != undefined){
                 $("#season-info").html("<h2>Teams:<div class='new-block' id='new-team'>+</div></h2>");
                 for(var i in data){
-                  $("#season-info").append(data)
+                  $("#season-info").append(i)
                 }
               }
               else{
