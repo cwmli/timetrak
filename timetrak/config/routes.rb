@@ -11,10 +11,9 @@ Rails.application.routes.draw do
     get '/seasons/details/:id' => 'seasons#details'
 
     resources :accounts, except: :index do
-      resources :seasons do
-        resources :teams do
-          resources :events
-        end
+      resources :seasons
+      resources :teams do
+        resources :events
       end
     end
 
