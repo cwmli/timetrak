@@ -21,6 +21,7 @@ $(document).ready(function(){
 
     $("#s-season").off("click").on("click", function(){
       $("#season-info").fadeOut();
+      $("#new-team").fadeOut();
     });
 
     $("#s-season").off("change").on("change", function(){
@@ -31,15 +32,16 @@ $(document).ready(function(){
             type: 'GET',
             dataType: 'json',
             success: function(data){
+              $("#new-team").fadeIn();
               $("#season-info").fadeIn();
-              if(data != undefined){
-                $("#season-info").html("<h2>Teams:<div class='new-block' id='new-team'>+</div></h2>");
+              if(!jQuery.isEmptyObject(data)){
+                $("#season-info").html("<h2>Teams:</h2>");
                 for(var i in data){
                   $("#season-info").append(i)
                 }
               }
               else{
-                $("#season-info").html("<h2>Teams:<div class='new-block' id='new-team'>+</div></h2>").append("There are no teams in this season.");
+                $("#season-info").html("<h2>Teams:</h2>").append("There are no teams in this season.");
               }
             }
           });

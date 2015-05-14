@@ -2,20 +2,7 @@
   <div id="mask"></div>
   <%= render 'layouts/flash_msgs' %>
   <%= render 'layouts/header' %>
-  <div class="float-form" id="new-season-form">
-    <div class="close-block" id="cancel-season">
-      X
-    </div>
-    Create a Season:
-    <div id="float-form-table">
-    <%= form_for [@current_account, @season] do |f| %>
-    <p>
-      <%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
-      <%= f.submit "New Season", class: "submit-button" %>
-    </p>
-    </div>
-    <% end %>
-  </div>
+  <% if !@current_season.nil? %>
   <div class="float-form" id="new-team-form">
     <div class="close-block" id="cancel-team">
       X
@@ -40,13 +27,30 @@
     </div>
     <% end %>
   </div>
+  <% end %>
+
+  <div class="float-form" id="new-season-form">
+    <div class="close-block" id="cancel-season">
+      X
+    </div>
+    Create a Season:
+    <div id="float-form-table">
+    <%= form_for [@current_account, @season] do |f| %>
+    <p>
+      <%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
+      <%= f.submit "New Season", class: "submit-button" %>
+    </p>
+    </div>
+    <% end %>
+  </div>
   <div class="maincontainer">
     <div class="subcontainer">
       <h2>Manage:</h2>
       <div id="season-main">
         <div id="season-select">
           <%= collection_select(current_account, :seasons_id, @seasons, :id, :title, {include_blank: "Select a season"}, {class: "large-selector", id: "s-season"}) %>
-          <div class="new-block" id="new-season">+</div>
+          <div class="shapeable-block" id="new-season">+SEASON</div>
+          <div class="shapeable-block" id="new-team" style="display:none;">+TEAM</div>
         </div>
         <div id="season-info">
         </div>

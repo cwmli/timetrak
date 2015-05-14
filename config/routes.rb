@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     delete 'logout'  => 'sessions#destroy'
 
     get '/seasons/details/:id' => 'seasons#details'
+    get '/seasons/fetch' => 'seasons#fetch'
 
     resources :accounts, except: :index do
       resources :seasons

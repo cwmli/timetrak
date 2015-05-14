@@ -37,12 +37,20 @@ class SeasonsController < ApplicationController
     end
   end
 
+  def fetch
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def details
     @team_names = Array.new
     @season_nfo = Season.find_by(title: params[:season_name])
     current_season = @season_nfo
-    @season_nfo.teams.each do |s|
-      @team_names.push = s.name
+    if @season_nfo.nil?
+      @season_nfo.teams.each do |s|
+        @team_names.push = s.name
+      end
     end
     render json: @team_names
   end
