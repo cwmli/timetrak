@@ -2,7 +2,6 @@
   <div id="mask"></div>
   <%= render 'layouts/flash_msgs' %>
   <%= render 'layouts/header' %>
-  <% if !@current_season.nil? %>
   <div class="float-form" id="new-team-form">
     <div class="close-block" id="cancel-team">
       X
@@ -18,7 +17,6 @@
     <% end %>
     </div>
   </div>
-  <% end %>
 
   <div class="float-form" id="new-season-form">
     <div class="close-block" id="cancel-season">
@@ -26,7 +24,7 @@
     </div>
     Create a Season:
     <div id="float-form-table">
-    <%= form_for [@current_account, @current_season] do |f| %>
+    <%= form_for [@current_account, @season] do |f| %>
     <p>
       <%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
       <%= f.submit "New Season", class: "submit-button" %>
@@ -41,18 +39,28 @@
         <div id="season-select">
           <%= collection_select(current_account, :seasons_id, @seasons, :id, :title, {include_blank: "Select a season"}, {class: "large-selector", id: "s-season"}) %>
           <div class="shapeable-block" id="new-season">+SEASON</div>
-          <%= link_to [@current_account, @current_account.seasons.first], method: :delete, class: "shapeable-cblock", id: "del-season", style: "display:none;" do %>
-            DELETE SEASON
-          <% end %>
+          <div id="reloadonchange" style="display:inline">
+            <% if !current_season.nil? %>
+              <%= link_to [@current_account, current_season], method: :delete, class: "shapeable-cblock", id: "del-season", style: "display:none;" do %>
+                DELETE SEASON
+              <% end %>
+            <% end %>
+          </div>
           <div class="shapeable-block" id="new-team" style="display:none;">+TEAM</div>
         </div>
         <div id="season-info">
-          <div id="static-teamslist">
+        </div>
+        <div id="static-teamslist">
+          <div id="infob">
             <h3>Available Teams:</h3>
-            <% @teams.each do |t| %>
-              <% if !@current_season.teams.include?(t) #is not already in the season%>
-              <!--LINK TO TEAMS#UPDATE WITH AJAX -->
-                <%= ("<div class='shapeable-block' id='"+t.name+"'title='Add to season'>"+t.name+"</div>").html_safe %>
+            <% if !current_season.nil? %>
+              <% @teams.each do |t| %>
+                <% if !current_season.teams.include?(t) #is not already in the season%>
+                  <%= form_for [@current_account, t] do |f| %>
+                    <%= f.hidden_field :season_id, value: current_season.id %>
+                    <%= f.submit t.name, class: "team-button", title: "Add to season" %>
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
           </div>

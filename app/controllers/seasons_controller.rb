@@ -1,9 +1,10 @@
 class SeasonsController < ApplicationController
-  before_filter :current_season
+  @@current_season = nil
 
   def index
     @seasons = current_account.seasons
     @teams = current_account.teams
+    @season = Season.new(account: current_account)
     @team = Team.new(account: current_account)
   end
 
@@ -14,9 +15,11 @@ class SeasonsController < ApplicationController
     @season = current_account.seasons.build(season_params)
     if @season.save
       flash[:success] = 'New season created.'
+      @@current_season = nil #reset the variable on redirect
       redirect_to account_seasons_path(current_account)
     else
       flash[:error] = 'Error: Please make sure your season has a title.'
+      @@current_season = nil
       redirect_to account_seasons_path(current_account)
     end
   end
@@ -28,9 +31,11 @@ class SeasonsController < ApplicationController
   def update
     if current_season.update_attributes(season_params)
       flash[:success] = 'Updated season.'
+      @@current_season = nil
       redirect_to account_seasons_path(current_account)
     else
       flash[:error] = 'Unable to update season.'
+      @@current_season = nil
       redirect_to account_seasons_path(current_account)
     end
   end
@@ -39,25 +44,21 @@ class SeasonsController < ApplicationController
     Season.find(params[:id]).destroy
     flash[:success] = 'Season deleted.'
     redirect_to account_seasons_path(current_account)
+    @@current_season = nil #reset the variable
   end
 
   def details
     @team_names = Array.new
-    @current_season = @season_nfo = Season.find_by(title: params[:season_name])
-    if !@season_nfo.teams.nil? #not empty
-      @season_nfo.teams.each do |team|
+    @season_nfo = Season.find_by(title: params[:season_name])
+    @@current_season = @season_nfo #update the selected season
+
+    @teamlist = Team.where(season_id: @season_nfo.id)
+    if !@teamlist.nil? #not empty
+      @teamlist.each do |team|
         @team_names.push(team.name)
       end
     end
     render json: @team_names
-  end
-
-  def current_season
-    if current_account.seasons.empty? #is empty
-      @current_season =  Season.new(account: current_account)
-    else
-      @current_season = current_account.seasons.first
-    end
   end
 
   private

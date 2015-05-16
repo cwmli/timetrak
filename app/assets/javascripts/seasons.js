@@ -13,15 +13,17 @@ $(document).ready(function(){
 
     //button switcher
     $("#new-season").off('mouseenter').on('mouseenter', function(){
-      opendelay = setTimeout(function(){
-        $("#new-season").slideUp('fast',function(){
-          $("#del-season").css("display", "block");
-        });
-      }, 750); //.5seconds
+      if ($("#del-season").length){
+        opendelay = setTimeout(function(){
+          $("#new-season").slideUp('fast',function(){
+            $("#del-season").css("display", "block");
+          });
+        }, 750); //.5seconds
+      }
     }).mouseleave(function(){
       clearTimeout(opendelay);
     });
-    $("#del-season").off('mouseleave').on('mouseleave', function(){
+    $(document).on('mouseleave', '#del-season', function(){
       $("#del-season").slideUp('fast', function(){
         $("#new-season").slideDown('fast');
       });
@@ -37,34 +39,38 @@ $(document).ready(function(){
       $("#mask").fadeIn();
     });
 
-    $("#s-season").off("click").on("click", function(){
-      $("#season-info").fadeOut();
-      $("#new-team").fadeOut();
-    });
-
-
     //retrieve team information with ajax
     $("#s-season").off("change").on("change", function(){
+        $("#season-info").fadeOut();
+        $("#new-team").fadeOut();
+        $("#static-teamslist").fadeOut();
+
         var selection = $(this).find(":selected").text();//fetch name of selection
-        $('#season-info').contents(':not(#static-teamslist)').remove();
-        $.ajax({
-            url: '/seasons/details/' + selection,
-            data: { season_name: selection},
-            type: 'GET',
-            dataType: 'json',
-            success: function(data){
-              $("#new-team").fadeIn();
-              $("#season-info").fadeIn();
-              if(!jQuery.isEmptyObject(data)){
-                for(var i in data){
-                  $("#season-info").prepend("<p>"+i+"</p>")
+        $('#season-info').contents(':not(#static-teamslist)').remove();//clear any previous data
+        if (selection != "Select a season"){//the user actually made a choice
+          $.ajax({
+              url: '/seasons/details/' + selection,
+              data: { season_name: selection},
+              type: 'GET',
+              dataType: 'json',
+              success: function(data){
+                $("#new-team").fadeIn();
+                $("#season-info").fadeIn();
+                //also refresh the delete button to match current season
+                $("#reloadonchange").load(location.href + " #del-season");
+                //refresh available teams to match current season
+                $("#static-teamslist").load(location.href + " #infob").fadeIn();
+                if(!jQuery.isEmptyObject(data)){ //team data exists
+                  for(var i in data){
+                    $("#season-info").prepend("<p>"+data[i]+"</p>")
+                  }
+                  $("#season-info").prepend("<h2>Teams in Season:</h2>");
                 }
-                $("#season-info").prepend("<h2>Teams in Season:</h2>");
+                else{
+                  $("#season-info").prepend("<p>No teams here.</p>").prepend("<h2>Teams in Season:</h2>");
+                }
               }
-              else{
-                $("#season-info").prepend("<p>No teams here.</p>").prepend("<h2>Teams in Season:</h2>");
-              }
-            }
-          });
+            });
+        }
     });
 })

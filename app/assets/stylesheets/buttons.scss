@@ -123,6 +123,30 @@
   background: #FF1919;
 }
 
+.team-button{
+  display: inline-block;
+  background: white;
+
+  float: left;
+
+  color: #818181;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  padding: 5px;
+
+  border: 1px solid #DBDBDB;
+  border-radius: 5px;
+}
+.team-button:hover{
+  color: white;
+
+  cursor: hand; //IE Support
+  cursor: pointer;
+
+  background: #19A3D1;
+}
+
 .submit-button{
   display: block;
   background: white;
