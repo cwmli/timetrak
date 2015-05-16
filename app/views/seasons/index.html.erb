@@ -7,15 +7,6 @@
     <div class="close-block" id="cancel-team">
       X
     </div>
-    Add a Team:
-    <div id="float-form-table">
-    <%= form_for [@current_account, @current_season] do |f| %>
-    <p>
-      <%= f.collection_select(:teams, @teams, :id, :name, {include_blank: "Select a team"}, {class: "large-selector"}) %>
-      <%= f.submit "Add Team", class: "submit-button" %>
-    </p>
-    </div>
-    <% end %>
     Create a Team:
     <div id="float-form-table">
     <%= form_for [@current_account, @team] do |f| %>
@@ -24,8 +15,8 @@
       <%= f.text_area :description, placeholder: "Add a description", rows: 3, id: 'float-form-input', class: 'full-form no-resize' %>
       <%= f.submit "Create Team", class: "submit-button" %>
     </p>
-    </div>
     <% end %>
+    </div>
   </div>
   <% end %>
 
@@ -35,7 +26,7 @@
     </div>
     Create a Season:
     <div id="float-form-table">
-    <%= form_for [@current_account, @season] do |f| %>
+    <%= form_for [@current_account, @current_season] do |f| %>
     <p>
       <%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
       <%= f.submit "New Season", class: "submit-button" %>
@@ -50,9 +41,21 @@
         <div id="season-select">
           <%= collection_select(current_account, :seasons_id, @seasons, :id, :title, {include_blank: "Select a season"}, {class: "large-selector", id: "s-season"}) %>
           <div class="shapeable-block" id="new-season">+SEASON</div>
+          <%= link_to [@current_account, @current_account.seasons.first], method: :delete, class: "shapeable-cblock", id: "del-season", style: "display:none;" do %>
+            DELETE SEASON
+          <% end %>
           <div class="shapeable-block" id="new-team" style="display:none;">+TEAM</div>
         </div>
         <div id="season-info">
+          <div id="static-teamslist">
+            <h3>Available Teams:</h3>
+            <% @teams.each do |t| %>
+              <% if !@current_season.teams.include?(t) #is not already in the season%>
+              <!--LINK TO TEAMS#UPDATE WITH AJAX -->
+                <%= ("<div class='shapeable-block' id='"+t.name+"'title='Add to season'>"+t.name+"</div>").html_safe %>
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
       <div id="team-main">

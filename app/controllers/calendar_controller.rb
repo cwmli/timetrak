@@ -15,6 +15,6 @@ class CalendarController < ApplicationController
       @events = @events.sort_by { |h| h[:starttime]}
     end
 
-    @event = Event.new(:team => params)
+    @event = Event.new(:team => params[:team_name])
   end
 end

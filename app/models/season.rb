@@ -5,4 +5,5 @@ class Season < ActiveRecord::Base
   validates :title, presence: true
 
   belongs_to :account
+  has_many :teams
 end

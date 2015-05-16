@@ -1,11 +1,9 @@
 class SeasonsController < ApplicationController
-  before_filter :current_season, only: :index
+  before_filter :current_season
 
   def index
-    current_season
     @seasons = current_account.seasons
     @teams = current_account.teams
-    @season = Season.new(account: current_account)
     @team = Team.new(account: current_account)
   end
 
@@ -37,26 +35,29 @@ class SeasonsController < ApplicationController
     end
   end
 
-  def fetch
-    respond_to do |format|
-      format.js
-    end
+  def destroy
+    Season.find(params[:id]).destroy
+    flash[:success] = 'Season deleted.'
+    redirect_to account_seasons_path(current_account)
   end
 
   def details
     @team_names = Array.new
-    @season_nfo = Season.find_by(title: params[:season_name])
-    current_season = @season_nfo
-    if @season_nfo.nil?
-      @season_nfo.teams.each do |s|
-        @team_names.push = s.name
+    @current_season = @season_nfo = Season.find_by(title: params[:season_name])
+    if !@season_nfo.teams.nil? #not empty
+      @season_nfo.teams.each do |team|
+        @team_names.push(team.name)
       end
     end
     render json: @team_names
   end
 
   def current_season
-    @current_season = current_account.seasons.first
+    if current_account.seasons.empty? #is empty
+      @current_season =  Season.new(account: current_account)
+    else
+      @current_season = current_account.seasons.first
+    end
   end
 
   private

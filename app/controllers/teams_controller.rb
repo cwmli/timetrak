@@ -22,13 +22,13 @@ class TeamsController < ApplicationController
   end
 
   def update
-    @team = current_account.teams.find(params[:id])
+    @team = current_account.teams.find_by(name: params[:team_name])
     if @team.update_attributes(team_params)
-      flash[:success] = 'Updated team.'
-      redirect_to account_seasons_path(current_account)
+      flash.now[:success] = 'Updated team.'
+      render account_seasons_path(current_account)
     else
-      flash[:error] = 'Unable to update team.'
-      redirect_to account_seasons_path(current_account)
+      flash.now[:error] = 'Unable to update team.'
+      render account_seasons_path(current_account)
     end
   end
 
