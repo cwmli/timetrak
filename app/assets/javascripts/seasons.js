@@ -41,9 +41,9 @@ $(document).ready(function(){
 
     //retrieve team information with ajax
     $("#s-season").off("change").on("change", function(){
-        $("#season-info").fadeOut();
-        $("#new-team").fadeOut();
-        $("#static-teamslist").fadeOut();
+        $("#season-info").fadeOut('fast');
+        $("#new-team").fadeOut('fast');
+        $("#static-teamslist").fadeOut('fast');
 
         var selection = $(this).find(":selected").text();//fetch name of selection
         $('#season-info').contents(':not(#static-teamslist)').remove();//clear any previous data
@@ -54,12 +54,8 @@ $(document).ready(function(){
               type: 'GET',
               dataType: 'json',
               success: function(data){
-                $("#new-team").fadeIn();
-                $("#season-info").fadeIn();
                 //also refresh the delete button to match current season
                 $("#reloadonchange").load(location.href + " #del-season");
-                //refresh available teams to match current season
-                $("#static-teamslist").load(location.href + " #infob").fadeIn();
                 if(!jQuery.isEmptyObject(data)){ //team data exists
                   for(var i in data){
                     $("#season-info").prepend("<p>"+data[i]+"</p>")
@@ -69,6 +65,12 @@ $(document).ready(function(){
                 else{
                   $("#season-info").prepend("<p>No teams here.</p>").prepend("<h2>Teams in Season:</h2>");
                 }
+
+                //refresh available teams to match current season
+                $("#static-teamslist").load(location.href + " #infob").fadeIn('normal', function(){
+                  $("#new-team").fadeIn();
+                  $("#season-info").fadeIn();
+                });
               }
             });
         }

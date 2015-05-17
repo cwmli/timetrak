@@ -1,0 +1,5 @@
+$("#season-info").append("<p><%= escape_javascript(@team.name) %></p>");
+$("#static-teamslist").load(location.href + " #infob").fadeIn('normal', function(){
+  $("#new-team").fadeIn();
+  $("#season-info").fadeIn();
+});
