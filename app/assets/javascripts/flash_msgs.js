@@ -1,4 +1,6 @@
 $(document).ready(function(){
-  $('#success').delay(3000).fadeOut();
-  $('#error').delay(3000).fadeOut();
+  $(document).on('mouseover', 'body', function(){
+    $("#success").delay(2000).fadeOut();
+    $("#error").delay(2000).fadeOut();
+  })
 });

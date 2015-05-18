@@ -26,7 +26,7 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.update_attributes(team_params)
-        format.js { flash.now[:success] =  "Team updated."}
+        format.js 
       else
         format.html { redirect_to account_seasons_path(current_account), flash: { error: 'Unable to update team.'}}
       end

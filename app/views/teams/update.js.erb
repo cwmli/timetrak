@@ -1,5 +1,28 @@
-$("#season-info").append("<p><%= escape_javascript(@team.name) %></p>");
-$("#static-teamslist").load(location.href + " #infob").fadeIn('normal', function(){
-  $("#new-team").fadeIn();
-  $("#season-info").fadeIn();
-});
+//show flash message
+if($("#success").length){
+  $("#success").show();
+}else{
+  $("body").prepend('<%= escape_javascript("<div id='success'>Team added to season</div>").html_safe %>')
+}
+//reload teams in season
+var selection = $("#s-season").find(":selected").text();
+$.ajax({
+    url: '/seasons/details/' + selection,
+    data: { season_name: selection},
+    type: 'GET',
+    dataType: 'json',
+    success: function(data){
+      $('#season-info').contents(':not(#static-teamslist)').remove();
+      if(!jQuery.isEmptyObject(data)){ //team data exists
+        for(var i in data){
+          $("#season-info").prepend("<p>"+data[i]+"</p>")
+        }
+        $("#season-info").prepend("<h2>Teams in Season:</h2>");
+      }
+      else{
+        $("#season-info").prepend("<p>No teams here.</p>").prepend("<h2>Teams in Season:</h2>");
+      }
+    }
+  });
+//reload available teams
+$("#static-teamslist").load(location.href + " #infob");
