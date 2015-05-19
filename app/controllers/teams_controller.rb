@@ -18,7 +18,7 @@ class TeamsController < ApplicationController
   end
 
   def edit
-    @team = current_account.teams.find(params[:id])
+    @team = current_account.teams.find_by(name: params[:id])
   end
 
   def update
@@ -34,26 +34,39 @@ class TeamsController < ApplicationController
   end
 
   def destroy
-    Team.find(params[:id]).destroy
-    flash[:success] = 'Team deleted.'
-    redirect_to account_seasons_path(current_account)
+    @team = Team.find(params[:id])
+    @team_name = @team.name
+    @season = Season.find_by(id: @team.season_id)
+    if !@season.nil?
+      @season = @season.title
+    end
+
+    @team.destroy
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def details
+    @account = current_account
     @team = Team.find_by(name: params[:team_name])
-    @name = @team.name
+    @name = @team.slug
     @desc = @team.description
+    if @desc.empty?
+      @desc = "No description available"
+    end
+
     @season = Season.find_by(id: @team.season_id)
     if @season.nil?
-      @season = "Not in any season"
+      @season = "Not in any season."
     else
       @season = @season.title
     end
 
-    #has name,description,score(?), belongs to season
-    render json: {name: @name,
-                  description: @desc,
-                  in_season: @season}
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

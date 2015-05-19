@@ -8,7 +8,7 @@
 			</div>
 			Create an Event:
 			<div id="float-form-table">
-		  <%= form_for [@current_account, @event] do |f| %>
+		  <%= form_for new_account_team_event_path(current_account, @event ) do |f| %>
 			<p>
 				<%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
 				<%= f.text_area :description, placeholder: "Add a description", rows: 3, id: 'float-form-input', class: 'full-form no-resize' %>

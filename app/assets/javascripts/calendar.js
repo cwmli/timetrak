@@ -1,6 +1,5 @@
 $(document).ready(function(){
   $(".subcontainer").fadeIn();
-  var editOn = 0; //default false
 
   $("#cancel-event").off("click").on("click", function(){
     $("#new-event-form").fadeOut();

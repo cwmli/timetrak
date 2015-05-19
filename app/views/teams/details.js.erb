@@ -1,0 +1,10 @@
+$("#team-info").empty().fadeIn();
+//team title and tool bar
+$("#team-info").append("<form action='/accounts/test/teams/<%= @name %>' accept-charset='UTF-8' data-remote='true' method='put'><h2><span id='name' class='editable'><%= @name %></span><div class='shapeable-block' id='edit-team'>EDIT</div><%= escape_javascript link_to( 'DELETE', [@account, @team], method: :delete, remote:true,  class: 'shapeable-cblock') %></h2><p class='editable' id='description'><%= @desc %></p></form>");
+$("#team-info").append("<h3>In seasons:</h3>");
+var check = "<%= @season %>";
+if (check == "Not in any season."){
+  $("#team-info").append("<p>"+check+"</p>");
+}else{
+  $("#team-info").append("<%= escape_javascript form_tag([@account, @team], remote: true, method: :put)%><%= escape_javascript hidden_field_tag('team[season_id]','null') %><%= escape_javascript submit_tag(@season, class:'shapeable-block', style:'float:left;') %>");
+}

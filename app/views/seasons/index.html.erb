@@ -46,8 +46,8 @@
               <% end %>
             <% end %>
           </div>
-          <div class="shapeable-block" id="new-team" style="display:none;">+TEAM</div>
-          <%= link_to "CALENDAR", calendar_path, class: "shapeable-block" %>
+          <div class="shapeable-block" id="new-team">+TEAM</div>
+          <%= link_to "CALENDAR", calendar_path, class: "shapeable-block", id: "calendar-view",style: "display: none;" %>
         </div>
         <div id="season-info">
         </div>
@@ -55,11 +55,15 @@
           <div id="infob">
             <h3>Available Teams:</h3>
             <% if !current_season.nil? %>
-              <% @teams.each do |t| %>
-                <% if !current_season.teams.include?(t) #is not already in the season%>
-                  <%= form_for [@current_account, t], remote: true do |f| %>
-                    <%= f.hidden_field :season_id, value: current_season.id %>
-                    <%= f.submit t.name, class: "team-button", title: "Add to season" %>
+              <% if @teams.empty? %>
+                <%= ("<p>No teams available</p>").html_safe %>
+              <% else %>
+                <% @teams.each do |t| %>
+                  <% if !current_season.teams.include?(t) #is not already in the season%>
+                    <%= form_for [@current_account, t], remote: true do |f| %>
+                      <%= f.hidden_field :season_id, value: current_season.id %>
+                      <%= f.submit t.name, class: "team-button", title: "Add to season" %>
+                    <% end %>
                   <% end %>
                 <% end %>
               <% end %>

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
     get '/seasons/details/:id' => 'seasons#details'
     get '/teams/details/:id' => 'teams#details'
+    delete '/teams/delete/:id' => 'teams#delete'
 
     resources :accounts, except: :index do
       resources :seasons

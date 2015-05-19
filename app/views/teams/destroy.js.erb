@@ -1,0 +1,10 @@
+$("body").prepend("<div id='success'><%= @team_name %> deleted.</div>");
+var check = "<%= @season %>";
+if (check.length){
+  retrieveSeasonTeams(check);//refresh teams in season
+}
+$("#static-teamslist").load(location.href + " #infob").fadeIn('normal', function(){
+  $("#calendar-view").fadeIn();
+  $("#season-info").fadeIn();
+  $("#team-info").empty();
+});

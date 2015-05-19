@@ -1,11 +1,8 @@
 //show flash message
-if($("#success").length){
-  $("#success").show();
-}else{
-  $("body").prepend('<%= escape_javascript("<div id='success'>Team added to season</div>").html_safe %>')
-}
+$("body").prepend('<%= escape_javascript("<div id='success'>Team updated.</div>").html_safe %>');
 //reload teams in season
 var selection = $("#s-season").find(":selected").text();
 retrieveSeasonTeams(selection)
 //reload available teams
 $("#static-teamslist").load(location.href + " #infob");
+$("#team-main").load(location.href + " #team-info");

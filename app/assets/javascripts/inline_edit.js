@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  var editOn = 0; //default false
   $(document).off("click", ".editable");
   $(document).on("click", ".editable", function(e) {
     var currentValue = this.innerHTML;
