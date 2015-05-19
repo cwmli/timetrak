@@ -6,23 +6,6 @@ if($("#success").length){
 }
 //reload teams in season
 var selection = $("#s-season").find(":selected").text();
-$.ajax({
-    url: '/seasons/details/' + selection,
-    data: { season_name: selection},
-    type: 'GET',
-    dataType: 'json',
-    success: function(data){
-      $('#season-info').contents(':not(#static-teamslist)').remove();
-      if(!jQuery.isEmptyObject(data)){ //team data exists
-        for(var i in data){
-          $("#season-info").prepend("<p>"+data[i]+"</p>")
-        }
-        $("#season-info").prepend("<h2>Teams in Season:</h2>");
-      }
-      else{
-        $("#season-info").prepend("<p>No teams here.</p>").prepend("<h2>Teams in Season:</h2>");
-      }
-    }
-  });
+retrieveSeasonTeams(selection)
 //reload available teams
 $("#static-teamslist").load(location.href + " #infob");

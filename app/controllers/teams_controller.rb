@@ -26,17 +26,28 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.update_attributes(team_params)
-        format.js 
+        format.js
       else
         format.html { redirect_to account_seasons_path(current_account), flash: { error: 'Unable to update team.'}}
       end
     end
-end
+  end
 
   def destroy
     Team.find(params[:id]).destroy
     flash[:success] = 'Team deleted.'
     redirect_to account_seasons_path(current_account)
+  end
+
+  def details
+    @team = Team.find_by(name: params[:team_name])
+    @name = @team.name
+    @desc = @team.description
+    @season = Season.find_by(id: @team.season_id).title
+    #has name,description,score(?), belongs to season
+    render json: {name: @name,
+                  description: @desc,
+                  in_season: @season}
   end
 
   private

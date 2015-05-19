@@ -13,9 +13,7 @@
   color: black;
   padding: 12px;
 
-  margin: 0;
-
-  width: 47%;
+  width: calc(50% - 26px);
   height: 100%;
 }
 
@@ -33,26 +31,23 @@
 
 #static-teamslist{
   display: none;
+  padding: 5px;
 }
 
 #team-main{
-  display: none ;
+  display: inline-block;
   vertical-align: top;
   border: 1px solid #DBDBDB;
   border-radius: 5px;
 
   background: white;
 
-  font-size: 14px;
+  font-size: 16px;
   color: black;
   padding: 12px;
 
-  width: 47%;
+  width: calc(50% - 26px);
   height: 100%;
-}
-
-#team-select{
-  padding: 5px;
 }
 
 #team-info{
