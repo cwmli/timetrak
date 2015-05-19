@@ -43,7 +43,13 @@ class TeamsController < ApplicationController
     @team = Team.find_by(name: params[:team_name])
     @name = @team.name
     @desc = @team.description
-    @season = Season.find_by(id: @team.season_id).title
+    @season = Season.find_by(id: @team.season_id)
+    if @season.nil?
+      @season = "Not in any season"
+    else
+      @season = @season.title
+    end
+
     #has name,description,score(?), belongs to season
     render json: {name: @name,
                   description: @desc,
