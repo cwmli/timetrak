@@ -31,6 +31,7 @@ $(document).ready(function(){
     });
 
     //team info ajax call
+    $(document).off('mouseenter', '.team-button');//prevent multiple binding
     $(document).on('mouseenter', '.team-button' ,function(e){
         teamdelay = setTimeout(function(){
           $("#team-info").fadeOut('fast');
