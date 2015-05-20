@@ -39,7 +39,7 @@
 								<% if @events.any? #the user has events%>
 									<% @events.each do |e| %>
 									<div>
-										<%= form_for [@current_account, e] do |f| %>
+										<%= form_for account_team_event_path(current_account,e.team_id, e) do |f| %>
 										<div id="<%= e.title.delete(' ')+"_block" %>">
 										<div class="sinfo-block" id="<%= e.title %>">
 											<h3><span class="editable lineinput" id="title"><%= e.title %></span></h3>
@@ -50,7 +50,7 @@
 											<span class="editable tinput" id="endtime"><%= e.endtime.strftime('%l:%M %p') %></span>
 											<span class="new-block" id="expand-info">...</span>
 											<span class="new-block" id="edit-event" title="Press to edit"><%= image_tag "edit.png", size:"16x16" %></span>
-											<%= link_to [@current_account,e], method: :delete, class: "new-block", data: {confirm: 'Confirm deletion of: '+e.title+'?'} do %>
+											<%= link_to account_team_event_path(current_account,e.team_id, e), method: :delete, class: "new-block", data: {confirm: 'Confirm deletion of: '+e.title+'?'} do %>
 											<%= image_tag "trash.png", size:"16x16" %>
 											<% end %><br></p>
 										</div>

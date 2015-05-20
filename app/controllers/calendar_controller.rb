@@ -12,13 +12,12 @@ class CalendarController < ApplicationController
     @events = []
 
     date_range = Date.today..Date.today.end_of_month
-
+    #default displays events for ALL teams in the season
     if !@teams_in_season.empty? #fetch team events only if the season contains teams
       @teams_in_season.each do |team|
         @teamevents = team.events.group_by(&:startdate)
         @teamupcoming = team.events.where(startdate: date_range)
         @events_by_date = @events_by_date.merge(@teamevents){|key,oldval,newval| [*oldval].to_a + [*newval].to_a }
-        p @teamupcoming
         @events.push(*@teamupcoming)
       end
       @events_by_date.each do |date, events_on_date_hash| #array of events on that date
