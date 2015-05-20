@@ -1,5 +1,4 @@
 class SeasonsController < ApplicationController
-  @@current_season = nil
 
   def index
     @seasons = current_account.seasons
