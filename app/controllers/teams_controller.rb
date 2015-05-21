@@ -51,7 +51,8 @@ class TeamsController < ApplicationController
   def details
     @account = current_account
     @team = Team.find_by(name: params[:team_name])
-    @name = @team.slug
+    @name = @team.name
+    @slug = @team.slug
     @desc = @team.description
     if @desc.empty?
       @desc = "No description available"

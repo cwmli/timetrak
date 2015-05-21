@@ -1,0 +1,62 @@
+//belongs in events-rblock
+$("#events-rblock").html("<%= j debug(params) %>");
+$("#events-rblock").append(" \
+<% if @events.any? %> \
+  <% @events.each do |e| %><div> \
+    <%= escape_javascript form_tag(account_team_event_path(current_account,e.team_id, e)) %> \
+    <div id='<%= e.title.delete(' ')+'_block' %>'> \
+    <div class='sinfo-block' id='<%= e.title %>'> \
+      <h3><span class='editable lineinput' id='title'><%= e.title %></span></h3> \
+      <p><%= escape_javascript image_tag 'clock.png', size:'16x16' %> \
+      <span class='editable dinput' id='startdate'><%= e.startdate.strftime('%B %e, %Y') %></span> \
+      <span class='editable tinput' id='starttime'><%= e.starttime.strftime('%l:%M %p') %></span> TO: \
+      <span class='editable dinput' id='enddate'><%= e.enddate.strftime('%b %e, %Y') %></span> \
+      <span class='editable tinput' id='endtime'><%= e.endtime.strftime('%l:%M %p') %></span> \
+      <span class='new-block' id='expand-info'>...</span> \
+      <span class='new-block' id='edit-event' title='Press to edit'><%= escape_javascript image_tag 'edit.png', size:'16x16' %></span> \
+      <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), account_team_event_path(current_account,e.team_id, e), method: :delete, class: 'new-block', data: {confirm: 'Confirm deletion of: '+e.title+'?'}) %> \
+      <br></p> \
+    </div> \
+    <div class='linfo-block' id='<%= e.title+'_expanded' %>'><p> \
+      <% if e.notify %> \
+        <%= escape_javascript image_tag 'alarm.png', size:'16x16' %> \
+          <span class='editable dinput' id='notifydate'><%= e.notifydate.strftime('%B %e, %Y') %></span> \
+          <span class='editable dinput' id='notifytime'><%= e.notifytime.strftime('%l:%M %p') %></span><br> \
+      <% else %> \
+          <%= escape_javascript image_tag 'alarm.png', size:'16x16' %> You are not receiving notifications for this event.<br> \
+      <% end %> \
+      <% if e.location.length != 0 %> \
+          <%= escape_javascript image_tag 'location.png', size:'16x16' %> <span class='editable lineinput' id='location'><%= e.location %></span><br> \
+      <% else %> \
+          <%= escape_javascript image_tag 'location.png', size:'16x16' %> <span class='editable lineinput' id='location'>Add a location</span><br> \
+      <% end %> \
+      <% if e.description.length != 0 %> \
+          <%= escape_javascript image_tag 'note.png', size:'16x16' %> <span class='editable blobinput' id='description'><%= e.description %></span> \
+      <% else %> \
+          <%= escape_javascript image_tag 'note.png', size:'16x16' %> <span class='editable blobinput' id='description'>Add a description</span> \
+      <% end %></p></div><hr></div> \
+    </div> \
+  <% end %> \
+<% else %> \
+  You have no upcoming events. \
+<% end %>");
+
+$(".calendar").remove()
+$("<%= escape_javascript(calendar(@date) do |date|%>
+<div class='calendar-event-wrapper'>
+  <%= date.day %>
+  <% if @events_by_date[date] %>
+    <% @events_by_date[date].each do |e| %>
+      <% if e.startdate < Date.today %>
+      <div class='event-item-passed'>
+        <%= e.title %>
+      </div>
+      <% else %>
+      <div class='event-item'>
+        <%= e.title %>
+      </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+<% end )%>").insertAfter($(".month"));

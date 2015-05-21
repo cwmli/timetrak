@@ -23,6 +23,7 @@ $(document).ready(function(){
       $("#mask").fadeIn();
     });
 
+    $(document).off('click', '#edit-team');
     $(document).on("click", "#edit-team", function(){
       if (editOn == 0){
         editOn = 1;

@@ -4,87 +4,22 @@
 		<%= render 'layouts/flash_msgs' %>
 		<div class="maincontainer">
 			<div class="subcontainer">
-        <div class="month">
-          <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>
-						«
-					<% end %>
+        <div class="month" id="<%= @date %>">
+          <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>«<% end %>
           <%= "#{@date.strftime("%B")} #{@date.year}"%>
-          <%= link_to calendar_path(date: @date + 1.month), class: "calendar_selector" do %>
-						»
-					<% end %>
+          <%= link_to calendar_path(date: @date + 1.month), class: "calendar_selector" do %>»<% end %>
         </div>
-	          <%= calendar(@date) do |date|%>
-						<div class="calendar-event-wrapper">
-							<%= date.day %>
-							<% if @events_by_date[date] %>
-								<% @events_by_date[date].each do |e| %>
-									<% if e.startdate < Date.today %>
-									<div class="event-item-passed">
-										<%= e.title %>
-									</div>
-									<% else %>
-									<div class="event-item">
-										<%= e.title %>
-									</div>
-									<% end %>
-								<% end %>
-							<% end %>
-						</div>
-						<% end %>
-						<div class="events_block">
-								<div class="new-block" id="new-event">
-									+
-								</div>
-								<h2>UPCOMING EVENTS:</h2>
-								<% if @events.any? #the user has events%>
-									<% @events.each do |e| %>
-									<div>
-										<%= form_for account_team_event_path(current_account,e.team_id, e) do |f| %>
-										<div id="<%= e.title.delete(' ')+"_block" %>">
-										<div class="sinfo-block" id="<%= e.title %>">
-											<h3><span class="editable lineinput" id="title"><%= e.title %></span></h3>
-											<p><%= image_tag "clock.png", size:"16x16" %>
-											<span class="editable dinput" id="startdate"><%= e.startdate.strftime('%B %e, %Y') %></span>
-											<span class="editable tinput" id="starttime"><%= e.starttime.strftime('%l:%M %p') %></span> TO:
-											<span class="editable dinput" id="enddate"><%= e.enddate.strftime('%b %e, %Y') %></span>
-											<span class="editable tinput" id="endtime"><%= e.endtime.strftime('%l:%M %p') %></span>
-											<span class="new-block" id="expand-info">...</span>
-											<span class="new-block" id="edit-event" title="Press to edit"><%= image_tag "edit.png", size:"16x16" %></span>
-											<%= link_to account_team_event_path(current_account,e.team_id, e), method: :delete, class: "new-block", data: {confirm: 'Confirm deletion of: '+e.title+'?'} do %>
-											<%= image_tag "trash.png", size:"16x16" %>
-											<% end %><br></p>
-										</div>
-										<div class="linfo-block" id="<%= e.title+"_expanded" %>">
-											<p>
-												<% if e.notify %>
-													<%= image_tag "alarm.png", size:"16x16" %>
-													<span class="editable dinput" id="notifydate"><%= e.notifydate.strftime('%B %e, %Y') %></span>
-													<span class="editable dinput" id="notifytime"><%= e.notifytime.strftime('%l:%M %p') %></span><br>
-												<% else %>
-													<%= image_tag "alarm.png", size:"16x16" %> You are not receiving notifications for this event.<br>
-												<% end %>
-												<% if e.location.length != 0 %>
-													<%= image_tag "location.png", size:"16x16" %> <span class="editable lineinput" id="location"><%= e.location %></span><br>
-												<% else %>
-													<%= image_tag "location.png", size:"16x16" %> <span class="editable lineinput" id="location">Add a location</span><br>
-												<% end %>
-												<% if e.description.length != 0 %>
-													<%= image_tag "note.png", size:"16x16" %> <span class="editable blobinput" id="description"><%= e.description %></span>
-												<% else %>
-													<%= image_tag "note.png", size:"16x16" %> <span class="editable blobinput" id="description">Add a description</span>
-												<% end %>
-										</p>
-										</div>
-										<hr>
-									</div>
-									<% end %>
-									</div>
-									<% end %>
-								<% else %>
-										You have no upcoming events.
-								<% end %>
+	      <%= calendar(@date) do |date|%>
+					<div class="calendar-event-wrapper">
+						<%= date.day %>
+					</div>
+				<% end %>
+				<div class="events_block">
+					<%= collection_select(current_account, :seasons_id, @teams_in_season, :id, :name, {prompt: "Filter...", include_blank: "All"}, {class: "large-selector", id: "s-team"}) %>
+					<div id="events-rblock">
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </body>

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     get '/teams/details/:id' => 'teams#details'
     delete '/teams/delete/:id' => 'teams#delete'
 
+    get '/calendar/all/' => 'calendar#all'
+    get '/calendar/retrieve/' => 'calendar#retrieve'
+
     resources :accounts, except: :index do
       resources :seasons
       resources :teams do

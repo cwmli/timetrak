@@ -1,5 +1,6 @@
 $(document).ready(function(){
   $(".subcontainer").fadeIn();
+  var editOn = 0;
 
   $("#cancel-event").off("click").on("click", function(){
     $("#new-event-form").fadeOut();
@@ -15,9 +16,7 @@ $(document).ready(function(){
   $(document).off("click", "[id=edit-event]");
   $(document).on("click", "[id=edit-event]", function(e) {
     if(editOn == 1){
-      var event_block_id = "#"+this.parentElement.parentElement.parentElement.id;
-      var event_block_parent_id = "#"+this.parentElement.parentElement.parentElement.parentElement.id;
-      $(event_block_parent_id).load(location.href + " "+event_block_id); //reload
+      checkRetrieval();
       editOn = 0; //disable edit if on
     }
     else{
@@ -33,6 +32,10 @@ $(document).ready(function(){
       $(this.parentElement.parentElement.nextElementSibling).slideToggle();
   });
 
+  $("#s-team").off("change").on("change", function(){
+    checkRetrieval();
+  })
+
   //all events info popup
   $(document).on("click", "[id=event-item], [id=event-item-passed]", function() {
     /*$.ajax({
@@ -40,4 +43,34 @@ $(document).ready(function(){
         type: <GET>/<POST>
     });*/
   })
+
+  function checkRetrieval(){
+    var team_name = $("#s-team").find(":selected").text();
+    var s_date = $(".month").attr("id");
+    if (team_name == "All"){
+      retrieveAllEvents(s_date);
+    }else{
+      retrieveEvent(team_name, s_date);
+    }
+  }
+
+  //inline editing
+  $(document).off("click", ".editable");
+  $(document).on("click", ".editable", function(e) {
+    var currentValue = this.innerHTML;
+    if (editOn == 1 && !this.firstElementChild){ //if input has not already been created
+      if ($(this).hasClass("dinput")){
+        $(this).html("<input type='date' value='"+currentValue+"' name=event["+this.id+"]>");
+      }
+      else if ($(this).hasClass("tinput")){
+        $(this).html("<input type='time' value='"+currentValue+"'name=event["+this.id+"]>");
+      }
+      else if ($(this).hasClass("lineinput")){
+        $(this).html("<input type='text' value='"+currentValue+"' name=event["+this.id+"]>");
+      }
+      else{//text area
+        $(this).html("<textarea name=event["+this.id+"]>"+currentValue+"</textarea>");
+      }
+    }
+  });
 });

@@ -32,3 +32,19 @@ function retrieveTeamInfo(team){
     url: '/teams/details/'+team,
     data: { team_name: team}});
 }
+
+function retrieveAllEvents(date){
+  $.ajax({
+    url: '/calendar/all/',
+    data: { date: date},
+    type: 'GET'
+  })
+}
+
+function retrieveEvent(team, date){
+  $.ajax({
+    url: '/calendar/retrieve/',
+    data: { team_name: team, date: date},
+    type: 'GET'
+  })
+}
