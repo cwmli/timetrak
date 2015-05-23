@@ -2,6 +2,16 @@
 	<div id="mask"></div>
 		<%= render 'layouts/header' %>
 		<%= render 'layouts/flash_msgs' %>
+		<div class="float-form" id="new-gen">
+			<div class="close-block" id="cancel-gen">X</div>
+			Schedule Generation Settings:
+			<div id="float-form-table">
+			Start Date:<input style="font-size: inherit;border: none;" type="date" id="gDate"><br>
+			Start:<input style="font-size: inherit;border: none;" type="time" id="gSTime"><br>
+			End:<input style="font-size: inherit;border: none;" type="time" id="gETime"><br>
+			Games Per Week:<input style="font-size: inherit;border: none;" type="number" id="gLimit"><br>
+			</div>
+		</div>
 		<div class="maincontainer">
 			<div class="subcontainer">
         <div class="month" id="<%= @date %>">
@@ -16,6 +26,7 @@
 				<% end %>
 				<div class="events_block">
 					<%= collection_select(current_account, :seasons_id, @teams_in_season, :id, :name, {prompt: "Filter...", include_blank: "All"}, {class: "large-selector", id: "s-team"}) %>
+					<span class='shapeable-block' id='gen' style="display:none;">GENERATE</span>
 					<div id="events-rblock">
 					</div>
 				</div>

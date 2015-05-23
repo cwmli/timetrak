@@ -11,6 +11,49 @@ class CalendarController < ApplicationController
     @teams_in_season = Team.where(season_id: @@season)
   end
 
+  def generate
+    @teams_in_season = Team.where(season_id: @@season).in_groups(2) #split into two equal arrays
+    @venues = current_season.venues
+    @start = Date.parse(params[:startdate])
+    @stime = params[:starttime]
+    @etime = params[:endtime]
+    @games_per_week = params[:limit] #1 game a day ONLY
+    @selected_days = params[:weekdays].map(&:to_i)
+    @permitted_weekdays = (@start..@start+1.year).select { |k| @selected_days.include?(k.wday)}
+    @success = nil
+
+    p @permitted_weekdays
+
+    for r in 0..(@teams_in_season.count.to_i-2) #number of rotations needed
+      for g in 0..@games_per_week.to_i-1 #number of days available
+        @venue_index = 0
+        for t in 0..@teams_in_season[0].count.to_i
+          if @teams_in_season[0][t].nil? || @teams_in_season[1][t].nil?
+            break #the team gets a 'bye' since they are not versing anyone
+          else
+            if @venues[@venue_index].blank?
+              break(3)
+            else
+              @event1 = @teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g], enddate: @permitted_weekdays[g], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)
+              @event1.save
+              @event2 = @teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g], enddate: @permitted_weekdays[g], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name) #add the event for the opposing team too
+              @event2.save
+              @venue_index += 1
+            end
+          end
+        end
+        #rearrange the arrays after all events are saved for this group organization
+        @teams_in_season[1].unshift(@teams_in_season[0].pop) #push the last team of group1 to the beginning of group2
+        @teams_in_season[0].insert(1, @teams_in_season[1].pop) #push the last team of group2 to the second index on group1
+      end
+      @success = 1
+    end
+
+    respond_to do |format|
+      format.js #flash message contains success
+    end
+  end
+
   def all #show all events of all teams
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @teams_in_season = Team.where(season_id: @@season)

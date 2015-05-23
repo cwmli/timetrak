@@ -1,16 +1,60 @@
 $(document).ready(function(){
   $(".subcontainer").fadeIn();
   var editOn = 0;
+  if (sessionStorage["filter"]){
+    checkRetrieval();
+  };
 
-  $("#cancel-event").off("click").on("click", function(){
-    $("#new-event-form").fadeOut();
+  //generation form
+  $("#cancel-gen").off("click").on("click", function(){
+    $("#new-gen").fadeOut();
     $("#mask").fadeOut();
   });
 
-  $("#new-event").off("click").on("click", function(){
-    $("#new-event-form").fadeIn();
+  $("#gen").off("click").on("click", function(){
+    $("#new-gen").fadeIn();
     $("#mask").fadeIn();
   });
+
+  $("#gLimit").off("input paste").on(" input paste", function(e){
+    $('select[id*="gPermitted_"]').remove();
+    $("#gen-confirm").remove();
+    var limit = $("#gLimit").val();
+    if (limit > 7) { limit = 7;}
+    for (i=0; i < limit; i++){
+      $("#float-form-table").append(" \
+      <select style='font-size: inherit;border: none;' type='text' id='gPermitted_+"+i+"'> \
+      <option value='nil'>None</option> \
+      <option value='0'>Sunday</option> \
+      <option value='1'>Monday</option> \
+      <option value='2'>Tuesday</option> \
+      <option value='3'>Wednesday</option> \
+      <option value='4'>Thursday</option> \
+      <option value='5'>Friday</option> \
+      <option value='6'>Saturday</option> \
+      </select>");
+    }
+    $("#float-form-table").append("<div class='shapeable-block' id='gen-confirm'>CONTINUE</div>")
+  });
+
+  $(document).off("click","#gen-confirm");
+  $(document).on("click","#gen-confirm", function(){
+    var start = $("#gDate").val();
+    var perweek = $("#gLimit").val();
+    var stime = $("#gSTime").val();
+    var etime = $("#gETime").val();
+    var days = [];
+    jQuery.each($('select[id*="gPermitted_"]'), function(){
+      if($(this).val() != "nil"){
+        days.push($(this).val());
+      }
+    })
+
+    $.ajax({
+      url: '/calendar/generate',
+      data: { startdate: start, limit: perweek, weekdays: days, starttime: stime, endtime: etime}
+    });
+  })
 
   //enable event editing
   $(document).off("click", "[id=edit-event]");
@@ -33,6 +77,8 @@ $(document).ready(function(){
   });
 
   $("#s-team").off("change").on("change", function(){
+    var input = $("#s-team").find(":selected").text();
+    sessionStorage["filter"] = input;
     checkRetrieval();
   })
 
@@ -45,12 +91,18 @@ $(document).ready(function(){
   })
 
   function checkRetrieval(){
-    var team_name = $("#s-team").find(":selected").text();
     var s_date = $(".month").attr("id");
-    if (team_name == "All"){
-      retrieveAllEvents(s_date);
+    if (sessionStorage["filter"] != "Filter..."){
+      $("#events-rblock").fadeIn();
+      $("#gen").fadeIn();
+      if (sessionStorage["filter"] == "All"){
+        retrieveAllEvents(s_date);
+      }else{
+        retrieveEvent(sessionStorage["filter"], s_date);
+      }
     }else{
-      retrieveEvent(team_name, s_date);
+      $("#gen").fadeOut();
+      $("#events-rblock").fadeOut();
     }
   }
 

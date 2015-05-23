@@ -1,12 +1,11 @@
-//belongs in events-rblock
-$("#events-rblock").html("<%= j debug(params) %>");
-$("#events-rblock").append(" \
+$("#events-rblock").html(" \
+<h3><% if @team %><%= @team.name.upcase %><% else %>ALL<% end %> UPCOMING EVENTS:</h3> \
 <% if @events.any? %> \
   <% @events.each do |e| %><div> \
-    <%= escape_javascript form_tag(account_team_event_path(current_account,e.team_id, e)) %> \
-    <div id='<%= e.title.delete(' ')+'_block' %>'> \
-    <div class='sinfo-block' id='<%= e.title %>'> \
-      <h3><span class='editable lineinput' id='title'><%= e.title %></span></h3> \
+    <%= escape_javascript form_tag(account_team_event_path(current_account,e.team_id, e), method: :put) %> \
+    <div id='<%= e.team1.delete(' ')+'_block' %>'> \
+    <div class='sinfo-block' id='<%= e.team1 %>'> \
+      <h3><span class='editable lineinput' id='team1'><%= e.team1 %></span> VS. <span class='editable lineinput' id='team2'><%= e.team2 %></span></h3> \
       <p><%= escape_javascript image_tag 'clock.png', size:'16x16' %> \
       <span class='editable dinput' id='startdate'><%= e.startdate.strftime('%B %e, %Y') %></span> \
       <span class='editable tinput' id='starttime'><%= e.starttime.strftime('%l:%M %p') %></span> TO: \
@@ -14,10 +13,10 @@ $("#events-rblock").append(" \
       <span class='editable tinput' id='endtime'><%= e.endtime.strftime('%l:%M %p') %></span> \
       <span class='new-block' id='expand-info'>...</span> \
       <span class='new-block' id='edit-event' title='Press to edit'><%= escape_javascript image_tag 'edit.png', size:'16x16' %></span> \
-      <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), account_team_event_path(current_account,e.team_id, e), method: :delete, class: 'new-block', data: {confirm: 'Confirm deletion of: '+e.title+'?'}) %> \
+      <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), account_team_event_path(current_account,e.team_id, e), method: :delete, class: 'new-block', data: {confirm: 'Confirm deletion of: '+e.team1+' vs. '+e.team2+'?'}) %> \
       <br></p> \
     </div> \
-    <div class='linfo-block' id='<%= e.title+'_expanded' %>'><p> \
+    <div class='linfo-block' id='<%= e.team1+'_expanded' %>'><p> \
       <% if e.notify %> \
         <%= escape_javascript image_tag 'alarm.png', size:'16x16' %> \
           <span class='editable dinput' id='notifydate'><%= e.notifydate.strftime('%B %e, %Y') %></span> \
@@ -25,12 +24,12 @@ $("#events-rblock").append(" \
       <% else %> \
           <%= escape_javascript image_tag 'alarm.png', size:'16x16' %> You are not receiving notifications for this event.<br> \
       <% end %> \
-      <% if e.location.length != 0 %> \
+      <% if !e.location.length.nil? %> \
           <%= escape_javascript image_tag 'location.png', size:'16x16' %> <span class='editable lineinput' id='location'><%= e.location %></span><br> \
       <% else %> \
           <%= escape_javascript image_tag 'location.png', size:'16x16' %> <span class='editable lineinput' id='location'>Add a location</span><br> \
       <% end %> \
-      <% if e.description.length != 0 %> \
+      <% if !e.description.nil? %> \
           <%= escape_javascript image_tag 'note.png', size:'16x16' %> <span class='editable blobinput' id='description'><%= e.description %></span> \
       <% else %> \
           <%= escape_javascript image_tag 'note.png', size:'16x16' %> <span class='editable blobinput' id='description'>Add a description</span> \
@@ -49,11 +48,11 @@ $("<%= escape_javascript(calendar(@date) do |date|%>
     <% @events_by_date[date].each do |e| %>
       <% if e.startdate < Date.today %>
       <div class='event-item-passed'>
-        <%= e.title %>
+        <%= e.team1 %> vs. <%= e.team2 %>
       </div>
       <% else %>
       <div class='event-item'>
-        <%= e.title %>
+        <%= e.team1 %> vs. <%= e.team2 %>
       </div>
       <% end %>
     <% end %>

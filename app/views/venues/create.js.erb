@@ -1,0 +1,8 @@
+//show flash message
+$("body").prepend('<%= escape_javascript("<div id='success'>Venue added.</div>").html_safe %>');
+$("#mask").fadeOut();
+//reload teams in season
+var selection = $("#s-season").find(":selected").text();
+retrieveSeasonTeams(selection)
+//reload available teams
+$("#static-teamslist").load(location.href + " #infob");

@@ -4,8 +4,11 @@ $(document).ready(function(){
    var editOn = 0;
    var targetname;
     //button methods
-    $("#cancel-season").off("click").on("click", function(){
+    $(document).off("click", '#cancel');
+    $(document).on("click", '#cancel', function(){
       $("#new-season-form").fadeOut();
+      $("#new-team-form").fadeOut();
+      $("#new-venue-form").fadeOut();
       $("#mask").fadeOut();
     });
 
@@ -13,15 +16,14 @@ $(document).ready(function(){
       $("#new-season-form").fadeIn();
       $("#mask").fadeIn();
     });
-
-    $("#cancel-team").off("click").on("click", function(){
-      $("#new-team-form").fadeOut();
-      $("#mask").fadeOut();
-    });
-    $(document).on("click", '#new-team', function(){
+    $("#new-team").off("click").on("click", function(){
       $("#new-team-form").fadeIn();
       $("#mask").fadeIn();
     });
+    $("#new-venue").off("click").on("click", function(){
+      $("#new-venue-form").fadeIn();
+      $("#mask").fadeIn();
+    })
 
     $(document).off('click', '#edit-team');
     $(document).on("click", "#edit-team", function(){
@@ -74,6 +76,7 @@ $(document).ready(function(){
 
     //retrieve team information with ajax
     $("#s-season").off("change").on("change", function(){
+        $("#new-venue").fadeOut('fast');
         $("#season-info").fadeOut('fast');
         $("#calendar-view").fadeOut('fast');
         $("#static-teamslist").fadeOut('fast');

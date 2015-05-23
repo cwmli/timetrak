@@ -12,7 +12,7 @@ class TeamsController < ApplicationController
       flash[:success] = "Team created."
       redirect_to account_seasons_path(current_account)
     else
-      flash[:error] = "Error: Please make sure you team has a name."
+      flash[:error] = "Error: Please make sure your team has a name."
       redirect_to account_seasons_path(current_account)
     end
   end

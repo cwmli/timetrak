@@ -3,6 +3,7 @@ class Account < ActiveRecord::Base
   attr_accessor :remember_token
   has_many :seasons
   has_many :teams
+  has_many :venues, through: :seasons
   has_many :events, through: :teams
 
   friendly_id :username, use: [:slugged, :finders]

@@ -14,9 +14,12 @@ Rails.application.routes.draw do
 
     get '/calendar/all/' => 'calendar#all'
     get '/calendar/retrieve/' => 'calendar#retrieve'
+    get '/calendar/generate/' => 'calendar#generate'
 
     resources :accounts, except: :index do
-      resources :seasons
+      resources :seasons do
+        resources :venues
+      end
       resources :teams do
         resources :events
       end

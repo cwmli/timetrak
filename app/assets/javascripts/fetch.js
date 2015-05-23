@@ -7,10 +7,12 @@ function retrieveSeasonTeams(season){
       dataType: 'json',
       success: function(data){
         //refresh the delete button to match current season
-        $("#reloadonchange").load(location.href + " #del-season");
+        $("#reloaddel").load(location.href + " #del-season");
+        $("#reloadnewven").load(location.href + " #new-venue-form");
         //refresh available teams to match current season
         $("#static-teamslist").load(location.href + " #infob").fadeIn('normal', function(){
           $("#calendar-view").fadeIn();
+          $("#new-venue").fadeIn();
           $("#season-info").fadeIn();
         });
         if(!jQuery.isEmptyObject(data)){ //team data exists

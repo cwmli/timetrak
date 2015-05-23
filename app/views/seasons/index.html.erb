@@ -2,8 +2,9 @@
   <div id="mask"></div>
   <%= render 'layouts/flash_msgs' %>
   <%= render 'layouts/header' %>
+
   <div class="float-form" id="new-team-form">
-    <div class="close-block" id="cancel-team">
+    <div class="close-block" id="cancel">
       X
     </div>
     Create a Team:
@@ -18,8 +19,28 @@
     </div>
   </div>
 
+  <div id="reloadnewven">
+    <% if !current_season.nil? %>
+    <div class="float-form" id="new-venue-form">
+      <div class="close-block" id="cancel">
+        X
+      </div>
+      Add a venue:
+      <div id="float-form-table">
+      <%= form_for [current_account, current_season, current_season.venues.build], remote: true do |f| %>
+      <p>
+        <%= f.text_field :name, placeholder: "Add a name", id: 'float-form-input', class: 'full-form' %>
+        <%= f.text_field :location, placeholder: "Add an address", id: 'float-form-input', class: 'full-form' %>
+        <%= f.submit "Add Venue", class: "submit-button" %>
+      </p>
+      </div>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
   <div class="float-form" id="new-season-form">
-    <div class="close-block" id="cancel-season">
+    <div class="close-block" id="cancel">
       X
     </div>
     Create a Season:
@@ -39,7 +60,7 @@
         <div id="season-select">
           <%= collection_select(current_account, :seasons_id, @seasons, :id, :title, {include_blank: "Select a season"}, {class: "large-selector", id: "s-season"}) %>
           <div class="shapeable-block" id="new-season">+SEASON</div>
-          <div id="reloadonchange" style="display:inline">
+          <div id="reloaddel" style="display:inline">
             <% if !current_season.nil? %>
               <%= link_to [@current_account, current_season], method: :delete, class: "shapeable-cblock", id: "del-season", style: "display:none;" do %>
                 DELETE SEASON
@@ -47,6 +68,7 @@
             <% end %>
           </div>
           <div class="shapeable-block" id="new-team">+TEAM</div>
+          <div class="shapeable-block" style="display: none;" id="new-venue">+VENUE</div>
           <%= link_to "CALENDAR", calendar_path, class: "shapeable-block", id: "calendar-view",style: "display: none;" %>
         </div>
         <div id="season-info">
