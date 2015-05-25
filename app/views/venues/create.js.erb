@@ -1,8 +1,9 @@
 //show flash message
-$("body").prepend('<%= escape_javascript("<div id='success'>Venue added.</div>").html_safe %>');
+$("body").prepend('<% if !@success.nil? %><%= escape_javascript("<div id='success'>Venue added.</div>").html_safe %><% else %><%= escape_javascript("<div id='error'>Venue is missing a name and/or location.</div>").html_safe %><% end %>');
 $("#mask").fadeOut();
 //reload teams in season
 var selection = $("#s-season").find(":selected").text();
 retrieveSeasonTeams(selection)
-//reload available teams
+//reload a
 $("#static-teamslist").load(location.href + " #infob");
+$("#static-venueslist").load(location.href + " #infoc");

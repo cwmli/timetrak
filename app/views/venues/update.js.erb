@@ -1,0 +1,10 @@
+//show flash message
+$("body").prepend('<%= escape_javascript("<div id='success'>Venue updated.</div>").html_safe %>');
+//reload teams in season
+var selection = $("#s-season").find(":selected").text();
+retrieveSeasonTeams(selection)
+//reload
+$("#static-venueslist").load(location.href + " #infoc");
+$("#team-main").load(location.href + " #team-info");
+//update event data to match new venue data
+updateEventAttributes(selection, "<%= @old_venue_name %>","<%= @venue.name %>", 'nil', 'nil')

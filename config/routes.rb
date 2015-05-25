@@ -8,8 +8,13 @@ Rails.application.routes.draw do
     post   'login'   => 'sessions#create'
     delete 'logout'  => 'sessions#destroy'
 
+    get '/events/refresh/' => 'events#refresh'
+
     get '/seasons/details/:id' => 'seasons#details'
-    get '/teams/details/:id' => 'teams#details'
+
+    get '/venues/details/' => 'venues#details'
+
+    get '/teams/details/' => 'teams#details'
     delete '/teams/delete/:id' => 'teams#delete'
 
     get '/calendar/all/' => 'calendar#all'

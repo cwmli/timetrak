@@ -23,6 +23,7 @@ class TeamsController < ApplicationController
 
   def update
     @team = current_account.teams.find(params[:id])
+    @old_team_name = @team.name
 
     respond_to do |format|
       if @team.update_attributes(team_params)

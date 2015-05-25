@@ -78,15 +78,29 @@
             <h3>Available Teams:</h3>
             <% if !current_season.nil? %>
               <% if @teams.empty? %>
-                <%= ("<p>No teams available</p>").html_safe %>
+                <%= ("<p>No teams available.</p>").html_safe %>
               <% else %>
                 <% @teams.each do |t| %>
                   <% if !current_season.teams.include?(t) #is not already in the season%>
                     <%= form_for [@current_account, t], remote: true do |f| %>
                       <%= f.hidden_field :season_id, value: current_season.id %>
-                      <%= f.submit t.name, class: "team-button", title: "Add to season" %>
+                      <%= f.submit t.name, id: 'team-button', class: "info-button", title: "Add to season" %>
                     <% end %>
                   <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div id="static-venueslist">
+          <div id="infoc">
+            <h3>Available Venues:</h3>
+            <% if !current_season.nil? %>
+              <% if current_season.venues.empty? %>
+                <%= ("<p>No venues available.</p>").html_safe %>
+              <% else %>
+                <% current_season.venues.each do |v| %>
+                  <%= content_tag(:div, v.name, id: 'venue-button',class: 'info-button') %>
                 <% end %>
               <% end %>
             <% end %>
