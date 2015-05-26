@@ -9,11 +9,13 @@ function retrieveSeasonTeams(season){
         //refresh the delete button to match current season
         $("#reloaddel").load(location.href + " #del-season");
         $("#reloadnewven").load(location.href + " #new-venue-form");
+        $("#reloadnewupl").load(location.href + " #new-upload-form");
         //refresh available teams to match current season
         $("#static-venueslist").load(location.href + " #infoc").fadeIn();
         $("#static-teamslist").load(location.href + " #infob").fadeIn('normal', function(){
           $("#calendar-view").fadeIn();
           $("#new-venue").fadeIn();
+          $("#new-upload").fadeIn();
           $("#season-info").fadeIn();
         });
         if(!jQuery.isEmptyObject(data)){ //team data exists

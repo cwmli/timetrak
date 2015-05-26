@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get '/events/refresh/' => 'events#refresh'
 
     get '/seasons/details/:id' => 'seasons#details'
+    post '/seasons/upload' => 'seasons#upload'
 
     get '/venues/details/' => 'venues#details'
 

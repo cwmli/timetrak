@@ -24,6 +24,10 @@ $(document).ready(function(){
       $("#new-venue-form").fadeIn();
       $("#mask").fadeIn();
     })
+    $("#new-upload").off("click").on("click", function(){
+      $("#new-upload-form").fadeIn();
+      $("#mask").fadeIn();
+    })
 
     $(document).off('click', '#edit-team');
     $(document).on("click", "#edit-team", function(){
@@ -108,6 +112,7 @@ $(document).ready(function(){
     //retrieve team information with ajax
     $("#s-season").off("change").on("change", function(){
         $("#new-venue").fadeOut('fast');
+        $("#new-upload").fadeOut('fast');
         $("#season-info").fadeOut('fast');
         $("#calendar-view").fadeOut('fast');
         $("#static-teamslist").fadeOut('fast');

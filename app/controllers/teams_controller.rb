@@ -55,7 +55,7 @@ class TeamsController < ApplicationController
     @name = @team.name
     @slug = @team.slug
     @desc = @team.description
-    if @desc.empty?
+    if @desc.nil?
       @desc = "No description available"
     end
 

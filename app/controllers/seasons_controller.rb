@@ -60,6 +60,46 @@ class SeasonsController < ApplicationController
     render json: @team_names
   end
 
+  def upload #read and submit uploaded data
+    @excel_file = Roo::Spreadsheet.open(params[:datafile])
+    @season = Season.find_by(title: params[:season_title])
+    @failcount = 0
+    @sheets = @excel_file.sheets
+    @sheets.each do |sheet_name|
+      @current_sheet = @excel_file.sheet(sheet_name)
+      for row in @current_sheet.first_row+1..@current_sheet.last_row
+        @data = []
+        @rowdata = @current_sheet.row(row)
+        for index in 0..@current_sheet.last_column #assumption that rowdata has the same length as column_names
+          @data.push(@rowdata[index])
+        end
+        #check where to put this data
+        if sheet_name == "Teams"
+          @team = current_account.teams.build(name: @data[0])
+          if !@team.save
+            @failcount += 1
+          end
+        else #is a venue upload
+          #parse date restrictions:
+          @rsstart = DateTime.parse(@data[2])
+          @rsend = DateTime.parse(@data[3])
+          @venue = @season.venues.build(name: @data[0], location: @data[1], rs_start: @rsstart, rs_end: @rsend)
+          if !@venue.save
+            @failcount += 1
+          end
+        end
+      end
+    end
+
+    respond_to do |format|
+      if @failcount == 0
+        format.html { redirect_to :back, flash: { alert: "Uploaded schedule/team data saved successfully." } }
+      else
+        format.html { redirect_to :back, flash: { alert: @failcount+" records could not be saved." } }
+      end
+    end
+  end
+
   private
     def season_params
       params.require(:season).permit(:title, :teams)

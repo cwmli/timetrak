@@ -20,6 +20,28 @@
   z-index: 200;
 }
 
+#alert{
+  border: 1px solid #CCCC7A;
+  border-radius: 5px;
+  background: #FFFF99;
+
+  padding: 3px;
+
+  width: 80%;
+  height: 16px;
+  display: block;
+  position: fixed;
+  top: 7.5%;
+  left: 50%;
+  margin-left: -40%;
+
+  text-align: center;
+  color: #8F8F55;
+  font-size: 16px;
+
+  z-index: 200;
+}
+
 #error{
   border: 1px solid #CC0000;
   border-radius: 5px;

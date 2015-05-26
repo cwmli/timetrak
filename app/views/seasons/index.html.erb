@@ -39,6 +39,26 @@
     <% end %>
   </div>
 
+  <div id="reloadnewupl">
+    <% if !current_season.nil? %>
+    <div class="float-form" id="new-upload-form">
+      <div class="close-block" id="cancel">
+        X
+      </div>
+      Upload a schedule or team:
+      <div id="float-form-table">
+      <%= form_tag('/seasons/upload', multipart: true, authenticity_token: true, remote: true) do %>
+      <p>
+        <%= hidden_field_tag :season_title, current_season.title %>
+        <%= file_field_tag :datafile, accept: 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', class: 'full-form' %>
+        <%= submit_tag "PROCESS", class: "submit-button" %>
+      </p>
+      </div>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
   <div class="float-form" id="new-season-form">
     <div class="close-block" id="cancel">
       X
@@ -69,6 +89,7 @@
           </div>
           <div class="shapeable-block" id="new-team">+TEAM</div>
           <div class="shapeable-block" style="display: none;" id="new-venue">+VENUE</div>
+          <div class="shapeable-block" style="display: none;" id="new-upload">UPLOAD</div>
           <%= link_to "CALENDAR", calendar_path, class: "shapeable-block", id: "calendar-view",style: "display: none;" %>
         </div>
         <div id="season-info">
