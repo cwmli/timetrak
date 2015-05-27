@@ -13,7 +13,7 @@ class EventsController < ApplicationController
       redirect_to account_teams_path(current_account)
     end
   end
-
+ 
   def edit
     @event = current_account.events.find(params[:id])
   end

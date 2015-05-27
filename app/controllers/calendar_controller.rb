@@ -67,7 +67,7 @@ class CalendarController < ApplicationController
     @events_by_date = {}
     @events = []
 
-    date_range = Date.today..Date.today.end_of_month
+    date_range = Date.today..Date.today+2.weeks
     if !@teams_in_season.empty? #fetch team events only if the season contains teams
       @teams_in_season.each do |team|
         @teamevents = team.events.group_by(&:startdate)
@@ -101,7 +101,7 @@ class CalendarController < ApplicationController
       end
     end
 
-    date_range = Date.today..Date.today.end_of_month
+    date_range = Date.today..Date.today+2.weeks
     @events = @team.events.where(startdate: date_range)
     @events = @events.sort_by { |h| h[:starttime]}
 

@@ -9,6 +9,7 @@ $(document).ready(function(){
       $("#new-season-form").fadeOut();
       $("#new-team-form").fadeOut();
       $("#new-venue-form").fadeOut();
+      $("#new-upload-form").fadeOut();
       $("#mask").fadeOut();
     });
 
