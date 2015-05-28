@@ -4,13 +4,21 @@ $(document).ready(function(){
   if (sessionStorage["filter"]){
     checkRetrieval();
   };
+  //single event creation form
+  $("#cancel-sgen").off("click").on("click", function(){
+    $("#new-sgen").fadeOut();
+    $("#mask").fadeOut();
+  });
+  $("#sgen").off("click").on("click", function(){
+    $("#new-sgen").fadeIn();
+    $("#mask").fadeIn();
+  })
 
   //generation form
   $("#cancel-gen").off("click").on("click", function(){
     $("#new-gen").fadeOut();
     $("#mask").fadeOut();
   });
-
   $("#gen").off("click").on("click", function(){
     $("#new-gen").fadeIn();
     $("#mask").fadeIn();
@@ -97,10 +105,12 @@ $(document).ready(function(){
       if (sessionStorage["filter"] == "All"){
         retrieveAllEvents(s_date);
       }else{
+        $("#sgen").fadeIn();
         retrieveEvent(sessionStorage["filter"], s_date);
       }
     }else{
       $("#gen").fadeOut();
+      $("#sgen").fadeOut();
       $("#events-rblock").fadeOut();
     }
   }

@@ -1,5 +1,7 @@
 class CalendarController < ApplicationController
   @@season = nil
+  @@team = nil
+  
   def show
     if !current_season.nil?
       @@season = current_season.id

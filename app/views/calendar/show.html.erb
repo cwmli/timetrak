@@ -12,6 +12,17 @@
 			Games Per Week:<input style="font-size: inherit;border: none;" type="number" id="gLimit"><br>
 			</div>
 		</div>
+		<% if !@@team.nil? && !@@season.nil? %>
+			<div class="float-form" id="new-sgen">
+				<div class="close-block" id="cancel-sgen">X</div>
+				Create An Event:
+				<%= form_for [current_account, @@season, @@team, @@team.events.build], id: "float-form-table" do |f| %>
+					<%= f.label_for %>
+					<%= f.collection_select :event, :team1, @@season.venues, :id, :name %>
+				<% end %>
+			</div>
+		<% end %>
+
 		<div class="maincontainer">
 			<div class="subcontainer">
         <div class="month" id="<%= @date %>">
@@ -26,6 +37,7 @@
 				<% end %>
 				<div class="events_block">
 					<%= collection_select(current_account, :seasons_id, @teams_in_season, :id, :name, {prompt: "Filter...", include_blank: "All"}, {class: "large-selector", id: "s-team"}) %>
+					<span class='shapeable-block' id='sgen' style="display:none;">+</span>
 					<span class='shapeable-block' id='gen' style="display:none;">GENERATE</span>
 					<div id="events-rblock">
 					</div>
