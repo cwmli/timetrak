@@ -1,7 +1,6 @@
 class CalendarController < ApplicationController
   @@season = nil
-  @@team = nil
-  
+
   def show
     if !current_season.nil?
       @@season = current_season.id
@@ -95,6 +94,7 @@ class CalendarController < ApplicationController
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
 
     @team = Team.find_by(name: params[:team_name])
+    @@current_team = @team
     @events_by_date = @team.events.group_by(&:startdate)
 
     @events_by_date.each do |date, events_on_date_hash| #array of events on that date
