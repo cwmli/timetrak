@@ -102,10 +102,10 @@ $(document).ready(function(){
     if (sessionStorage["filter"] != "Filter..."){
       $("#events-rblock").fadeIn();
       $("#gen").fadeIn();
+      $("#sgen").fadeOut();
       if (sessionStorage["filter"] == "All"){
         retrieveAllEvents(s_date);
       }else{
-        $("#sgen").fadeIn();
         retrieveEvent(sessionStorage["filter"], s_date);
       }
     }else{

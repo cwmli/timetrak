@@ -42,6 +42,10 @@ class TeamsController < ApplicationController
       @season = @season.title
     end
 
+    #delete other affected events
+    Event.where(team1: @team.name).destroy_all
+    Event.where(team2: @team.name).destroy_all
+
     @team.destroy
 
     respond_to do |format|

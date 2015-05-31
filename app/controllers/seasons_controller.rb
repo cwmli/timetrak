@@ -51,13 +51,18 @@ class SeasonsController < ApplicationController
     @season_nfo = Season.find_by(title: params[:season_name])
     @@current_season = @season_nfo #update the selected season
 
+    @account = current_account
+
     @teamlist = Team.where(season_id: @season_nfo.id)
     if !@teamlist.nil? #not empty
       @teamlist.each do |team|
         @team_names.push(team.name)
       end
     end
-    render json: @team_names
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def upload #read and submit uploaded data

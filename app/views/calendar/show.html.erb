@@ -19,7 +19,13 @@
 				<div class="close-block" id="cancel-sgen">X</div>
 				Create An Event:
 				<%= form_for [current_account, current_team, current_team.events.build], id: "float-form-table" do |f| %>
-					<%= f.collection_select :team1, current_season.venues, :id, :name, {prompt: "Select a venue"},  {class: "large-selector"} %>
+					<%= f.collection_select :team1, current_season.teams, :id, :name, {prompt: "Select Team1"},  {class: "large-selector"} %>
+					VS. <%= f.collection_select :team2, current_season.teams, :id, :name, {prompt: "Select Team2"},  {class: "large-selector"} %><br>
+					<%= f.text_area :description, placeholder: "Add a description", rows: 3, id: 'text-area', class: 'no-resize' %><br>
+					<%= f.collection_select :location, current_season.venues, :id, :name, {prompt: "Select a venue"},  {class: "large-selector"} %><br>
+					<span>FROM:&nbsp<%= f.date_field :startdate, class: "large-selector" %><%= f.time_field :starttime, class: "large-selector" %></span><br>
+					<span>TO:&nbsp<%= f.date_field :enddate, class: "large-selector" %><%= f.time_field :endtime, class: "large-selector" %></span><br>
+					<%= f.submit "CREATE EVENT", class: "button" %>
 				<% end %>
 			</div>
 		<% end %>

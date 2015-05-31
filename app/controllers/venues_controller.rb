@@ -5,11 +5,9 @@ class VenuesController < ApplicationController
 
   def create
     @venue = current_season.venues.build(venue_params)
-    @success = nil
 
     respond_to do |format|
       if @venue.save
-        @success = 1
         format.js
       else
         format.js
@@ -42,6 +40,8 @@ class VenuesController < ApplicationController
       @season = @season.title
     end
 
+    #delete affected events
+    Event.where(location: @venue.name).destroy_all
     @venue.destroy
 
     respond_to do |format|

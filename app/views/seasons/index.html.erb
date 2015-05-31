@@ -20,23 +20,6 @@
   </div>
 
   <div id="reloadnewven">
-    <% if !current_season.nil? %>
-    <div class="float-form" id="new-venue-form">
-      <div class="close-block" id="cancel">
-        X
-      </div>
-      Add a venue:
-      <div id="float-form-table">
-      <%= form_for [current_account, current_season, current_season.venues.build], remote: true do |f| %>
-      <p>
-        <%= f.text_field :name, placeholder: "Add a name", id: 'float-form-input', class: 'full-form' %>
-        <%= f.text_field :location, placeholder: "Add an address", id: 'float-form-input', class: 'full-form' %>
-        <%= f.submit "Add Venue", class: "submit-button" %>
-      </p>
-      </div>
-      <% end %>
-    </div>
-    <% end %>
   </div>
 
   <div id="reloadnewupl">
@@ -117,12 +100,12 @@
           <div id="infoc">
             <h3>Available Venues:</h3>
             <% if !current_season.nil? %>
-              <% if current_season.venues.empty? %>
-                <%= ("<p>No venues available.</p>").html_safe %>
-              <% else %>
+              <% if current_season.venues.count > 1 %>
                 <% current_season.venues.each do |v| %>
-                  <%= content_tag(:div, v.name, id: 'venue-button',class: 'info-button') %>
+                    <%= content_tag(:div, v.name, id: 'venue-button',class: 'info-button') %>
                 <% end %>
+              <% else %>
+                <%= ("<p>No venues available.</p>").html_safe %>
               <% end %>
             <% end %>
           </div>

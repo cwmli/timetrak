@@ -3,8 +3,8 @@ class Team < ActiveRecord::Base
   friendly_id :name, use:  [:slugged, :finders]
 
   validates :name, presence: true
- 
-  has_many :events
+
+  has_many :events, dependent: :destroy
   belongs_to :season
   belongs_to :account
 end

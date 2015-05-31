@@ -1,32 +1,18 @@
 function retrieveSeasonTeams(season){
-  $('#season-info').contents(':not(#static-teamslist)').remove();//clear any previous data
+  $('#season-info').contents(':not(#static-teamslist, #static-venueslist)').remove();//clear any previous data
   $.ajax({
       url: '/seasons/details/' + season,
       data: { season_name: season},
       type: 'GET',
-      dataType: 'json',
-      success: function(data){
+      success: function(){
         //refresh the delete button to match current season
         $("#reloaddel").load(location.href + " #del-season");
-        $("#reloadnewven").load(location.href + " #new-venue-form");
-        $("#reloadnewupl").load(location.href + " #new-upload-form");
+        $("#reloadnewupl").load(location.href + " #new-upload-form", function(){$("#new-upload").fadeIn();});
         //refresh available teams to match current season
-        $("#static-venueslist").load(location.href + " #infoc").fadeIn();
-        $("#static-teamslist").load(location.href + " #infob").fadeIn('normal', function(){
-          $("#calendar-view").fadeIn();
-          $("#new-venue").fadeIn();
-          $("#new-upload").fadeIn();
-          $("#season-info").fadeIn();
-        });
-        if(!jQuery.isEmptyObject(data)){ //team data exists
-          for(var i in data){
-            $("#season-info").prepend("<div id='team-button' class='info-button'>"+data[i]+"</div>")
-          }
-          $("#season-info").prepend("<h2>Teams in Season:</h2>");
-        }
-        else{
-          $("#season-info").prepend("<p>No teams here.</p>").prepend("<h2>Teams:</h2>");
-        }
+        $("#static-venueslist").load(location.href + " #infoc", function(){$(this).fadeIn();});
+        $("#static-teamslist").load(location.href + " #infob", function(){$(this).fadeIn();});
+        $("#calendar-view").fadeIn();
+        $("#season-info").fadeIn();
       }
     });
 }
@@ -57,7 +43,8 @@ function retrieveEvent(team, date){
   $.ajax({
     url: '/calendar/retrieve/',
     data: { team_name: team, date: date},
-    type: 'GET'
+    type: 'GET',
+    success: function(){$("#sgen").fadeIn();}
   });
 }
 
