@@ -5,7 +5,7 @@ $(document).ready(function(){
     checkRetrieval();
   };
   //single event creation form
-  $("#cancel-sgen").off("click").on("click", function(){
+  $(document).off("click", "#cancel-sgen").on("click", "#cancel-sgen", function(){
     $("#new-sgen").fadeOut();
     $("#mask").fadeOut();
   });

@@ -43,8 +43,7 @@ function retrieveEvent(team, date){
   $.ajax({
     url: '/calendar/retrieve/',
     data: { team_name: team, date: date},
-    type: 'GET',
-    success: function(){$("#sgen").fadeIn();}
+    type: 'GET'
   });
 }
 

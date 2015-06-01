@@ -4,16 +4,18 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_account.teams.events.build(event_params)
+    @event = current_account.teams.find_by(slug: params[:team_id]).events.build(event_params)
+    @event_dup = current_account.teams.find_by(name: params[:event][:team2]).events.build(event_params)
     if @event.save
       flash[:success] = 'Event created.'
-      redirect_to account_teams_path(current_account)
+      @event_dup.save
+      redirect_to calendar_path
     else
-      flash[:error] = 'Error: Please make sure your event has a title and time.'
-      redirect_to account_teams_path(current_account)
+      flash[:error] = 'Error: Please make required fields are filled.'
+      redirect_to calendar_path
     end
   end
- 
+
   def edit
     @event = current_account.events.find(params[:id])
   end
@@ -29,10 +31,24 @@ class EventsController < ApplicationController
     end
   end
 
-  def destroy
-    Event.find(params[:id]).destroy
+  def delete
+    @event = Event.find(params[:id])
+    @eteam1 = @event.team1
+    @eteam2 = @event.team2
+
+    #@event.destroy
+    current_account.teams.each do |t|
+      @tev = t.events.where(team1: @eteam1).where(team2: @eteam2)
+      @tev.each do |e|
+        e.destroy
+      end
+    end
     flash[:success] = 'Event deleted.'
     redirect_to calendar_path
+  end
+
+  def destroy
+    Event.find(params[:id]).destroy
   end
 
   def refresh
@@ -84,6 +100,6 @@ class EventsController < ApplicationController
 
   private
     def event_params
-      params.require(:event).permit(:title, :description, :location, :startdate, :enddate, :starttime, :endtime, :notify, :notifydate)
+      params.require(:event).permit(:team1, :team2, :description, :location, :startdate, :enddate, :starttime, :endtime, :notify, :notifydate)
     end
 end
