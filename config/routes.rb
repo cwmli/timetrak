@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     delete 'logout'  => 'sessions#destroy'
 
     get '/events/refresh/' => 'events#refresh'
+    get '/events/show/:id' => 'events#show'
     delete '/events/delete/:id' => 'events#delete'
 
     get '/seasons/details/:id' => 'seasons#details'

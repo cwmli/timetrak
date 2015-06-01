@@ -51,6 +51,14 @@ class EventsController < ApplicationController
     Event.find(params[:id]).destroy
   end
 
+  def show
+    @event = Event.find(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def refresh
     @old_venue_name = params[:old_venue_name]
     @new_venue_name = params[:new_venue_name]

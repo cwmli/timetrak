@@ -1,4 +1,4 @@
-$("#single_event").load(location.href + " #se-container", function(){$("#sgen").fadeIn();});
+$("#single_event").load(location.href + " #se-container");
 $("#events-rblock").html(" \
 <h3><% if @team %><%= @team.name.upcase %><% else %>ALL<% end %> UPCOMING EVENTS:</h3> \
 <% if @events.any? %> \
@@ -48,11 +48,11 @@ $("<%= escape_javascript(calendar(@date) do |date|%>
   <% if @events_by_date[date] %>
     <% @events_by_date[date].each do |e| %>
       <% if e.startdate < Date.today %>
-      <div class='event-item-passed'>
+      <div class='event-item-passed' id=<%= e.id %> >
         <%= e.team1 %> vs. <%= e.team2 %>
       </div>
       <% else %>
-      <div class='event-item'>
+      <div class='event-item' id=<%= e.id %> >
         <%= e.team1 %> vs. <%= e.team2 %>
       </div>
       <% end %>

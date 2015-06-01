@@ -90,7 +90,8 @@ $(document).ready(function(){
   })
 
   //all events info popup
-  $(document).on("click", "[id=event-item], [id=event-item-passed]", function() {
+  $(document).on("click", "[class=event-item], [class=event-item-passed]", function() {
+    alert("Event pressed.");
     /*$.ajax({
         url: "path to event_controller/show(this.id)"
         type: <GET>/<POST>
@@ -107,6 +108,7 @@ $(document).ready(function(){
         retrieveAllEvents(s_date);
       }else{
         retrieveEvent(sessionStorage["filter"], s_date);
+        $("#sgen").fadeIn();
       }
     }else{
       $("#gen").fadeOut();

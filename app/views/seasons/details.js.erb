@@ -5,8 +5,8 @@ $("#reloadnewven").empty().append(" \
     <div id='float-form-table'> \
     <%= j form_tag([@account, @season_nfo, @season_nfo.venues.build], remote: true) %> \
     <p> \
-      <%= j text_field_tag 'venue[name]', placeholder: 'Add a name', id: 'float-form-input', class: 'full-form' %> \
-      <%= j text_field_tag 'venue[location]', placeholder: 'Add an address', id: 'float-form-input', class: 'full-form' %> \
+      <%= j text_field_tag 'venue[name]', nil, placeholder: 'Add a name', id: 'float-form-input', class: 'full-form' %> \
+      <%= j text_field_tag 'venue[location]', nil, placeholder: 'Add an address', id: 'float-form-input', class: 'full-form' %> \
       <%= j submit_tag 'Add Venue', class: 'submit-button' %> \
     </p> \
     </div> \
