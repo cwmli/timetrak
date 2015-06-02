@@ -47,18 +47,19 @@ function retrieveEvent(team, date){
   });
 }
 
-function updateEventAttributes(season, oldvenue, newvenue, oldteam, newteam){
-  if(oldteam == 'nil'){ //update event records for new venue data
-    $.ajax({
-      url: '/events/refresh/',
-      data: {  season_name: season, old_venue_name: oldvenue, new_venue_name: newvenue},
-      type: 'GET'
-    });
-  }else{ //update event records for new team data
-    $.ajax({
-      url: '/events/refresh/',
-      data: {  season_name: season, old_team_name: oldteam, new_team_name: newteam},
-      type: 'GET'
-    });
-  }
+function updateEventVenues(season, oldvenue, newvenue){
+  //update event records for new venue data
+  $.ajax({
+    url: '/events/refresh/',
+    data: {  season_name: season, old_venue_name: oldvenue, new_venue_name: newvenue},
+    type: 'GET'
+  });
+}
+
+function updateEventTeams(season, oldteam, newteam){
+  $.ajax({
+    url: '/events/refresh/',
+    data: {  season_name: season, old_team_name: oldteam, new_team_name: newteam},
+    type: 'GET'
+  });
 }

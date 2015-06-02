@@ -56,6 +56,27 @@
   font-size: 16px;
 }
 
+.popup{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -15%;
+  margin-left: -20%;
+  z-index: 100;
+
+  background: white;
+  border-radius: 20px;
+  border: solid 1px #E8E8E8;
+  box-shadow: 10px 10px 10px #E8E8E8;
+
+  text-align: left;
+
+  min-width: 250px;
+  padding: 30px;
+
+  font-size: 18px;
+}
+
 #text-area{
   border-style: none;
   border-width: thin;

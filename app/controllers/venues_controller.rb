@@ -8,6 +8,7 @@ class VenuesController < ApplicationController
 
     respond_to do |format|
       if @venue.save
+        @success = true
         format.js
       else
         format.js

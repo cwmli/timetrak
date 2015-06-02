@@ -22,7 +22,21 @@ class EventsController < ApplicationController
 
   def update
     @event = current_account.events.find(params[:id])
+    @event_affected = Event.where(team1: @event.team1).where(team2: @event.team2).where(startdate: @event.startdate).where(starttime: @event.starttime)
+
     if @event.update_attributes(event_params)
+      #get the new data and apply to related event
+      @team1 = @event.team1
+      @team2 =  @event.team2
+      @estime = @event.starttime
+      @esdate = @event.startdate
+      @eetime = @event.endtime
+      @eedate = @event.enddate
+
+      @event_affected.each do |t|
+        t.update(team1: @team1, team2: @team2, starttime: @estime, startdate: @esdate, endtime: @eetime, enddate: @eedate)
+      end
+
       flash[:success] = 'Updated event.'
       redirect_to calendar_path
     else
@@ -35,10 +49,12 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @eteam1 = @event.team1
     @eteam2 = @event.team2
+    @esdate = @event.startdate
+    @estime = @event.starttime
 
     #@event.destroy
     current_account.teams.each do |t|
-      @tev = t.events.where(team1: @eteam1).where(team2: @eteam2)
+      @tev = t.events.where(team1: @eteam1).where(team2: @eteam2).where(startdate: @esdate).where(starttime: @estime)
       @tev.each do |e|
         e.destroy
       end

@@ -1,0 +1,32 @@
+$('body').prepend(" \
+<div class='popup'> \
+<div class='close-block' id='close-popup'>X</div> \
+<%= escape_javascript form_tag(account_team_event_path(current_account,@event.team_id, @event), method: :put) %> \
+<div id='<%= @event.team1 %>'> \
+  <h3><span class='editable lineinput' id='team1'><%= @event.team1 %></span> VS. <span class='editable lineinput' id='team2'><%= @event.team2 %></span></h3> \
+  <p><%= escape_javascript image_tag 'clock.png', size:'16x16' %> \
+  <span class='editable dinput' id='startdate'><%= @event.startdate.strftime('%B %e, %Y') %></span> \
+  <span class='editable tinput' id='starttime'><%= @event.starttime.strftime('%l:%M %p') %></span> TO: \
+  <span class='editable dinput' id='enddate'><%= @event.enddate.strftime('%b %e, %Y') %></span> \
+  <span class='editable tinput' id='endtime'><%= @event.endtime.strftime('%l:%M %p') %></span> \
+  <span class='new-block' id='edit-event' title='Press to edit'><%= escape_javascript image_tag 'edit.png', size:'16x16' %></span> \
+  <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), '/events/delete/'+@event.id.to_s, method: :delete, class: 'new-block', data: {confirm: 'Confirm deletion of: '+@event.team1+' vs. '+@event.team2+'?'}) %> \
+  <br></p> \
+  <% if @event.notify %> \
+    <%= escape_javascript image_tag 'alarm.png', size:'16x16' %> \
+      <span class='editable dinput' id='notifydate'><%= @event.notifydate.strftime('%B %e, %Y') %></span> \
+      <span class='editable dinput' id='notifytime'><%= @event.notifytime.strftime('%l:%M %p') %></span><br> \
+  <% else %> \
+      <%= escape_javascript image_tag 'alarm.png', size:'16x16' %> Notifications are currently unavailable.<br> \
+  <% end %> \
+  <% if !@event.location.length.nil? %> \
+      <%= escape_javascript image_tag 'location.png', size:'16x16' %> <span class='editable lineinput' id='location'><%= @event.location %></span><br> \
+  <% else %> \
+      <%= escape_javascript image_tag 'location.png', size:'16x16' %> <span class='editable lineinput' id='location'>Add a location</span><br> \
+  <% end %> \
+  <% if !@event.description.blank? %> \
+      <%= escape_javascript image_tag 'note.png', size:'16x16' %> <span class='editable blobinput' id='description'><%= @event.description %></span> \
+  <% else %> \
+      <%= escape_javascript image_tag 'note.png', size:'16x16' %> <span class='editable blobinput' id='description'>Add a description</span> \
+  <% end %></p></div>\
+</div>")

@@ -1,7 +1,22 @@
 $("#team-info").empty().fadeIn();
 //team title and tool bar
 $("#team-info").append("<form action='/accounts/test/teams/<%= @slug %>' accept-charset='UTF-8' data-remote='true' method='put'><h2><span id='name' class='editable'><%= @name %></span><div class='shapeable-block' id='edit-team'>EDIT</div><%= escape_javascript link_to( 'DELETE', [@account, @team], method: :delete, remote:true,  class: 'shapeable-cblock') %></h2><p class='editable' id='description'><%= @desc %></p></form>");
-$("#team-info").append("<h3>In seasons:</h3>");
+$("#team-info").append("<h3>Team Members:</h3> \
+<% if @members.blank? %> \
+  <p>No team members.</p><div \
+<% else %> \
+  <table style='width:100%;'> \
+  <tr><th class='a-left'>Contact</th><th class='a-right'>Email</th></tr> \
+  <% @members.each do |m| %> \
+    <%= content_tag :tr do %> \
+      <%= j content_tag :td, m.name, class: 'wide-cell' %> \
+      <%= j content_tag :td, m.email, class: 'wide-cell a-right' %> \
+      <%= j content_tag :td, link_to(image_tag('trash.png', size:'16x16'), new_account_team_member_path(@account, @team, m.id), class: 'shapeable-cblock', method: :delete), class: 'wide-cell a-right' %> \
+    <% end %> \
+  <% end %> \
+  </table> \
+<% end %>");
+$("#team-info").append("<h3>Participating in Season:</h3>");
 var check = "<%= @season %>";
 if (check == "Not in any season."){
   $("#team-info").append("<p>"+check+"</p>");

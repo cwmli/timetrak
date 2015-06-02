@@ -56,6 +56,7 @@ class TeamsController < ApplicationController
   def details
     @account = current_account
     @team = Team.find_by(name: params[:team_name])
+    @members = Member.where(team_id: @team.id)
     @name = @team.name
     @slug = @team.slug
     @desc = @team.description

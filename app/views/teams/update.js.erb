@@ -6,4 +6,4 @@ retrieveSeasonTeams(selection)
 //reload available teams
 $("#static-teamslist").load(location.href + " #infob");
 $("#team-main").load(location.href + " #team-info");
-updateEventAttributes(selection, 'nil', 'nil', "<%= @old_team_name %>", "<%= @team.name %>")
+updateEventTeams(selection, "<%= @old_team_name %>", "<%= @team.name %>")

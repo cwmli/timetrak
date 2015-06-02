@@ -14,6 +14,10 @@ $(document).ready(function(){
     $("#mask").fadeIn();
   })
 
+  $(document).off("click", "#close-popup").on("click", "#close-popup", function(){
+    console.log($(this).parent().fadeOut('normal', function(){$(this).remove()}));
+  });
+
   //generation form
   $("#cancel-gen").off("click").on("click", function(){
     $("#new-gen").fadeOut();
@@ -90,12 +94,12 @@ $(document).ready(function(){
   })
 
   //all events info popup
+  $(document).off("click", "[class=event-item], [class=event-item-passed]");
   $(document).on("click", "[class=event-item], [class=event-item-passed]", function() {
-    alert("Event pressed.");
-    /*$.ajax({
-        url: "path to event_controller/show(this.id)"
-        type: <GET>/<POST>
-    });*/
+    $.ajax({
+        url: "/events/show/"+$(this).attr("id"),
+        type: "GET"
+    });
   })
 
   function checkRetrieval(){

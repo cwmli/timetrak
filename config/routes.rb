@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       end
       resources :teams do
         resources :events
+        resources :members
       end
     end
 
