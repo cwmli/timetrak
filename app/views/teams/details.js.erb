@@ -1,8 +1,14 @@
 $("#team-info").empty().fadeIn();
 //member form
-$("#member-form").remove()//clear the previous site
-$("body").prepend("<div id='member-form'> \
-<%= j form_tag([@account, @team, @team.members.build], id: 'float-form-table') %>
+$("#member-form").remove();//clear the previous site
+$("body").prepend("<div class='float-form' id='member-form'> \
+Add A Team Member: <div class='close-block' id='cancel'>X</div> \
+<%= j form_tag([@account, @team, @team.members.build], remote: true, id: 'float-form-table') %>  \
+<%= j hidden_field_tag('member[team_id]', @team.id) %> \
+<%= j text_field_tag('member[name]', nil, placeholder: 'Full name', id: 'float-form-input', class:'full-form' ) %> \
+<%= j email_field_tag('member[email]', nil, placeholder: 'Email', id: 'float-form-input' ,class:'full-form' )  %>\
+<%= j submit_tag 'Add member', class: 'submit-button' %> \
+</form> \
 </div>");
 //team title and tool bar
 $("#team-info").append("<form action='/accounts/test/teams/<%= @slug %>' accept-charset='UTF-8' data-remote='true' method='put'><h2><span id='name' class='editable'><%= @name %></span><div class='shapeable-block' id='edit-team'>EDIT</div><%= escape_javascript link_to( 'DELETE', [@account, @team], method: :delete, remote:true,  class: 'shapeable-cblock') %></h2><p class='editable' id='description'><%= @desc %></p></form>");

@@ -1,0 +1,6 @@
+$('body').prepend(" \
+<% if @success != 'false'%> \
+<%= content_tag(:div, 'Error: Please make sure name and email is present.', id: 'error' %>
+<% else %> \
+<%= content_tag(:div, 'Member Added.', id: 'success' %>
+<% end %>");

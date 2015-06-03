@@ -10,7 +10,14 @@ $(document).ready(function(){
       $("#new-team-form").fadeOut();
       $("#new-venue-form").fadeOut();
       $("#new-upload-form").fadeOut();
+      $("#member-form").fadeOut();
       $("#mask").fadeOut();
+    });
+
+    $(document).off("click", "#new-member");
+    $(document).on("click", "#new-member", function(){
+      $("#member-form").fadeIn();
+      $("#mask").fadeIn();
     });
 
     $("#new-season").off("click").on("click", function(){
