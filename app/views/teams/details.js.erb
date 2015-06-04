@@ -20,9 +20,10 @@ $("#team-info").append("<h3>Team Members: <span class='shapeable-block' id='new-
   <tr><th class='a-left'>Contact</th><th class='a-right'>Email</th></tr> \
   <% @members.each do |m| %> \
     <%= content_tag :tr do %> \
-      <%= j content_tag :td, m.name, class: 'wide-cell' %> \
-      <%= j content_tag :td, m.email, class: 'wide-cell a-right' %> \
-      <%= j content_tag :td, link_to(image_tag('trash.png', size:'16x16'), account_team_member_path(@account, @team, m.id), class: 'shapeable-cblock', method: :delete), class: 'wide-cell a-right' %> \
+      <%= j content_tag :td, m.name, id: 'name_'+m.id.to_s, class: 'wide-cell editable' %> \
+      <%= j content_tag :td, m.email, id: 'email_'+m.id.to_s, class: 'wide-cell a-right ' %> \
+      <%= j content_tag :td, content_tag(:div, 'EDIT', id: m.id, class:'shapeable-block member-edit'), class: 'wide-cell a-right' %> \
+      <%= j content_tag :td, link_to(image_tag('trash.png', size:'16x16'), account_team_member_path(@account, @team, m.id), class: 'shapeable-cblock', method: :delete, remote: true), class: 'wide-cell a-right' %> \
     <% end %> \
   <% end %> \
   </table> \
