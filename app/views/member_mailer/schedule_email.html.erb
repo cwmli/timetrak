@@ -12,13 +12,14 @@
           <span><%= e.startdate.strftime('%B %e, %Y') %></span>
           <span><%= e.starttime.strftime('%l:%M %p') %></span> TO:
           <span><%= e.enddate.strftime('%b %e, %Y') %></span>
-          <span><%= e.endtime.strftime('%l:%M %p') %></span>
+          <span><%= e.endtime.strftime('%l:%M %p') %></span><br>
+          AT:<span><%= e.location %></span>
           <hr>
         </div>
       <% end %>
     </p>
     <p>
-      You can view your calendar schedule online at: <%= @url %>.
+      You can view your calendar schedule online at: <a href=<%= @url %>>timetrak.herokuapp.com</a>.
     </p>
   </body>
 </html>

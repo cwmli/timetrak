@@ -4,6 +4,7 @@ Your schedule for the <%= @season_name %> Season:
     <%= e.team1 %> VS. <%= e.team2 %>
     FROM: <%= e.startdate.strftime('%B %e, %Y') %><%= e.starttime.strftime('%l:%M %p') %>
     TO: <%= e.enddate.strftime('%b %e, %Y') %> <%= e.endtime.strftime('%l:%M %p') %>
+    AT: <%= e.location %>
 <% end %>
 
 You can view your calendar schedule online at: <%= @url %>.
