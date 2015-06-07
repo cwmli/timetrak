@@ -13,7 +13,7 @@ class CalendarController < ApplicationController
   end
 
   def view
-    @team = Team.find_by(name: Base64.decode(params[:team_name]))
+    @team = Team.find_by(name: Base64.decode64(params[:team_name]))
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @events_by_date = @team.events.group_by(&:startdate)
 
@@ -26,6 +26,16 @@ class CalendarController < ApplicationController
     date_range = Date.today..Date.today+2.weeks
     @events = @team.events.where(startdate: date_range)
     @events = @events.sort_by { |h| h[:starttime]}
+  end
+
+  def mail
+    Team.where(season_id: @@season).each do |team|
+      MemberMailer.schedule_email(team).deliver
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def generate

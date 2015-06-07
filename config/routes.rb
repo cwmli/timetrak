@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     delete '/teams/delete/:id' => 'teams#delete'
 
     get '/calendar/view/' => 'calendar#view' #for readonly view
+    get '/calendar/mail/' => 'calendar#mail' #for member mailer
     get '/calendar/all/' => 'calendar#all'
     get '/calendar/retrieve/' => 'calendar#retrieve'
     get '/calendar/generate/' => 'calendar#generate'

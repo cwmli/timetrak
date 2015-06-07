@@ -50,6 +50,7 @@
 					<%= collection_select(current_account, :seasons_id, @teams_in_season, :id, :name, {prompt: "Filter...", include_blank: "All"}, {class: "large-selector", id: "s-team"}) %>
 					<span class='shapeable-block' id='sgen' style="display:none;">+</span>
 					<span class='shapeable-block' id='gen' style="display:none;">GENERATE</span>
+					<span class='shapeable-block' id='mail' title='Mail all team members the season schedule.'">SEND</span>
 					<div id="events-rblock">
 					</div>
 				</div>

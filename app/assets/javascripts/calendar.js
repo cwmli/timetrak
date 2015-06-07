@@ -4,6 +4,10 @@ $(document).ready(function(){
   if (sessionStorage["filter"]){
     checkRetrieval();
   };
+
+  $(document).off("click", "#mail").on("click", "#mail", function(){
+    $.ajax({ url: '/calendar/mail/' });
+  });
   //single event creation form
   $(document).off("click", "#cancel-sgen").on("click", "#cancel-sgen", function(){
     $("#new-sgen").fadeOut();
