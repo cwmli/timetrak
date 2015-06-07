@@ -14,6 +14,23 @@ class MembersController < ApplicationController
     end
   end
 
+  def edit
+    @member = Member.find(params[:id])
+  end
+
+  def update
+    @member = Member.find(params[:id])
+    @team_name = Team.find(@member.team_id).name
+
+    respond_to do |format|
+      if @member.update_attributes(member_params)
+        format.js
+      else
+        redirect_to :back, flash: { error: "Error: unable to update member."}
+      end
+    end
+  end
+
   def destroy
     @member = Member.find(params[:id])
     @team = Team.find_by(id: @member.team_id).name

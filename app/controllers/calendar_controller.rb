@@ -12,6 +12,22 @@ class CalendarController < ApplicationController
     @teams_in_season = Team.where(season_id: @@season)
   end
 
+  def view
+    @team = Team.find_by(name: Base64.decode(params[:team_name]))
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @events_by_date = @team.events.group_by(&:startdate)
+
+    @events_by_date.each do |date, events_on_date_hash| #array of events on that date
+      if events_on_date_hash.length > 1 #sort only if there are more than 2 events
+        @events_by_date[date] = events_on_date_hash.sort_by { |h| h[:starttime] }
+      end
+    end
+
+    date_range = Date.today..Date.today+2.weeks
+    @events = @team.events.where(startdate: date_range)
+    @events = @events.sort_by { |h| h[:starttime]}
+  end
+
   def generate
     @teams_in_season = Team.where(season_id: @@season).in_groups(2) #split into two equal arrays
     @venues = current_season.venues

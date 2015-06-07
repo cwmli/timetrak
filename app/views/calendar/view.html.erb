@@ -1,0 +1,66 @@
+<body>
+  <%= render 'layouts/header' %>
+  <div class="maincontainer">
+    <div class="subcontainer">
+      <div class="month" id="<%= @date %>">
+        <%= link_to calendar_view_path(team_name: @team.name, date: @date - 1.month), class: "calendar_selector" do %>«<% end %>
+        <%= "#{@date.strftime("%B")} #{@date.year}"%>
+        <%= link_to calendar_view_path(team_name: @team.name, date: @date + 1.month), class: "calendar_selector" do %>»<% end %>
+      </div>
+      <%= calendar(@date) do |date|%>
+        <div class="calendar-event-wrapper">
+          <%= date.day %>
+            <% if @events_by_date[date] %>
+								<% @events_by_date[date].each do |e| %>
+									<% if e.startdate < Date.today %>
+									<div id=<%= e.id %> class="event-item-passed">
+										<%= e.team1 %> vs. <%= e.team2 %>
+									</div>
+									<% else %>
+									<div id=<%= e.id %> class="event-item">
+                    <%= e.team1 %> vs. <%= e.team2 %>
+									</div>
+									<% end %>
+								<% end %>
+					  <% end %>
+        </div>
+      <% end %>
+      <div class="events_block">
+        <h2>UPCOMING EVENTS:</h2>
+							<% if @events.any? #the user has events%>
+								<% @events.each do |e| %>
+								<div>
+									<div id="<%= e.team1.delete(' ')+"_block" %>">
+									<div class="sinfo-block" id="<%= e.team1 %>">
+										<h3><%= e.team1 %> VS. <%= e.team2 %></h3>
+										<p><%= image_tag "clock.png", size:"16x16" %>
+										<span><%= e.startdate.strftime('%B %e, %Y') %></span>
+										<span><%= e.starttime.strftime('%l:%M %p') %></span> TO:
+										<span><%= e.enddate.strftime('%b %e, %Y') %></span>
+										<span><%= e.endtime.strftime('%l:%M %p') %></span>
+                    <span class="new-block" id="expand-info">...</span>
+						        <br></p>
+									</div>
+									<div class="linfo-block" id="<%= e.team1+"_expanded" %>">
+										<p>
+											<% if e.location.length != 0 %>
+												<%= image_tag "location.png", size:"16x16" %> <span><%= e.location %></span><br>
+											<% end %>
+											<% if !e.description.nil? %>
+												<%= image_tag "note.png", size:"16x16" %> <span><%= e.description %></span>
+											<% else %>
+												<%= image_tag "note.png", size:"16x16" %> <span>No description</span>
+											<% end %>
+									  </p>
+									</div>
+									<hr>
+								</div>
+								</div>
+								<% end %>
+							<% else %>
+									You have no upcoming events.
+							<% end %>
+      </div>
+    </div>
+  </div>
+</body>

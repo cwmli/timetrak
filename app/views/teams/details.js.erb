@@ -16,17 +16,18 @@ $("#team-info").append("<h3>Team Members: <span class='shapeable-block' id='new-
 <% if @members.blank? %> \
   <p>No team members.</p><div \
 <% else %> \
-  <table style='width:100%;'> \
-  <tr><th class='a-left'>Contact</th><th class='a-right'>Email</th></tr> \
+  <div class='display:table;width:100%;'> \
   <% @members.each do |m| %> \
-    <%= content_tag :tr do %> \
-      <%= j content_tag :td, m.name, id: 'name_'+m.id.to_s, class: 'wide-cell editable' %> \
-      <%= j content_tag :td, m.email, id: 'email_'+m.id.to_s, class: 'wide-cell a-right ' %> \
-      <%= j content_tag :td, content_tag(:div, 'EDIT', id: m.id, class:'shapeable-block member-edit'), class: 'wide-cell a-right' %> \
-      <%= j content_tag :td, link_to(image_tag('trash.png', size:'16x16'), account_team_member_path(@account, @team, m.id), class: 'shapeable-cblock', method: :delete, remote: true), class: 'wide-cell a-right' %> \
-    <% end %> \
+    <%= j form_tag([@account, @team, m], remote: true, method: :put) %> \
+    <div class='calendar-row' style='width:100%;' id=<%= m.id %>> \
+      <%= j content_tag :div, m.name, id: 'name_'+m.id.to_s, class: 'wide-cell', style:'display:table-cell;' %> \
+      <%= j content_tag :div, m.email, id: 'email_'+m.id.to_s, class: 'wide-cell a-right', style:'display:table-cell;' %> \
+      <%= j content_tag :div, content_tag(:div, 'EDIT', id: 'edit'+m.id.to_s, class:'shapeable-block member-edit'), class: 'wide-cell a-right', style:'display:table-cell;' %> \
+      <%= j content_tag :div, link_to(image_tag('trash.png', size:'16x16', id: 'del'+m.id.to_s), account_team_member_path(@account, @team, m.id), class: 'shapeable-cblock', method: :delete, remote: true), class: 'wide-cell a-right', style:'display:table-cell;' %> \
+    </div> \
+    </form> \
   <% end %> \
-  </table> \
+  </div> \
 <% end %>");
 $("#team-info").append("<h3>Participating in Season:</h3>");
 var check = "<%= @season %>";

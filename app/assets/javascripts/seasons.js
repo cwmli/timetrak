@@ -37,6 +37,22 @@ $(document).ready(function(){
       $("#mask").fadeIn();
     })
 
+    $(document).off('click', '[class*=member-edit]')
+    $(document).on('click', '[class*=member-edit]', function(){
+      var id = $(this).attr("id").match(/\d+/);
+      var cname = $("#name_"+id).text();
+      var cemail = $("#email_"+id).text();
+      $("#name_"+id).html("<input id='member[name]' name='member[name]' type='text' value='"+cname+"'/>");
+      $("#email_"+id).html("<input id='member[email]' name='member[email]' type='text' value='"+cemail+"'/>");
+      var memberedits = $('[class*=member-edit]');
+      $(this).parent().html("<div id='"+id+"' class='shapeable-block member-cancel'>CANCEL</div> \
+      <input type='submit' name='commit' value='SAVE' class='shapeable-block' style='float:right;'>");
+    });
+    $(document).off('click', '[class*=member-cancel]')
+    $(document).on('click', '[class*=member-cancel]', function(){
+      retrieveTeamInfo(targetname);
+    });
+
     $(document).off('click', '#edit-team');
     $(document).on("click", "#edit-team", function(){
       if (editOn == 0){
@@ -71,7 +87,7 @@ $(document).ready(function(){
       }
     })
 
-    //button switcher for season deletion
+    //button switchers
     $("#new-season").off('mouseenter').on('mouseenter', function(){
       if ($("#del-season").length){
         seasondelay = setTimeout(function(){

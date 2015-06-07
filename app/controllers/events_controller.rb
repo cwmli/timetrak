@@ -71,7 +71,11 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
 
     respond_to do |format|
-      format.js
+      if !current_account.nil?
+        format.js
+      else
+        format.js { render action: "view" }
+      end
     end
   end
 

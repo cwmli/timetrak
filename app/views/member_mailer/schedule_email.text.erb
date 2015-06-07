@@ -1,0 +1,9 @@
+Your schedule for the <%= @season_name %> Season:
+
+<% @events.each do |e| %>
+    <%= e.team1 %> VS. <%= e.team2 %>
+    FROM: <%= e.startdate.strftime('%B %e, %Y') %><%= e.starttime.strftime('%l:%M %p') %>
+    TO: <%= e.enddate.strftime('%b %e, %Y') %> <%= e.endtime.strftime('%l:%M %p') %>
+<% end %>
+
+You can view your calendar schedule online at: <%= @url %>.

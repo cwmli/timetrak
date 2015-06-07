@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get '/teams/details/' => 'teams#details'
     delete '/teams/delete/:id' => 'teams#delete'
 
+    get '/calendar/view/' => 'calendar#view' #for readonly view
     get '/calendar/all/' => 'calendar#all'
     get '/calendar/retrieve/' => 'calendar#retrieve'
     get '/calendar/generate/' => 'calendar#generate'
