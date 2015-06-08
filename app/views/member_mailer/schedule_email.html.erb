@@ -1,1 +1,17 @@
-hello
+<h1>Your schedule for the <%= @season_name %> Season:</h1>
+  <p>
+    <% @events.each do |e| %>
+      <div>
+        <h3><span class='editable lineinput' id='team1'><%= e.team1 %></span> VS. <span class='editable lineinput' id='team2'><%= e.team2 %></span></h3>
+        <span><%= e.startdate.strftime('%B %e, %Y') %></span>
+        <span><%= e.starttime.strftime('%l:%M %p') %></span> TO:
+        <span><%= e.enddate.strftime('%b %e, %Y') %></span>
+        <span><%= e.endtime.strftime('%l:%M %p') %></span><br>
+        AT:<span><%= e.location %></span>
+        <hr>
+      </div>
+    <% end %>
+  </p>
+  <p>
+    You can view your calendar schedule online at: <a href=<%= @url %>>timetrak.herokuapp.com</a>.
+  </p>

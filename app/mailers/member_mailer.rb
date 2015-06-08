@@ -8,7 +8,10 @@ class MemberMailer < ApplicationMailer
     @url = 'timetrak.herokuapp.com/calendar/view?team_name='+Base64.encode64(@team_name)
 
     @members.each do |m|
-      mail(to: m.email, subject: @team_name+" Schedule for the "+@season_name+" Season")
+      mail(to: m.email, subject: @team_name+" Schedule for the "+@season_name+" Season") do |format|
+        format.html
+        format.text
+      end
     end
   end
 
