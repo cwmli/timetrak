@@ -4,8 +4,6 @@
 #season-main{
   display: inline-block;
   vertical-align: top;
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
 
   background: white;
 
@@ -14,7 +12,7 @@
   padding: 12px;
 
   width: calc(50% - 26px);
-  height: 100%;
+  height: calc(100% - 26px);
 }
 
 #season-select{
@@ -42,8 +40,6 @@
 #team-main{
   display: inline-block;
   vertical-align: top;
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
 
   background: white;
 
@@ -52,7 +48,7 @@
   padding: 12px;
 
   width: calc(50% - 26px);
-  height: 100%;
+  height: calc(100% - 26px);
 }
 
 #team-info{

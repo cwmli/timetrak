@@ -1,9 +1,7 @@
 <body id="landing">
 		<%= render 'layouts/header' %>
 		<%= render 'layouts/flash_msgs' %>
-		<div class="maincontainer">
 			<div class="subcontainer">
-				<div class="center_wrapper">
 					<%= content_tag :div, class: 'float-container' do %>
 	        <%= form_for(:session, url: login_path) do |f| %>
 	          <%= f.text_field :username, placeholder: 'Username' %><br>
@@ -18,8 +16,6 @@
 	        <% end %>
 	        Need an account? <%= link_to "Register now!", new_account_path %>
 					<% end %>
-				</div>
 			</div>
-		</div>
 </body>
 <%= yield -%>

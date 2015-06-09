@@ -4,9 +4,9 @@
     <%= link_to calendar_path do %>
       <%= image_tag 'timetraklogo.png', class: 'menutitle' %>
     <% end %>
-    <%= link_to "LOGOUT", logout_path, class: "menuitem", method: :delete %>
-    <%= link_to @current_account.username.upcase ,account_path(current_account), class: "menuitem" %>
-    <%= link_to "MANAGE", account_seasons_path(current_account), class: "menuitem" %>
+    <%= link_to "LOGOUT", logout_path, class: "menu menuitem", method: :delete %>
+    <%= link_to @current_account.username.upcase ,account_path(current_account), class: "menu menuitem" %>
+    <%= link_to "MANAGE", account_seasons_path(current_account), class: "menu menuitem" %>
   <% else %>
     <%= link_to welcome_path do %>
       <%= image_tag 'timetraklogo.png', class: 'menutitle' %>
