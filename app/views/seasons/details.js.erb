@@ -1,13 +1,13 @@
 $("#reloadnewven").empty().append(" \
   <div class='float-form' id='new-venue-form'> \
-    <div class='close-block' id='cancel'>X</div> \
+    <div class='button-block danger-block' id='cancel'>X</div> \
     Add a venue: \
     <div id='float-form-table'> \
     <%= j form_tag([@account, @season_nfo, @season_nfo.venues.build], remote: true) %> \
     <p> \
       <%= j text_field_tag 'venue[name]', nil, placeholder: 'Add a name', id: 'float-form-input', class: 'full-form' %> \
       <%= j text_field_tag 'venue[location]', nil, placeholder: 'Add an address', id: 'float-form-input', class: 'full-form' %> \
-      <%= j submit_tag 'Add Venue', class: 'submit-button' %> \
+      <%= j submit_tag 'Add Venue', class: 'standard-button submit-button' %> \
     </p> \
     </div> \
   </div>");
@@ -17,7 +17,7 @@ $("#season-info").prepend(" \
 <h2>Teams in Season:</h2> \
 <% if !@team_names.blank? %> \
   <% @team_names.each do |t| %> \
-    <div id='team-button' class='info-button'><%= t %></div> \
+    <div id='team-button' class='button-main info-button'><%= t %></div> \
   <% end %> \
 <% else %> \
   <p>No teams.</p> \

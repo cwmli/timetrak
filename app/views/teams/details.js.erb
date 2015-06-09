@@ -2,17 +2,17 @@ $("#team-info").empty().fadeIn();
 //member form
 $("#member-form").remove();//clear the previous site
 $("body").prepend("<div class='float-form' id='member-form'> \
-Add A Team Member: <div class='close-block' id='cancel'>X</div> \
+Add A Team Member: <div class='button-block danger-block' id='cancel'>X</div> \
 <%= j form_tag([@account, @team, @team.members.build], remote: true, id: 'float-form-table') %>  \
 <%= j hidden_field_tag('member[team_id]', @team.id) %> \
 <%= j text_field_tag('member[name]', nil, placeholder: 'Full name', id: 'float-form-input', class:'full-form' ) %> \
 <%= j email_field_tag('member[email]', nil, placeholder: 'Email', id: 'float-form-input' ,class:'full-form' )  %>\
-<%= j submit_tag 'Add member', class: 'submit-button' %> \
+<%= j submit_tag 'Add member', class: 'button-main submit-button' %> \
 </form> \
 </div>");
 //team title and tool bar
-$("#team-info").append("<form action='/accounts/test/teams/<%= @slug %>' accept-charset='UTF-8' data-remote='true' method='put'><h2><span id='name' class='editable'><%= @name %></span><div class='shapeable-block' id='edit-team'>EDIT</div><%= escape_javascript link_to( 'DELETE', [@account, @team], method: :delete, remote:true,  class: 'shapeable-cblock') %></h2><p class='editable' id='description'><%= @desc %></p></form>");
-$("#team-info").append("<h3>Team Members: <span class='shapeable-block' id='new-member'>+MEMBER</span></h3> \
+$("#team-info").append("<form action='/accounts/test/teams/<%= @slug %>' accept-charset='UTF-8' data-remote='true' method='put'><h2><span id='name' class='editable'><%= @name %></span><div class='button-main standard-button' id='edit-team'>EDIT</div><%= escape_javascript link_to( 'DELETE', [@account, @team], method: :delete, remote:true,  class: 'button-main danger-button') %></h2><p class='editable' id='description'><%= @desc %></p></form>");
+$("#team-info").append("<h3>Team Members: <span class='button-main standard-button' id='new-member'>+MEMBER</span></h3> \
 <% if @members.blank? %> \
   <p>No team members.</p><div \
 <% else %> \
@@ -22,8 +22,8 @@ $("#team-info").append("<h3>Team Members: <span class='shapeable-block' id='new-
     <div class='calendar-row' style='width:100%;' id=<%= m.id %>> \
       <%= j content_tag :div, m.name, id: 'name_'+m.id.to_s, class: 'wide-cell', style:'display:table-cell;' %> \
       <%= j content_tag :div, m.email, id: 'email_'+m.id.to_s, class: 'wide-cell a-right', style:'display:table-cell;' %> \
-      <%= j content_tag :div, content_tag(:div, 'EDIT', id: 'edit'+m.id.to_s, class:'shapeable-block member-edit'), class: 'wide-cell a-right', style:'display:table-cell;' %> \
-      <%= j content_tag :div, link_to(image_tag('trash.png', size:'16x16', id: 'del'+m.id.to_s), account_team_member_path(@account, @team, m.id), class: 'shapeable-cblock', method: :delete, remote: true), class: 'wide-cell a-right', style:'display:table-cell;' %> \
+      <%= j content_tag :div, content_tag(:div, 'EDIT', id: 'edit'+m.id.to_s, class:'button-main standard-button member-edit'), class: 'wide-cell a-right', style:'display:table-cell;' %> \
+      <%= j content_tag :div, link_to(image_tag('trash.png', size:'16x16', id: 'del'+m.id.to_s), account_team_member_path(@account, @team, m.id), class: 'button-main danger-button', method: :delete, remote: true), class: 'wide-cell a-right', style:'display:table-cell;' %> \
     </div> \
     </form> \
   <% end %> \
@@ -34,5 +34,5 @@ var check = "<%= @season %>";
 if (check == "Not in any season."){
   $("#team-info").append("<p>"+check+"</p>");
 }else{
-  $("#team-info").append("<%= escape_javascript form_tag([@account, @team], remote: true, method: :put)%><%= escape_javascript hidden_field_tag('team[season_id]','null') %><%= escape_javascript submit_tag(@season, class:'shapeable-block', style:'float:left;') %>");
+  $("#team-info").append("<%= escape_javascript form_tag([@account, @team], remote: true, method: :put)%><%= escape_javascript hidden_field_tag('team[season_id]','null') %><%= escape_javascript submit_tag(@season, class:'button-main info-button', style:'float:left;') %>");
 }

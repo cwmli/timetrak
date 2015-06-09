@@ -2,17 +2,16 @@
 		<%= render 'layouts/header' %>
 		<%= render 'layouts/flash_msgs' %>
 			<div class="subcontainer">
-					<%= content_tag :div, class: 'float-container' do %>
+					<%= content_tag :div, class: 'center float-container' do %>
 	        <%= form_for(:session, url: login_path) do |f| %>
-	          <%= f.text_field :username, placeholder: 'Username' %><br>
-	          <%= f.password_field :password, placeholder: 'Password' %><br>
+	          <%= f.text_field :username, placeholder: 'Username', id: 'float-form-input' %><br>
+	          <%= f.password_field :password, placeholder: 'Password', id: 'float-form-input' %><br>
 
 						<%= f.label :remember_me do %>
 							<%= f.check_box :remember_me %>
 							<span>Remember me</span>
 						<% end %>
-
-	          <%= f.submit "Login", class: 'submit-button' %>
+	          <%= f.submit "Login", class: 'button-main center submit-button' %>
 	        <% end %>
 	        Need an account? <%= link_to "Register now!", new_account_path %>
 					<% end %>

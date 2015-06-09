@@ -1,6 +1,6 @@
 $('body').prepend(" \
 <div class='popup'> \
-<div class='close-block' id='close-popup'>X</div> \
+<div class='button-block danger-block' id='close-popup'>X</div> \
 <div id='<%= @event.team1 %>'> \
   <h3><span><%= @event.team1 %></span> VS. <span><%= @event.team2 %></span></h3> \
   <p><%= escape_javascript image_tag 'clock.png', size:'16x16' %> \

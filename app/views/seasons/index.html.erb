@@ -4,7 +4,7 @@
   <%= render 'layouts/header' %>
 
   <div class="float-form" id="new-team-form">
-    <div class="close-block" id="cancel">
+    <div class="button-block danger-block" id="cancel">
       X
     </div>
     Create a Team:
@@ -13,7 +13,7 @@
     <p>
       <%= f.text_field :name, placeholder: "Enter team name", id: 'float-form-input', class: 'full-form' %>
       <%= f.text_area :description, placeholder: "Add a description", rows: 3, id: 'float-form-input', class: 'full-form no-resize' %>
-      <%= f.submit "Create Team", class: "submit-button" %>
+      <%= f.submit "Create Team", class: "button-main submit-button" %>
     </p>
     <% end %>
     </div>
@@ -25,7 +25,7 @@
   <div id="reloadnewupl">
     <% if !current_season.nil? %>
     <div class="float-form" id="new-upload-form">
-      <div class="close-block" id="cancel">
+      <div class="button-block danger-block" id="cancel">
         X
       </div>
       Upload a schedule or team:
@@ -34,7 +34,7 @@
       <p>
         <%= hidden_field_tag :season_title, current_season.title %>
         <%= file_field_tag :datafile, accept: 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', class: 'full-form' %>
-        <%= submit_tag "PROCESS", class: "submit-button" %>
+        <%= submit_tag "PROCESS", class: "button-main submit-button" %>
       </p>
       </div>
       <% end %>
@@ -43,7 +43,7 @@
   </div>
 
   <div class="float-form" id="new-season-form">
-    <div class="close-block" id="cancel">
+    <div class="button-block danger-block" id="cancel">
       X
     </div>
     Create a Season:
@@ -51,31 +51,31 @@
     <%= form_for [@current_account, @season] do |f| %>
     <p>
       <%= f.text_field :title, placeholder: "Add a title", id: 'float-form-input', class: 'full-form' %>
-      <%= f.submit "New Season", class: "submit-button" %>
+      <%= f.submit "New Season", class: "button-main submit-button" %>
     </p>
     </div>
     <% end %>
   </div>
-  <div class="parting-block"><h2 class="left-title">MANAGE</h2></div>
-  <div class="maincontainer">
+  <div class="parting-block"><h2 class="left-title">Manage</h2></div>
+  <div class="maincontainer d-lineh">
+    <div class="content">
       <div id="season-main">
         <div id="season-select">
           <%= collection_select(current_account, :seasons_id, @seasons, :id, :title, {include_blank: "Select a season"}, {class: "large-selector", id: "s-season"}) %>
-          <div class="shapeable-block" id="new-season">+SEASON</div>
+          <div class="button-main standard-button" id="new-season">+SEASON</div>
           <div id="reloaddel" style="display:inline">
             <% if !current_season.nil? %>
-              <%= link_to [@current_account, current_season], method: :delete, class: "shapeable-cblock", id: "del-season", style: "display:none;" do %>
+              <%= link_to [@current_account, current_season], method: :delete, class: "button-main danger-button", id: "del-season", style: "display:none;" do %>
                 DELETE SEASON
               <% end %>
             <% end %>
           </div>
-          <div class="shapeable-block" id="new-team">+TEAM</div>
-          <div class="shapeable-block" style="display: none;" id="new-venue">+VENUE</div>
-          <div class="shapeable-block" style="display: none;" id="new-upload">UPLOAD</div>
-          <%= link_to "CALENDAR", calendar_path, class: "shapeable-block", id: "calendar-view",style: "display: none;" %>
+          <div class="button-main standard-button" id="new-team">+TEAM</div>
+          <div class="button-main standard-button" style="display: none;" id="new-venue">+VENUE</div>
+          <div class="button-main standard-button" style="display: none;" id="new-upload">UPLOAD</div>
+          <%= link_to "CALENDAR", calendar_path, class: "button-main standard-button", id: "calendar-view",style: "display: none;" %>
         </div>
-        <div id="season-info">
-        </div>
+        <div id="season-info"></div><br>
         <div id="static-teamslist">
           <div id="infob">
             <h3>Available Teams:</h3>
@@ -87,21 +87,21 @@
                   <% if !current_season.teams.include?(t) #is not already in the season%>
                     <%= form_for [@current_account, t], remote: true do |f| %>
                       <%= f.hidden_field :season_id, value: current_season.id %>
-                      <%= f.submit t.name, id: 'team-button', class: "info-button", title: "Add to season" %>
+                      <%= f.submit t.name, id: 'team-button', class: "button-main info-button", title: "Add to season" %>
                     <% end %>
                   <% end %>
                 <% end %>
               <% end %>
             <% end %>
           </div>
-        </div>
+        </div><br>
         <div id="static-venueslist">
           <div id="infoc">
             <h3>Available Venues:</h3>
             <% if !current_season.nil? %>
               <% if current_season.venues.count > 1 %>
                 <% current_season.venues.each do |v| %>
-                    <%= content_tag(:div, v.name, id: 'venue-button',class: 'info-button') %>
+                    <%= content_tag(:div, v.name, id: 'venue-button',class: 'button-main info-button') %>
                 <% end %>
               <% else %>
                 <%= ("<p>No venues available.</p>").html_safe %>
@@ -113,5 +113,6 @@
         <div id="team-info">
         </div>
       </div>
+    </div>
   </div>
 </body>

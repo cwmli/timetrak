@@ -45,8 +45,8 @@ $(document).ready(function(){
       $("#name_"+id).html("<input id='member[name]' name='member[name]' type='text' value='"+cname+"'/>");
       $("#email_"+id).html("<input id='member[email]' name='member[email]' type='text' value='"+cemail+"'/>");
       var memberedits = $('[class*=member-edit]');
-      $(this).parent().html("<div id='"+id+"' class='shapeable-block member-cancel'>CANCEL</div> \
-      <input type='submit' name='commit' value='SAVE' class='shapeable-block' style='float:right;'>");
+      $(this).parent().html("<div id='"+id+"' class='button-main standard-button member-cancel'>CANCEL</div> \
+      <input type='submit' name='commit' value='SAVE' class='button-main standard-button''>");
     });
     $(document).off('click', '[class*=member-cancel]')
     $(document).on('click', '[class*=member-cancel]', function(){
@@ -63,7 +63,7 @@ $(document).ready(function(){
           var currentValue = $(val).html();
           $(val).html("<input type='text' id='team_season_id' value='"+currentValue+"' name=team["+$(val).attr("id")+"]>");
         });
-        $("<input type='submit' name='commit' value='SAVE' class='shapeable-block' style='float: right;'>").insertBefore($("#edit-team"));
+        $("<input type='submit' name='commit' value='SAVE' class='button-main standard-button' '>").insertBefore($("#edit-team"));
       }else{
         editOn = 0;
         retrieveTeamInfo(targetname);
@@ -80,7 +80,7 @@ $(document).ready(function(){
           var currentValue = $(val).html();
           $(val).html("<input type='text' id='team_season_id' value='"+currentValue+"' name=venue["+$(val).attr("id")+"]>");
         });
-        $("<input type='submit' name='commit' value='SAVE' class='shapeable-block' style='float: right;'>").insertBefore($("#edit-venue"));
+        $("<input type='submit' name='commit' value='SAVE' class='button-main standard-button' style='float: right;'>").insertBefore($("#edit-venue"));
       }else{
         editOn = 0;
         retrieveVenueInfo(targetname);

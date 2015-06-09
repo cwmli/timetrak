@@ -3,14 +3,13 @@
 			<%= render 'layouts/error_msgs' %>
 			<div class="subcontainer">
 				<div class="center_wrapper">
-					<%= content_tag :div, class: 'float-container' do %>
-				Create An Account:
+					<%= content_tag :div, class: 'center float-container' do %>
 					<%= form_for @account do |a| %>
-							<%= a.text_field :username, placeholder: 'username' %><br>
-							<%= a.password_field :password, placeholder: 'Password' %><br>
-							<%= a.password_field :password_confirmation, placeholder: 'Retype password' %><br>
-							<%= a.email_field :email, placeholder: 'example@example.com' %><br>
-		          <%= a.submit "Create Account", class: "submit-button" %>
+							<%= a.text_field :username, placeholder: 'username', id: 'float-form-input' %><br>
+							<%= a.password_field :password, placeholder: 'Password', id: 'float-form-input' %><br>
+							<%= a.password_field :password_confirmation, placeholder: 'Retype password', id: 'float-form-input' %><br>
+							<%= a.email_field :email, placeholder: 'example@example.com', id: 'float-form-input' %><br>
+		          <%= a.submit "Register", class: "button-main center submit-button" %>
 					<% end %>
 				<% end %>
 				</div>

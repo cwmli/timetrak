@@ -1,9 +1,9 @@
-<body>
+<body id="landing">
 	<div id="mask"></div>
 		<%= render 'layouts/header' %>
 		<%= render 'layouts/flash_msgs' %>
 		<div class="float-form" id="new-gen">
-			<div class="close-block" id="cancel-gen">X</div>
+			<div class="button-block danger-block" id="cancel-gen">X</div>
 			Schedule Generation Settings:
 			<div id="float-form-table">
 			Start Date:<input style="font-size: inherit;border: none;" type="date" id="gDate"><br>
@@ -17,7 +17,7 @@
 		<div id="se-container">
 			<% if !current_team.nil? && !current_season.nil? %>
 				<div class="float-form" id="new-sgen">
-					<div class="close-block" id="cancel-sgen">X</div>
+					<div class="button-block danger-block" id="cancel-sgen">X</div>
 					Create An Event:
 					<%= form_for [current_account, current_team, current_team.events.build], id: "float-form-table" do |f| %>
 					  <%= f.hidden_field :team1, value: current_team.name %>
@@ -27,34 +27,32 @@
 						<%= f.collection_select :location, current_season.venues, :name, :name, {prompt: "Select a venue"},  {class: "large-selector"} %><br>
 						<span>FROM:&nbsp<%= f.date_field :startdate, class: "large-selector" %><%= f.time_field :starttime, class: "large-selector" %></span><br>
 						<span>TO:&nbsp<%= f.date_field :enddate, class: "large-selector" %><%= f.time_field :endtime, class: "large-selector" %></span><br>
-						<%= f.submit "CREATE EVENT", class: "button" %>
+						<%= f.submit "CREATE EVENT", class: "button-main submit-button" %>
 					<% end %>
 				</div>
 			<% end %>
 		</div>
 	</div>
 
-		<div class="maincontainer">
-			<div class="subcontainer">
-        <div class="month" id="<%= @date %>">
-          <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>«<% end %>
-          <%= "#{@date.strftime("%B")} #{@date.year}"%>
-          <%= link_to calendar_path(date: @date + 1.month), class: "calendar_selector" do %>»<% end %>
-        </div>
-	      <%= calendar(@date) do |date|%>
-					<div class="calendar-event-wrapper">
-						<%= date.day %>
-					</div>
-				<% end %>
-				<div class="events_block">
-					<%= collection_select(current_account, :seasons_id, @teams_in_season, :id, :name, {prompt: "Filter...", include_blank: "All"}, {class: "large-selector", id: "s-team"}) %>
-					<span class='shapeable-block' id='sgen' style="display:none;">+</span>
-					<span class='shapeable-block' id='gen' style="display:none;">GENERATE</span>
-					<span class='shapeable-block' id='mail' title='Mail all team members the season schedule.'">SEND</span>
-					<div id="events-rblock">
-					</div>
+	<div class="parting-block"><h2 class="left-title">Calendar</h2></div>
+	<div class="maincontainer d-lineh">
+      <div class="month" id="<%= @date %>">
+        <%= link_to calendar_path(date: @date - 1.month), class: "calendar_selector" do %>«<% end %>
+        <%= "#{@date.strftime("%B")} #{@date.year}"%>
+        <%= link_to calendar_path(date: @date + 1.month), class: "calendar_selector" do %>»<% end %>
+      </div>
+	    <%= calendar(@date) do |date|%>
+				<div class="calendar-event-wrapper">
+					<%= date.day %>
+				</div>
+			<% end %>
+			<div class="events_block">
+				<%= collection_select(current_account, :seasons_id, @teams_in_season, :id, :name, {prompt: "Filter...", include_blank: "All"}, {class: "large-selector", id: "s-team"}) %>
+				<span class='button-main standard-button' id='sgen' style="display:none;">+</span>
+				<span class='button-main standard-button' id='gen' style="display:none;">GENERATE</span>
+				<span class='button-main standard-button' id='mail' title='Mail all team members the season schedule.'>SEND</span>
+				<div id="events-rblock">
 				</div>
 			</div>
-		</div>
 	</div>
 </body>

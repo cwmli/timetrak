@@ -12,9 +12,9 @@ $("#events-rblock").html(" \
       <span class='editable tinput' id='starttime'><%= e.starttime.strftime('%l:%M %p') %></span> TO: \
       <span class='editable dinput' id='enddate'><%= e.enddate.strftime('%b %e, %Y') %></span> \
       <span class='editable tinput' id='endtime'><%= e.endtime.strftime('%l:%M %p') %></span> \
-      <span class='new-block' id='expand-info'>...</span> \
-      <span class='new-block' id='edit-event' title='Press to edit'><%= escape_javascript image_tag 'edit.png', size:'16x16' %></span> \
-      <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), '/events/delete/'+e.id.to_s, method: :delete, class: 'new-block', data: {confirm: 'Confirm deletion of: '+e.team1+' vs. '+e.team2+'?'}) %> \
+      <span class='button-block standard-block' id='expand-info'>...</span> \
+      <span class='button-block standard-block' id='edit-event' title='Press to edit'><%= escape_javascript image_tag 'edit.png', size:'16x16' %></span> \
+      <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), '/events/delete/'+e.id.to_s, method: :delete, class: 'button-block standard-block', data: {confirm: 'Confirm deletion of: '+e.team1+' vs. '+e.team2+'?'}) %> \
       <br></p> \
     </div> \
     <div class='linfo-block' id='<%= e.team1+'_expanded' %>'><p> \

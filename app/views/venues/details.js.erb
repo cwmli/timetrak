@@ -2,8 +2,8 @@ $("#team-info").empty().fadeIn();
 //team title and tool bar
 $("#team-info").append("<%= escape_javascript form_tag([@account, @season, @venue], method: :put, remote: true) %> \
 <h2><span id='name' class='editable'><%= @venue.name %></span> \
-<div class='shapeable-block' id='edit-venue'>EDIT</div> \
-<%= escape_javascript link_to( 'DELETE', [@account, @season, @venue], method: :delete, remote:true,  class: 'shapeable-cblock') %></h2> \
+<div class='button-main standard-button' id='edit-venue'>EDIT</div> \
+<%= escape_javascript link_to( 'DELETE', [@account, @season, @venue], method: :delete, remote:true,  class: 'button-main danger-button') %></h2> \
 <p class='editable' id='location'><%= @venue.location %></p> \
 <% if !@venue.rs_start.nil? %> \
 <h3>Single Event - Booked Time(s):</h3> \

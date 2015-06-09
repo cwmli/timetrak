@@ -3,11 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .menu{ font-family: 'Open Sans', sans-serif; font-weight: bold;}
 div.center_wrapper{
-	height: 84px;
+	height: 168px;
 	text-align: center;
 }
 div.menublock {
 	display: inline-block;
+	line-height: normal;
 	width:90%;
 	margin: 0 auto;
 }
@@ -33,12 +34,12 @@ img.menutitle{
 	transform: translateY(-50%);
 }
 .menuitem {
+	opacity: 0.75;
 	margin: 10px;
 
 	float: right;
 
 	border: 1px solid white;
-	border-radius: 5px;
 	color: white;
 
 	text-align: center;
@@ -51,6 +52,7 @@ img.menutitle{
 	transition-timing-function: ease-out;
 }
 .menuitem:hover{
+	opacity: 1;
 	background: white;
 	color: #19A3D1;
 }

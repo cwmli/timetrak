@@ -1,6 +1,6 @@
 $('body').prepend(" \
 <div class='popup'> \
-<div class='close-block' id='close-popup'>X</div> \
+<div class='button-block danger-block' id='close-popup'>X</div> \
 <%= escape_javascript form_tag(account_team_event_path(current_account,@event.team_id, @event), method: :put) %> \
 <div id='<%= @event.team1 %>'> \
   <h3><span class='editable lineinput' id='team1'><%= @event.team1 %></span> VS. <span class='editable lineinput' id='team2'><%= @event.team2 %></span></h3> \
@@ -9,8 +9,8 @@ $('body').prepend(" \
   <span class='editable tinput' id='starttime'><%= @event.starttime.strftime('%l:%M %p') %></span> TO: \
   <span class='editable dinput' id='enddate'><%= @event.enddate.strftime('%b %e, %Y') %></span> \
   <span class='editable tinput' id='endtime'><%= @event.endtime.strftime('%l:%M %p') %></span> \
-  <span class='new-block' id='edit-event' title='Press to edit'><%= escape_javascript image_tag 'edit.png', size:'16x16' %></span> \
-  <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), '/events/delete/'+@event.id.to_s, method: :delete, class: 'new-block', data: {confirm: 'Confirm deletion of: '+@event.team1+' vs. '+@event.team2+'?'}) %> \
+  <span class='button-block standard-block' id='edit-event' title='Press to edit'><%= escape_javascript image_tag 'edit.png', size:'16x16' %></span> \
+  <%= escape_javascript link_to(image_tag('trash.png', size:'16x16'), '/events/delete/'+@event.id.to_s, method: :delete, class: 'button-block standard-block', data: {confirm: 'Confirm deletion of: '+@event.team1+' vs. '+@event.team2+'?'}) %> \
   <br></p> \
   <% if @event.notify %> \
     <%= escape_javascript image_tag 'alarm.png', size:'16x16' %> \

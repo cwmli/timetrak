@@ -1,16 +1,13 @@
 // Place all the styles related to the events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.shapeable-block{
+.button-main{
   display: inline-block;
-  background: white;
 
-  float: right;
-
-  color: #818181;
+  border: 0;
+  background: transparent;
   font-size: 16px;
   font-weight: normal;
-  line-height: 16px;
   text-align: center;
 
   margin-left: 3px;
@@ -18,57 +15,32 @@
   padding: 5px;
 
   width: auto;
-
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
 }
-.shapeable-block:hover{
+.button-main:hover{
   color: white;
 
   cursor: hand; //IE Support
   cursor: pointer;
-
-  background: #19A3D1;
 }
-.shapeable-cblock{
-  display: inline-block;
-  background: white;
 
+.standard-button{
+  color: white;
   float: right;
-
-  color: #818181;
-  font-size: 16px;
-  font-weight: normal;
-  line-height: 20px;
-  text-align: center;
-
-  margin-left: 3px;
-
-  padding: 5px;
-
-  width: auto;
-  height: 16px;
-
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
+  background: #4CC8F0;
 }
-.shapeable-cblock:hover{
+.standard-button:hover{ background: #19A3D1;}
+.danger-button{
   color: white;
-
-  cursor: hand; //IE Support
-  cursor: pointer;
-
   background: #FF1919;
 }
+.danger-button:hover{ background: #CC1414;}
 
-
-.new-block{
+.button-block{
   display: inline-block;
   background: white;
 
   float: right;
 
-  color: #818181;
   font-size: 20px;
   font-weight: normal;
   line-height: 20px;
@@ -78,109 +50,36 @@
 
   width: 20px;
   height: 20px;
-
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
 }
-.new-block:hover{
+.button-block:hover{
   color: white;
 
   cursor: hand; //IE Support
   cursor: pointer;
-
-  background: #19A3D1;
 }
-.close-block{
+.standard-block{ color: #818181;}
+.standard-block:hover{ background: #19A3D1;}
+
+.danger-block{
   position: absolute;
   right: 10px;
   top: 10px;
 
-  display: inline-block;
-  background: white;
-
-  float: right;
-
-  color: #818181;
-  font-size: 16px;
-  line-height: 20px;
-  text-align: center;
-
-  padding: 1px;
-
-  width: 20px;
-  height: 20px;
-
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
-}
-.close-block:hover{
   color: white;
-
-  cursor: hand; //IE Support
-  cursor: pointer;
-
   background: #FF1919;
+  font-size: 16px;
 }
+.danger-block:hover{ background: #CC1414;}
 
 .info-button{
-  display: inline-block;
-  background: white;
-
   float: left;
-
   color: #818181;
-  font-size: 16px;
-  line-height: 16px;
-  text-align: center;
-  padding: 5px;
-
-  border: none;
-  border-radius: 5px;
 }
-.info-button:hover{
-  color: white;
-
-  cursor: hand; //IE Support
-  cursor: pointer;
-
-  background: #19A3D1;
-}
+.info-button:hover{ background: #19A3D1;}
 
 .submit-button{
-  display: block;
-  background: white;
-
-  color: #818181;
-  font-size: 24px;
-  line-height: 24px;
-  text-align: center;
-  padding: 5px;
-
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
-}
-.submit-button:hover{
   color: white;
-
-  cursor: hand; //IE Support
-  cursor: pointer;
-
-  background: #19A3D1;
+  background: #4CC8F0;
+  font-size: 18px;
 }
-
-.button{
-  background: white;
-
-  color: #818181;
-  font-size: 24px;
-  border: 1px solid #DBDBDB;
-  border-radius: 5px;
-}
-.button:hover{
-  color: white;
-
-  cursor: hand; //IE Support
-  cursor: pointer;
-
-  background: #19A3D1;
-}
+.submit-button:hover{ background: #19A3D1;}

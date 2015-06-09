@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  $(".subcontainer").fadeIn();
   var editOn = 0;
   if (sessionStorage["filter"]){
     checkRetrieval();
@@ -50,7 +49,7 @@ $(document).ready(function(){
       <option value='6'>Saturday</option> \
       </select>");
     }
-    $("#float-form-table").append("<div class='shapeable-block' id='gen-confirm'>CONTINUE</div>")
+    $("#float-form-table").append("<div class='button-main submit-button' id='gen-confirm'>CONTINUE</div>")
   });
 
   $(document).off("click","#gen-confirm");
@@ -132,7 +131,7 @@ $(document).ready(function(){
     if (editOn == 1 && !this.firstElementChild){ //if input has not already been created
       var edittag = $(this).parent().parent().parent().find("span#edit-event");
       if(edittag.parent().find("span#del").html() == undefined){
-        $("<span class='new-block' id='del' title='Save changes'><input type='submit' name='commit' value='✔' class='new-block'</span>").insertBefore(edittag);
+        $("<span class='standard-block' id='del' title='Save changes'><input type='submit' name='commit' value='✔' style='border: 0;' class='button-block standard-block'</span>").insertBefore(edittag);
       }
       if ($(this).hasClass("dinput")){
         $(this).html("<input type='date' value='"+currentValue+"' name=event["+this.id+"]>");
