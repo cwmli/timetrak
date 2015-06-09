@@ -1,33 +1,19 @@
+<div class="center_wrapper">
 <div class="menublock">
   <% if logged_in? %>
-  <div class="menutitlecontainer">
     <%= link_to calendar_path do %>
-      <div class="menutitle">Timetrak<sub>Scheduler</sub></div>
+      <%= image_tag 'timetraklogo.png', class: 'menutitle' %>
     <% end %>
-  </div>
-  <div class="menucontainer" style="margin-right: 2em;">
     <%= link_to "LOGOUT", logout_path, class: "menuitem", method: :delete %>
-  </div>
-  <div class="menucontainer">
     <%= link_to @current_account.username.upcase ,account_path(current_account), class: "menuitem" %>
-  </div>
-  <div class="menucontainer">
     <%= link_to "MANAGE", account_seasons_path(current_account), class: "menuitem" %>
-  </div>
   <% else %>
-  <div class="menutitlecontainer">
     <%= link_to welcome_path do %>
-      <div class="menutitle">Timetrak<sub>Scheduler</sub></div>
+      <%= image_tag 'timetraklogo.png', class: 'menutitle' %>
     <% end %>
-  </div>
-  <div class="menucontainer" style="margin-right: 2em;">
-    <%= link_to "LOGIN", login_path, class: "menuitem" %>
-  </div>
-  <div class="menucontainer">
-    <%= link_to "ABOUT", welcome_path(@welcome, anchor: "about"), class: "menuitem" %>
-  </div>
-  <div class="menucontainer">
-    <%= link_to "FEATURES", welcome_path(@welcome, anchor: "features"),class: "menuitem" %>
-  </div>
+    <%= link_to "LOGIN", login_path, class: "menu menuitem" %>
+    <%= link_to "ABOUT", welcome_path(@welcome, anchor: "about"), class: "menu menuitem" %>
+    <%= link_to "FEATURES", welcome_path(@welcome, anchor: "features"),class: "menu menuitem" %>
   <% end %>
+</div>
 </div>

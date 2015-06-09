@@ -1,22 +1,20 @@
-<body>
+<body id="landing">
 		<%= render 'layouts/header' %>
 		<div class="maincontainer">
 			<%= render 'layouts/error_msgs' %>
 			<div class="subcontainer">
+				<div class="center_wrapper">
+					<%= content_tag :div, class: 'float-container' do %>
 				Create An Account:
 					<%= form_for @account do |a| %>
-					<table>
-	          <tr><td><%= a.label :username %></td>
-							<td><%= a.text_field :username %></td></tr>
-						<tr><td><%= a.label :password %></td>
-							<td><%= a.password_field :password %></td></tr>
-						<tr><td>Confirm Password</td>
-							<td><%= a.password_field :password_confirmation %></td></tr>
-						<tr><td><%= a.label :email%></td>
-							<td><%= a.email_field :email %></td></tr>
-	          <tr><td><%= a.submit "Create Account"%></td></tr>
-				</table>
+							<%= a.text_field :username, placeholder: 'username' %><br>
+							<%= a.password_field :password, placeholder: 'Password' %><br>
+							<%= a.password_field :password_confirmation, placeholder: 'Retype password' %><br>
+							<%= a.email_field :email, placeholder: 'example@example.com' %><br>
+		          <%= a.submit "Create Account", class: "submit-button" %>
+					<% end %>
 				<% end %>
+				</div>
 			</div>
 		</div>
 </body>

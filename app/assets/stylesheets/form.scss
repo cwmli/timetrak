@@ -5,6 +5,18 @@
   resize: none;
 }
 
+.float-container{
+  background: rgba(255,255,255,0.5);
+  border-radius: 20px;
+
+  text-align: center;
+  width: 50%;
+  min-width: 250px;
+  padding: 30px;
+
+  font-size: 18px;
+}
+
 .full-form{
   width: 100%;
   font-size: 24px;
