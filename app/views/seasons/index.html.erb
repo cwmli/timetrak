@@ -9,7 +9,7 @@
     </div>
     Create a Team:
     <div id="float-form-table">
-    <%= form_for [@current_account, @team] do |f| %>
+    <%= form_for [@current_account, @team], remote: true do |f| %>
     <p>
       <%= f.text_field :name, placeholder: "Enter team name", id: 'float-form-input', class: 'full-form' %>
       <%= f.text_area :description, placeholder: "Add a description", rows: 3, id: 'float-form-input', class: 'full-form no-resize' %>

@@ -39,7 +39,7 @@ class CalendarController < ApplicationController
   end
 
   def generate
-    @teams_in_season = Team.where(season_id: @@season).in_groups(2) #split into two equal arrays
+    @teams= Team.where(season_id: @@season).in_groups(2) #split into two equal arrays
     @venues = current_season.venues
     @start = Date.parse(params[:startdate])
     @stime = params[:starttime]
@@ -47,43 +47,42 @@ class CalendarController < ApplicationController
     @games_per_week = params[:limit]
     @selected_days = params[:weekdays].map(&:to_i)
     @permitted_weekdays = (@start..@start+1.year).select { |k| @selected_days.include?(k.wday)}
+    #convert nil values to strings for insertion later
+    @teams_in_season = []
+    @teams_in_season.push(@teams[0].map { |e| !e ? 'nil' : e })
+    @teams_in_season.push(@teams[1].map { |e| !e ? 'nil' : e })
     @success = nil
     @message = nil
     @total_teams = @teams_in_season[0].count.to_i+@teams_in_season[1].count.to_i
 
-    @events_created = 0
-    @events_required = (@total_teams-1)*2
-
-    p (@total_teams/@games_per_week.to_f).ceil
+    @events_created = 1
+    @events_required = (@total_teams/2)*(@total_teams-1)
     for r in 0..(@total_teams/@games_per_week.to_f).ceil-1 #number of weeks needed
       for g in 0..@games_per_week.to_i-1 #number of days available
         @venue_index = 0
-        for t in 0..(@total_teams/2)-1#teams in one group
-          if @teams_in_season[0][t].nil? || @teams_in_season[1][t].nil?
-            break #the team gets a 'bye' since they are not versing anyone
-          else
-            if @venues[@venue_index].blank?
-              @message = 'Not enough venues.'
-              break(3)
-            else
-              @event1 = @teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)
-              @event2 = @teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name) #add the event for the opposing team too
-              if @events_created > @events_required
-                @message = 'Internal error occured.'
-                break(3)
-              else
-                if @event1.save
-                  @venue_index += 1
-                  @events_created += 1
-                  @event2.save
-                end
-              end
+        for t in 0..(@total_teams/2)-1#iterate through teams in one group to save the matchups
+          #team automatically gets a 'bye' they are not versing anyone if team1 or 2 is nil
+          if @teams_in_season[0][t] == 'nil' || @teams_in_season[1][t] == 'nil'
+            @events_created += 1
+            next
+          end
+          if @venues[@venue_index].blank?
+            @message = 'Not enough venues.'
+            next
+          elsif @events_created <= @events_required
+            @event1 = @teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)
+            @event2 = @teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name) #add the event for the opposing team too
+            if @event1.save && @event2.save
+              @venue_index += 1
+              @events_created += 1
             end
+          else
+            next #exceeded max events
           end
         end
         #rearrange the arrays after all events are saved for this group organization
-        @teams_in_season[1].unshift(@teams_in_season[0].pop) #push the last team of group1 to the beginning of group2
-        @teams_in_season[0].insert(1, @teams_in_season[1].pop) #push the last team of group2 to the second index on group1
+        @teams_in_season[1].push(@teams_in_season[0].pop) #push the last team of group1 to the end of group2
+        @teams_in_season[0].insert(1, @teams_in_season[1].shift) #push the last team of group2 to the second index on group1
       end
       @success = 1
     end

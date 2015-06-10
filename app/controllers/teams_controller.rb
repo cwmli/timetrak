@@ -8,12 +8,12 @@ class TeamsController < ApplicationController
 
   def create
     @team = current_account.teams.build(team_params)
-    if @team.save
-      flash[:success] = "Team created."
-      redirect_to account_seasons_path(current_account)
-    else
-      flash[:error] = "Error: Please make sure your team has a name."
-      redirect_to account_seasons_path(current_account)
+
+    respond_to do |format|
+      if @team.save
+        @success = true
+      end
+      format.js
     end
   end
 
@@ -27,10 +27,9 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.update_attributes(team_params)
-        format.js
-      else
-        format.html { redirect_to account_seasons_path(current_account), flash: { error: 'Unable to update team.'}}
+        @success = true
       end
+      format.js
     end
   end
 
