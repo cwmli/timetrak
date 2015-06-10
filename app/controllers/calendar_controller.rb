@@ -48,12 +48,14 @@ class CalendarController < ApplicationController
     @selected_days = params[:weekdays].map(&:to_i)
     @permitted_weekdays = (@start..@start+1.year).select { |k| @selected_days.include?(k.wday)}
     @success = nil
+    @message = nil
     @total_teams = @teams_in_season[0].count.to_i+@teams_in_season[1].count.to_i
 
     @events_created = 0
     @events_required = (@total_teams-1)*2
 
-    for r in 0..(@total_teams/@games_per_week.to_i)-1 #number of weeks needed
+    p (@total_teams/@games_per_week.to_f).ceil
+    for r in 0..(@total_teams/@games_per_week.to_f).ceil-1 #number of weeks needed
       for g in 0..@games_per_week.to_i-1 #number of days available
         @venue_index = 0
         for t in 0..(@total_teams/2)-1#teams in one group
@@ -61,17 +63,20 @@ class CalendarController < ApplicationController
             break #the team gets a 'bye' since they are not versing anyone
           else
             if @venues[@venue_index].blank?
+              @message = 'Not enough venues.'
               break(3)
             else
               @event1 = @teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)
               @event2 = @teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name) #add the event for the opposing team too
-              @venue_index += 1
-              @events_created += 1
               if @events_created > @events_required
+                @message = 'Internal error occured.'
                 break(3)
               else
-                @event1.save
-                @event2.save
+                if @event1.save
+                  @venue_index += 1
+                  @events_created += 1
+                  @event2.save
+                end
               end
             end
           end

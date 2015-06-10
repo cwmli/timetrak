@@ -1,2 +1,2 @@
-$("body").prepend('<% if @success.nil? %><%= escape_javascript("<div id='error'>An error occured.</div>").html_safe %><% else %><%= escape_javascript("<div id='success'>Round-the-robin season schedule generated.</div>").html_safe %><% end %>');
+$("body").prepend('<% if @success.nil? %><%= escape_javascript("<div id='error'>An error occured:"+@message.to_s+".</div>").html_safe %><% else %><%= escape_javascript("<div id='success'>Round-the-robin season schedule generated.</div>").html_safe %><% end %>');
 retrieveAllEvents();
