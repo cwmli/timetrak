@@ -3,12 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .calendar{
   display: table;
-  border-collapse: collapse;
-  border: 1px solid #DBDBDB;
 
   float: left;
 
-  width: 75%;
+  width: calc(75% - 60px);
   height: calc(100% - 47px);
 }
 .calendar-row{
@@ -18,10 +16,6 @@
 
 .calendar-header{
   display: table-cell;
-  border-collapse: collapse;
-  border: 1px solid #DBDBDB;
-
-  background: #E4E4E4;
 
   font-size: 20px;
   font-weight: bold;
@@ -34,8 +28,6 @@
 }
 .calendar-cell{
   display: table-cell;
-  border-collapse: collapse;
-  border: 1px solid #DBDBDB;
 
   font-size: 18px;
   padding-left: 10px;
@@ -46,6 +38,7 @@
 }
 .calendar-event-wrapper{
   width: 102%;
+  padding-right: 30px;
   max-height: 100%;
   overflow-y: auto;
 }
@@ -56,10 +49,7 @@
 }
 
 .not-month {
-  border-collapse: collapse;
-  border: 1px solid #DBDBDB;
-
-  background: #F4F4F4;
+  background: #E8E8E8;
 
   color: #818181;
   font-size: 18px;
@@ -69,9 +59,6 @@
 }
 
 .today{
-  border-collapse: collapse;
-  border: 1px solid #DBDBDB;
-
   background: #FFFFB2;
 
   font-size: 18px;
@@ -88,7 +75,7 @@
   font-size: 14px;
   color: black;
 
-  width: auto;
+  width: calc(25% - 24px);
   height: calc(100% - 71px);
   padding: 12px;
 
@@ -100,8 +87,9 @@
 
   margin: 3px;
   display: block;
+  color: white;
   border-radius: 5px;
-  background: #E6E6E6;
+  background: #24A5C3;
 
   padding: 2px 2px 2px 5px;
 }
@@ -109,7 +97,7 @@
   cursor: hand; //IE Support
   cursor: pointer;
   color: white;
-  background: #CACACA;
+  background: #2A44AB;
 }
 
 .event-item-passed{
@@ -118,9 +106,9 @@
   margin: 3px;
   display: block;
   border-radius: 5px;
-  background: #F8F8F8;
+  background: #8CCAD8;
 
-  color: #B8B8B8;
+  color: white;
 
   padding: 2px 2px 2px 5px;
 }
@@ -128,7 +116,7 @@
   cursor: hand; //IE Support
   cursor: pointer;
   color: white;
-  background: #CACACA;
+  background: #6D7CB5;
 }
 
 .sinfo-block{

@@ -56,8 +56,8 @@ class CalendarController < ApplicationController
     @total_teams = @teams_in_season[0].count.to_i+@teams_in_season[1].count.to_i
 
     @events_created = 1
-    @events_required = (@total_teams/2)*(@total_teams-1)
-    for r in 0..(@total_teams/@games_per_week.to_f).ceil-1 #number of weeks needed
+    @events_required = ((@total_teams/2)*(@total_teams-1))*2 # vs twice
+    for r in 0..((@total_teams/@games_per_week.to_f).ceil)*2-1 #number of weeks needed
       for g in 0..@games_per_week.to_i-1 #number of days available
         @venue_index = 0
         for t in 0..(@total_teams/2)-1#iterate through teams in one group to save the matchups

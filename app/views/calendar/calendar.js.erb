@@ -47,7 +47,7 @@ $("<%= escape_javascript(calendar(@date) do |date|%>
   <%= date.day %>
   <% if @events_by_date[date] %>
     <% @events_by_date[date].each do |e| %>
-      <% if e.startdate < Date.today %>
+      <% if e.startdate < Date.today || e.startdate > Date.today.end_of_month %>
       <div class='event-item-passed' id=<%= e.id %> >
         <%= e.team1 %> vs. <%= e.team2 %>
       </div>
