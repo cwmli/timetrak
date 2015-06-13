@@ -55,36 +55,40 @@ class CalendarController < ApplicationController
     @message = nil
     @total_teams = @teams_in_season[0].count.to_i+@teams_in_season[1].count.to_i
 
-    @events_created = 1
+    @event_build_list = []
+    @events_queued = 1
     @events_required = ((@total_teams/2)*(@total_teams-1))*2 # vs twice
-    for r in 0..((@total_teams/@games_per_week.to_f).ceil)*2-1 #number of weeks needed
-      for g in 0..@games_per_week.to_i-1 #number of days available
-        @venue_index = 0
-        for t in 0..(@total_teams/2)-1#iterate through teams in one group to save the matchups
-          #team automatically gets a 'bye' they are not versing anyone if team1 or 2 is nil
-          if @teams_in_season[0][t] == 'nil' || @teams_in_season[1][t] == 'nil'
-            @events_created += 1
-            next
-          end
-          if @venues[@venue_index].blank?
-            @message = 'Not enough venues.'
-            next
-          elsif @events_created <= @events_required
-            @event1 = @teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)
-            @event2 = @teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name) #add the event for the opposing team too
-            if @event1.save && @event2.save
-              @venue_index += 1
-              @events_created += 1
+    catch (:error) do
+      for r in 0..((@total_teams/@games_per_week.to_f).ceil)*2-1 #number of weeks needed
+        for g in 0..@games_per_week.to_i-1 #number of days available
+          @venue_index = 0
+          for t in 0..(@total_teams/2)-1#iterate through teams in one group to save the matchups
+            #team automatically gets a 'bye' they are not versing anyone if team1 or 2 is nil
+            if @teams_in_season[0][t] == 'nil' || @teams_in_season[1][t] == 'nil'
+              @events_queued += 1
+              next
             end
-          else
-            next #exceeded max events
+            if @venues[@venue_index].blank?
+              @message = 'Not enough venues.'
+              throw (:error)
+            elsif @events_queued <= @events_required
+              @event_build_list.push(@teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name))
+              @event_build_list.push(@teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)) #add the event for the opposing team too
+              @venue_index += 1
+              @events_queued += 1
+            else
+              next #sufficient events queued
+            end
           end
+          #rearrange the arrays after all events are saved for this group organization
+          @teams_in_season[1].push(@teams_in_season[0].pop) #push the last team of group1 to the end of group2
+          @teams_in_season[0].insert(1, @teams_in_season[1].shift) #push the last team of group2 to the second index on group1
         end
-        #rearrange the arrays after all events are saved for this group organization
-        @teams_in_season[1].push(@teams_in_season[0].pop) #push the last team of group1 to the end of group2
-        @teams_in_season[0].insert(1, @teams_in_season[1].shift) #push the last team of group2 to the second index on group1
       end
       @success = 1
+      @event_build_list.each do |e|
+        e.save
+      end
     end
 
     respond_to do |format|
@@ -111,8 +115,13 @@ class CalendarController < ApplicationController
           @events_by_date[date] = events_on_date_hash.sort_by { |h| h[:starttime] }
         end
       end
-
       @events = @events.sort_by { |h| h[:starttime]}
+
+      #remove duplicates
+      @events = @events.uniq {|event| [event[:team1], event[:team2], event[:startdate]]}
+      @events_by_date.each do |date, collection|
+        @events_by_date[date] = collection.uniq {|event| [event[:team1], event[:team2], event[:startdate]]}
+      end
 
       respond_to do |format|
         format.js { render action: "calendar" }

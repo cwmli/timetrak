@@ -99,7 +99,7 @@
           <div id="infoc">
             <h3>Available Venues:</h3>
             <% if !current_season.nil? %>
-              <% if current_season.venues.count > 1 %>
+              <% if !current_season.venues.blank? %>
                 <% current_season.venues.each do |v| %>
                     <%= content_tag(:div, v.name, id: 'venue-button',class: 'button-main info-button') %>
                 <% end %>

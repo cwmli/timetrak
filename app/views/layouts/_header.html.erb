@@ -1,5 +1,5 @@
 <div class="center_wrapper">
-<div class="menublock">
+<nav class="menublock">
   <% if logged_in? %>
     <%= link_to calendar_path do %>
       <%= image_tag 'timetraklogo.png', class: 'menutitle' %>
@@ -15,5 +15,5 @@
     <%= link_to "ABOUT", welcome_path(@welcome, anchor: "about"), class: "menu menuitem" %>
     <%= link_to "FEATURES", welcome_path(@welcome, anchor: "features"),class: "menu menuitem" %>
   <% end %>
-</div>
+</nav>
 </div>

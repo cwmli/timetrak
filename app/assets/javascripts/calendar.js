@@ -18,7 +18,7 @@ $(document).ready(function(){
   })
 
   $(document).off("click", "#close-popup").on("click", "#close-popup", function(){
-    console.log($(this).parent().fadeOut('normal', function(){$(this).remove()}));
+    $(this).parent().fadeOut('normal', function(){$(this).remove()});
   });
 
   //generation form
