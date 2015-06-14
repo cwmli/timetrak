@@ -13,6 +13,7 @@ class CalendarController < ApplicationController
   end
 
   def view
+    @param = params[:team_name] 
     @team = Team.find_by(name: Base64.decode64(params[:team_name]))
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @events_by_date = @team.events.group_by(&:startdate)
