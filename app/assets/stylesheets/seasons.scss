@@ -11,7 +11,9 @@
   color: black;
   padding: 12px;
 
+  overflow: auto;
   width: calc(50% - 56px);
+  max-height: calc(100% - 26px);
   height: calc(100% - 26px);
 }
 
@@ -48,7 +50,9 @@
   color: black;
   padding: 12px;
 
+  overflow: auto;
   width: calc(50% - 56px);
+  max-height: calc(100% - 26px);
   height: calc(100% - 26px);
 }
 
