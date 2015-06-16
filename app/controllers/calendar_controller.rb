@@ -55,16 +55,17 @@ class CalendarController < ApplicationController
     @success = nil
     @message = nil
     @total_teams = @teams_in_season[0].count.to_i+@teams_in_season[1].count.to_i
-
     @event_build_list = []
     @events_queued = 1
     @events_required = ((@total_teams/2)*(@total_teams-1))*2 # vs twice
     catch (:error) do
-      for r in 0..((@total_teams/@games_per_week.to_f).ceil)*2-1 #number of weeks needed
+      for r in 0..((@total_teams/@games_per_week.to_f).ceil)-1 #number of weeks needed
         for g in 0..@games_per_week.to_i-1 #number of days available
           @venue_index = 0
-          for t in 0..(@total_teams/2)-1#iterate through teams in one group to save the matchups
+          for t in 0..((@total_teams/2)-1)#iterate through teams in one group to save the matchups
             #team automatically gets a 'bye' they are not versing anyone if team1 or 2 is nil
+            p @teams_in_season[0][t]
+            p @teams_in_season[1][t]
             if @teams_in_season[0][t] == 'nil' || @teams_in_season[1][t] == 'nil'
               @events_queued += 1
               next
@@ -82,8 +83,10 @@ class CalendarController < ApplicationController
             end
           end
           #rearrange the arrays after all events are saved for this group organization
-          @teams_in_season[1].push(@teams_in_season[0].pop) #push the last team of group1 to the end of group2
-          @teams_in_season[0].insert(1, @teams_in_season[1].shift) #push the last team of group2 to the second index on group1
+          if @total_teams > 2
+            @teams_in_season[1].push(@teams_in_season[0].pop) #push the last team of group1 to the end of group2
+            @teams_in_season[0].insert(1, @teams_in_season[1].shift) #push the last team of group2 to the second index on group1
+          end
         end
       end
       @success = 1
