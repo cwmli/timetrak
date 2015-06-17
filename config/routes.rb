@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     get '/venues/details/' => 'venues#details'
 
     get '/teams/details/' => 'teams#details'
+    get '/teams/link_to_season/:id' => 'teams#link_to_season'
+    get '/teams/unlink_from_season/:id' => 'teams#unlink_from_season'
     delete '/teams/delete/:id' => 'teams#delete'
 
     get '/calendar/view/' => 'calendar#view' #for readonly view

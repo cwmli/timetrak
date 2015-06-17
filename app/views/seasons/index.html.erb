@@ -80,11 +80,13 @@
           <div id="infob">
             <h3>Available Teams:</h3>
             <% if !current_season.nil? %>
-              <% if current_season.teams.where(season_id: current_season.id).empty? %>
+              <% if @teams.empty? %>
                 <%= ("<p>No teams available.</p>").html_safe %>
               <% else %>
-                <% current_season.teams.where(season_id: current_season.id).each do |t| %>
-        
+                <% @teams.each do |t| %>
+                  <% if !current_season.teams.include?(t) #is not already in the season%>
+                    <%= link_to t.name, '/teams/link_to_season/'+t.id.to_s, remote: true, id: 'team-button', class: 'button-main info-button' %>
+                  <% end %>
                 <% end %>
                 <br>
               <% end %>
@@ -95,7 +97,7 @@
           <div id="infoc">
             <h3>Available Venues:</h3>
             <% if !current_season.nil? %>
-              <% if !current_season.venues.blank? %>
+              <% if !current_season.venues.blank? && current_season.venues.count > 0 %>
                 <% current_season.venues.each do |v| %>
                     <%= content_tag(:div, v.name, id: 'venue-button',class: 'button-main info-button') %>
                 <% end %>

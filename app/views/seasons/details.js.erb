@@ -17,7 +17,7 @@ $("#season-info").prepend(" \
 <h2>Teams in Season:</h2> \
 <% if !@team_names.blank? %> \
   <% @team_names.each do |t| %> \
-    <div id='team-button' class='button-main info-button'><%= t %></div> \
+    <%= j link_to t, '/teams/unlink_from_season/'+t, remote: true, id: 'team-button', class: 'button-main info-button' %> \
   <% end %> \
 <% else %> \
   <p>No teams.</p> \

@@ -41,6 +41,7 @@ class SeasonsController < ApplicationController
 
   def destroy
     Season.find(params[:id]).destroy
+    Event.where(season_id: params[:id]).destroy_all
     flash[:success] = 'Season deleted.'
     redirect_to account_seasons_path(current_account)
     @@current_season = nil #reset the variable

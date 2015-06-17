@@ -1,0 +1,7 @@
+$("body").prepend('<%= escape_javascript("<div id='success'>Team removed from season.</div>").html_safe %>');
+$("#team-info").empty().fadeIn();
+//reload teams in season
+var selection = $("#s-season").find(":selected").text();
+retrieveSeasonTeams(selection)
+//reload a
+$("#static-teamslist").load(location.href + " #infob");
