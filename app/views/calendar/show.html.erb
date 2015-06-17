@@ -21,6 +21,7 @@
 					Create An Event:
 					<%= form_for [current_account, current_team, current_team.events.build], id: "float-form-table" do |f| %>
 					  <%= f.hidden_field :team1, value: current_team.name %>
+						<%= f.hidden_field :season_id, value: current_season.id %>
 						<%= f.collection_select :team1, current_season.teams, :name, :name, {prompt: current_team.name },  {class: "large-selector", disabled: "disabled"} %>
 						VS. <%= f.collection_select :team2, current_season.teams, :name, :name, {prompt: "Select Team2"},  {class: "large-selector"} %><br>
 						<%= f.text_area :description, placeholder: "Add a description(Optional)", rows: 3, id: 'text-area', class: 'no-resize' %><br>

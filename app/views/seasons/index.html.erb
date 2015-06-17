@@ -85,10 +85,7 @@
               <% else %>
                 <% @teams.each do |t| %>
                   <% if !current_season.teams.include?(t) #is not already in the season%>
-                    <%= form_for [@current_account, t], remote: true do |f| %>
-                      <%= f.hidden_field :season_id, value: current_season.id %>
-                      <%= f.submit t.name, id: 'team-button', class: "button-main info-button", title: "Add to season" %>
-                    <% end %>
+                    <%= link_to t.name, '/teams/link_to_season/'+t.id.to_s, remote: true, id: 'team-button', class: 'button-main info-button' %>
                   <% end %>
                 <% end %>
                 <br>
@@ -100,7 +97,7 @@
           <div id="infoc">
             <h3>Available Venues:</h3>
             <% if !current_season.nil? %>
-              <% if !current_season.venues.blank? %>
+              <% if !current_season.venues.blank? && current_season.venues.count > 0 %>
                 <% current_season.venues.each do |v| %>
                     <%= content_tag(:div, v.name, id: 'venue-button',class: 'button-main info-button') %>
                 <% end %>

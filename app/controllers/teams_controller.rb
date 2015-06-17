@@ -52,6 +52,35 @@ class TeamsController < ApplicationController
     end
   end
 
+  def link_to_season
+    @team = Team.find(params[:id])
+
+    respond_to do |format|
+      if @team.seasons << current_season #add a join between selected season and the team
+        format.js
+      else
+        @message = 'Could not add team to season.'
+        format.js { render action: 'error'}
+      end
+    end
+  end
+
+  def unlink_from_season
+    @team = Team.find_by(id: params[:id])
+    if @team.nil?
+      @team = Team.find_by(name: params[:id])
+    end
+
+    respond_to do |format|
+      if @team.seasons.delete(current_season) #remove join between selected season and the team
+        format.js
+      else
+        @message = 'Could not remove team from season.'
+        format.js { render action: 'error'}
+      end
+    end
+  end
+
   def details
     @account = current_account
     @team = Team.find_by(name: params[:team_name])
@@ -63,12 +92,7 @@ class TeamsController < ApplicationController
       @desc = "No description available"
     end
 
-    @season = Season.find_by(id: @team.season_id)
-    if @season.nil?
-      @season = "Not in any season."
-    else
-      @season = @season.title
-    end
+    @season = @team.seasons
 
     respond_to do |format|
       format.js

@@ -1,5 +1,5 @@
 function retrieveSeasonTeams(season){
-  $('#season-info').contents(':not(#static-teamslist, #static-venueslist, #title)').remove();//clear any previous data
+  $('#season-info').contents(':not(#static-teamslist, #static-venueslist)').remove();//clear any previous data
   $.ajax({
       url: '/seasons/details/' + season,
       data: { season_name: season},

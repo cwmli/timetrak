@@ -41,6 +41,7 @@ class SeasonsController < ApplicationController
 
   def destroy
     Season.find(params[:id]).destroy
+    Event.where(season_id: params[:id]).destroy_all
     flash[:success] = 'Season deleted.'
     redirect_to account_seasons_path(current_account)
     @@current_season = nil #reset the variable
@@ -53,7 +54,7 @@ class SeasonsController < ApplicationController
 
     @account = current_account
 
-    @teamlist = Team.where(season_id: @season_nfo.id)
+    @teamlist = @season_nfo.teams
     if !@teamlist.nil? #not empty
       @teamlist.each do |team|
         @team_names.push(team.name)

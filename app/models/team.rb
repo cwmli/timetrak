@@ -6,6 +6,6 @@ class Team < ActiveRecord::Base
 
   has_many :events, dependent: :destroy
   has_many :members, dependent: :destroy
-  belongs_to :season
   belongs_to :account
+  has_and_belongs_to_many :seasons
 end
