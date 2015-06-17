@@ -5,7 +5,6 @@ class Season < ActiveRecord::Base
   validates :title, presence: true
 
   belongs_to :account
-  has_many :teams, dependent: :nullify
-  has_many :events, through: :teams, dependent: :destroy
+  has_and_belongs_to_many :teams, dependent: :nullify
   has_many :venues, dependent: :destroy
 end

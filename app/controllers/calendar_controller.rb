@@ -64,8 +64,6 @@ class CalendarController < ApplicationController
           @venue_index = 0
           for t in 0..((@total_teams/2)-1)#iterate through teams in one group to save the matchups
             #team automatically gets a 'bye' they are not versing anyone if team1 or 2 is nil
-            p @teams_in_season[0][t]
-            p @teams_in_season[1][t]
             if @teams_in_season[0][t] == 'nil' || @teams_in_season[1][t] == 'nil'
               @events_queued += 1
               next
@@ -74,8 +72,8 @@ class CalendarController < ApplicationController
               @message = 'Not enough venues.'
               throw (:error)
             elsif @events_queued <= @events_required
-              @event_build_list.push(@teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name))
-              @event_build_list.push(@teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)) #add the event for the opposing team too
+              @event_build_list.push(current_season.@teams_in_season[0][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name))
+              @event_build_list.push(current_season.@teams_in_season[1][t].events.build(team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: @permitted_weekdays[g+r*(@games_per_week.to_i)], enddate: @permitted_weekdays[g+r*(@games_per_week.to_i)], starttime: @stime, endtime: @etime, location: @venues[@venue_index].name)) #add the event for the opposing team too
               @venue_index += 1
               @events_queued += 1
             else

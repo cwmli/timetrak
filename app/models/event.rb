@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   friendly_id :team1, use:  [:slugged, :finders]
 
   belongs_to :team
+  belongs_to :season
 
   validates :team1, presence: true
   validates :team2, presence: true

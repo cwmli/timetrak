@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150602180752) do
+ActiveRecord::Schema.define(version: 20150617030423) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "username"
@@ -38,8 +38,10 @@ ActiveRecord::Schema.define(version: 20150602180752) do
     t.integer  "team_id"
     t.string   "team1"
     t.string   "team2"
+    t.integer  "season_id"
   end
 
+  add_index "events", ["season_id"], name: "index_events_on_season_id"
   add_index "events", ["slug"], name: "index_events_on_slug", unique: true
   add_index "events", ["team_id"], name: "index_events_on_team_id"
 
@@ -65,6 +67,14 @@ ActiveRecord::Schema.define(version: 20150602180752) do
   add_index "seasons", ["account_id"], name: "index_seasons_on_account_id"
   add_index "seasons", ["slug"], name: "index_seasons_on_slug"
 
+  create_table "seasons_teams", id: false, force: :cascade do |t|
+    t.integer "season_id"
+    t.integer "team_id"
+  end
+
+  add_index "seasons_teams", ["season_id"], name: "index_seasons_teams_on_season_id"
+  add_index "seasons_teams", ["team_id"], name: "index_seasons_teams_on_team_id"
+
   create_table "teams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -73,12 +83,20 @@ ActiveRecord::Schema.define(version: 20150602180752) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "account_id"
-    t.integer  "season_id"
   end
 
   add_index "teams", ["account_id"], name: "index_teams_on_account_id"
-  add_index "teams", ["season_id"], name: "index_teams_on_season_id"
   add_index "teams", ["slug"], name: "index_teams_on_slug", unique: true
+
+  create_table "timeslots", force: :cascade do |t|
+    t.datetime "start"
+    t.datetime "end"
+    t.integer  "venue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "timeslots", ["venue_id"], name: "index_timeslots_on_venue_id"
 
   create_table "venues", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -87,10 +105,10 @@ ActiveRecord::Schema.define(version: 20150602180752) do
     t.string   "location"
     t.integer  "season_id"
     t.string   "slug"
-    t.datetime "rs_start"
-    t.datetime "rs_end"
+    t.integer  "event_id"
   end
 
+  add_index "venues", ["event_id"], name: "index_venues_on_event_id"
   add_index "venues", ["season_id"], name: "index_venues_on_season_id"
 
 end

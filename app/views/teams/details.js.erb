@@ -30,9 +30,10 @@ $("#team-info").append("<h3>Team Members: <span class='button-main standard-butt
   </div> \
 <% end %>");
 $("#team-info").append("<h3>Participating in Season:</h3>");
-var check = "<%= @season %>";
-if (check == "Not in any season."){
-  $("#team-info").append("<p>"+check+"</p>");
-}else{
-  $("#team-info").append("<%= escape_javascript form_tag([@account, @team], remote: true, method: :put)%><%= escape_javascript hidden_field_tag('team[season_id]','null') %><%= escape_javascript submit_tag(@season, class:'button-main info-button', style:'float:left;') %>");
-}
+
+$("#team-info").append("<% if !@season == '0' %>\
+<%= @season.each do |s| %>
+<%= j content_tag(:div, s.title, class:'button-main info-button', style:'float:left;') %> \
+<% end %><% else %> \
+<%= j content_tag(:p, 'Not in any season.') %> \
+<% end %>");

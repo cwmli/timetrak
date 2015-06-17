@@ -63,11 +63,9 @@ class TeamsController < ApplicationController
       @desc = "No description available"
     end
 
-    @season = Season.find_by(id: @team.season_id)
-    if @season.nil?
-      @season = "Not in any season."
-    else
-      @season = @season.title
+    @season = @team.seasons
+    if @season.blank?
+      @season = 0
     end
 
     respond_to do |format|

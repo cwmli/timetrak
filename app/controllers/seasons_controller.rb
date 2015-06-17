@@ -53,7 +53,7 @@ class SeasonsController < ApplicationController
 
     @account = current_account
 
-    @teamlist = Team.where(season_id: @season_nfo.id)
+    @teamlist = @season_nfo.teams
     if !@teamlist.nil? #not empty
       @teamlist.each do |team|
         @team_names.push(team.name)
