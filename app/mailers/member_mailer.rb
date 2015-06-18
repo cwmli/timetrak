@@ -5,7 +5,7 @@ class MemberMailer < ApplicationMailer
     @season_name = Season.find(season).title.to_s
     @members = Member.where(team_id: team.id)
     @events = team.events
-    @url = 'timetrak.herokuapp.com/calendar/view?team_name='+Base64.encode64(@team_name).to_s+'&season='+Base64.encode64(season).to_s
+    @url = 'timetrak.herokuapp.com/calendar/view?team_name='+Base64.encode64(@team_name)+'&season='+Base64.encode64(season)
 
     @members.each do |m|
       mail(to: m.email, subject: @team_name+" Schedule for the "+@season_name+" Season") do |format|
