@@ -3,9 +3,9 @@
   <div class="parting-block"><h2 class="left-title">Calendar</h2></div>
 	<div class="maincontainer d-lineh">
       <div class="month" id="<%= @date %>">
-        <%= link_to calendar_view_path(team_name: @param, date: @date - 1.month), class: "calendar_selector" do %>«<% end %>
+        <%= link_to calendar_view_path(season: @param2,team_name: @param1, date: @date - 1.month), class: "calendar_selector" do %>«<% end %>
         <%= "#{@date.strftime("%B")} #{@date.year}"%>
-        <%= link_to calendar_view_path(team_name: @param, date: @date + 1.month), class: "calendar_selector" do %>»<% end %>
+        <%= link_to calendar_view_path(season: @param2,team_name: @param1, date: @date + 1.month), class: "calendar_selector" do %>»<% end %>
       </div>
       <%= calendar(@date) do |date|%>
         <div class="calendar-event-wrapper">
