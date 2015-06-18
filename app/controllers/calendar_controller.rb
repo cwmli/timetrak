@@ -14,7 +14,7 @@ class CalendarController < ApplicationController
 
   def view
     @param = params[:team_name]
-    @season_id = params[:season_id]
+    @season_id = Base64.decode64(params[:season])
     @team = Team.find_by(name: Base64.decode64(params[:team_name]))
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @events_by_date = @team.events.where(season_id: @season_id).group_by(&:startdate)
@@ -32,7 +32,7 @@ class CalendarController < ApplicationController
 
   def mail
     Team.where(season_id: @@season).each do |team|
-      MemberMailer.schedule_email(team).deliver
+      MemberMailer.schedule_email(team, @@season).deliver
     end
 
     respond_to do |format|
