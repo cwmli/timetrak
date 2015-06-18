@@ -31,7 +31,7 @@ class CalendarController < ApplicationController
   end
 
   def mail
-    Team.where(season_id: @@season).each do |team|
+    current_season.teams.each do |team|
       MemberMailer.schedule_email(team, @@season).deliver
     end
 
