@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617224025) do
+ActiveRecord::Schema.define(version: 20150617030423) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "username"
@@ -83,11 +83,9 @@ ActiveRecord::Schema.define(version: 20150617224025) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "account_id"
-    t.integer  "season_id"
   end
 
   add_index "teams", ["account_id"], name: "index_teams_on_account_id"
-  add_index "teams", ["season_id"], name: "index_teams_on_season_id"
   add_index "teams", ["slug"], name: "index_teams_on_slug", unique: true
 
   create_table "timeslots", force: :cascade do |t|
@@ -107,10 +105,10 @@ ActiveRecord::Schema.define(version: 20150617224025) do
     t.string   "location"
     t.integer  "season_id"
     t.string   "slug"
-    t.datetime "rs_start"
-    t.datetime "rs_end"
+    t.integer  "event_id"
   end
 
+  add_index "venues", ["event_id"], name: "index_venues_on_event_id"
   add_index "venues", ["season_id"], name: "index_venues_on_season_id"
 
 end
