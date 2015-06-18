@@ -128,6 +128,6 @@ class EventsController < ApplicationController
 
   private
     def event_params
-      params.require(:event).permit(:season_id, :team1, :team2, :description, :location, :startdate, :enddate, :starttime, :endtime, :notify, :notifydate)
+      params.require(:event).permit(:team1, :team2, :description, :location, :startdate, :enddate, :starttime, :endtime, :notify, :notifydate)
     end
 end
