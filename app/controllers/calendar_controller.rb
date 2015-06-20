@@ -112,8 +112,8 @@ class CalendarController < ApplicationController
       teams_in_season.each do |team|
         teamevents = team.events.where(season_id: @@season).group_by(&:startdate)
         teamupcoming = team.events.where(season_id: @@season).where(startdate: date_range)
-        @events_by_date = @events_by_date.merge(@teamevents){|key,oldval,newval| [*oldval].to_a + [*newval].to_a }
-        @events.push(*@teamupcoming)
+        @events_by_date = @events_by_date.merge(teamevents){|key,oldval,newval| [*oldval].to_a + [*newval].to_a }
+        @events.push(*teamupcoming)
       end
       @events_by_date.each do |date, events_on_date_hash| #array of events on that date
         if events_on_date_hash.length > 1 #sort only if there are more than 2 events
