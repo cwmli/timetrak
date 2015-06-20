@@ -1,8 +1,8 @@
-$("body").prepend('<% if !@success.nil? %><%= escape_javascript("<div id='success'>Team created.</div>").html_safe %><% else %><%= escape_javascript("<div id='error'>Error: Please make sure your team has a name.</div>").html_safe %><% end %>');
+$("body").prepend("<% j content_tag(:div, 'Team created', id: 'success') %>");
 $("#mask").fadeOut();
 $("#new-team-form").fadeOut();
 //reload teams in season
 var selection = $("#s-season").find(":selected").text();
 retrieveSeasonTeams(selection)
-//reload a
+//reload available teams
 $("#static-teamslist").load(location.href + " #infob");

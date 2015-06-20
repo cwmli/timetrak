@@ -1,5 +1,5 @@
 //show flash message
-$("body").prepend('<%= escape_javascript("<div id='success'>Venue updated.</div>").html_safe %>');
+$("body").prepend("<%= j content_tag(:div, 'Venue information updated.', id: 'success') %>");
 //reload teams in season
 var selection = $("#s-season").find(":selected").text();
 retrieveSeasonTeams(selection)

@@ -2,7 +2,7 @@
   <div id="error_explanation">
     <ul>
     <% @account.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
+      <%= content_tag :div, msg, id: 'error' %>
     <% end %>
     </ul>
   </div>

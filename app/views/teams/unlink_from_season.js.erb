@@ -1,4 +1,4 @@
-$("body").prepend('<%= escape_javascript("<div id='success'>Team removed from season.</div>").html_safe %>');
+$("body").prepend("<%= j content_tag(:div, 'Team removed from season.', id: 'success') %>");
 $("#team-info").empty().fadeIn();
 //reload teams in season
 var selection = $("#s-season").find(":selected").text();

@@ -5,7 +5,4 @@ $("#team-info").append("<%= escape_javascript form_tag([@account, @season, @venu
 <div class='button-main standard-button' id='edit-venue'>EDIT</div> \
 <%= escape_javascript link_to( 'DELETE', [@account, @season, @venue], method: :delete, remote:true,  class: 'button-main danger-button') %></h2> \
 <p class='editable' id='location'><%= @venue.location %></p> \
-<% if !@venue.rs_start.nil? %> \
-<h3>Single Event - Booked Time(s):</h3> \
-<p class='editable' id='rs_start'><%= @venue.rs_start.strftime('%B %e, %Y %l:%M %p') %></p> \
-<p class='editable' id='rs_end'><%= @venue.rs_end.strftime('%B %e, %Y %l:%M %p') %><% end %></p></form>");
+</form>");

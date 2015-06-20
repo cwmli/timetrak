@@ -1,8 +1,2 @@
-$('body').prepend(" \
-<% if @success %> \
-<%= j content_tag(:div, 'Member removed.', id: 'success') %> \
-<% else %> \
-<%= j content_tag(:div, 'Member could not be removed.', id: 'error') %> \
-<% end %>");
-
-retrieveTeamInfo("<%= @team %>")
+$('body').prepend("<%= j content_tag(:div, 'Member removed.', id: 'success') %>");
+retrieveTeamInfo("<%= @team %>") //refresh team information

@@ -1,5 +1,5 @@
 //show flash message
-$("body").prepend('<% if !@success.nil? %><%= escape_javascript("<div id='success'>Venue added.</div>").html_safe %><% else %><%= escape_javascript("<div id='error'>Venue is missing a name and/or location.</div>").html_safe %><% end %>');
+$("body").prepend("<%= j content_tag(:div, 'Venue added to season.', id: 'success') %>");
 $("#mask").fadeOut();
 //reload teams in season
 var selection = $("#s-season").find(":selected").text();

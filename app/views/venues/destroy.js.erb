@@ -1,4 +1,4 @@
-$("body").prepend("<div id='success'><%= @venue_name %> deleted.</div>");
+$("body").prepend("<%= j content_tag(:div, @venue_name+' deleted.', id: 'success') %>");
 var check = "<%= @season %>";
 if (check.length){
   retrieveSeasonTeams(check);//refresh teams in season
