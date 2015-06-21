@@ -1,19 +1,14 @@
 class TeamsController < ApplicationController
-  def index
-    @teams = current_account.teams
-  end
-
-  def new
-  end
-
   def create
     @team = current_account.teams.build(team_params)
 
     respond_to do |format|
       if @team.save
-        @success = true
+        format.js
+      else
+        @message = 'Error: Please make sure the team has a name.'
+        format.js { render action: 'layouts/error'}
       end
-      format.js
     end
   end
 
@@ -27,28 +22,26 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.update_attributes(team_params)
-        @success = true
+        format.js
+      else
+        @message = 'Error: Unable to update team information.'
+        format.js { render action: 'layouts/error'}
       end
-      format.js
     end
   end
 
   def destroy
     @team = Team.find(params[:id])
     @team_name = @team.name
-    @season = Season.find_by(id: @team.season_id)
-    if !@season.nil?
-      @season = @season.title
-    end
-
-    #delete other affected events
-    Event.where(team1: @team.name).destroy_all
-    Event.where(team2: @team.name).destroy_all
-
-    @team.destroy
+    @season = current_season.title
 
     respond_to do |format|
-      format.js
+      if Event.where(team1: @team.name).destroy_all && Event.where(team2: @team.name).destroy_all && @team.destroy
+        format.js
+      else
+        @message = 'Error: Unable to delete team.'
+        format.js { render action: 'layouts/error'}
+      end
     end
   end
 
@@ -59,8 +52,8 @@ class TeamsController < ApplicationController
       if @team.seasons << current_season #add a join between selected season and the team
         format.js
       else
-        @message = 'Could not add team to season.'
-        format.js { render action: 'error'}
+        @message = 'Error: Could not add team to season.'
+        format.js { render action: 'layouts/error'}
       end
     end
   end
@@ -75,8 +68,8 @@ class TeamsController < ApplicationController
       if @team.seasons.delete(current_season) #remove join between selected season and the team
         format.js
       else
-        @message = 'Could not remove team from season.'
-        format.js { render action: 'error'}
+        @message = 'Error: Could not remove team from season.'
+        format.js { render action: 'layouts/error'}
       end
     end
   end
@@ -95,7 +88,12 @@ class TeamsController < ApplicationController
     @season = @team.seasons
 
     respond_to do |format|
-      format.js
+      if !@team.nil?
+        format.js
+      else
+        @message = 'Error: Could not retrieve team information with name: '+params[:team_name]+'.'
+        format.js { render action: 'layouts/error'}
+      end
     end
   end
 

@@ -4,14 +4,14 @@ class VenuesController < ApplicationController
   end
 
   def create
-    @venue = current_season.venues.build(venue_params)
+    venue = current_season.venues.build(venue_params)
 
     respond_to do |format|
-      if @venue.save
-        @success = true
+      if venue.save
         format.js
       else
-        format.js
+        @message = 'Error: Venue is missing a name and/or location.'
+        format.js { render action: 'layouts/error'}
       end
     end
   end
@@ -28,39 +28,42 @@ class VenuesController < ApplicationController
       if @venue.update_attributes(venue_params)
         format.js
       else
-        format.js
+        @message = 'Error: Unable to update venue.'
+        format.js { render action: 'layouts/error'}
       end
     end
   end
 
   def destroy
-    @venue = Venue.find(params[:id])
-    @venue_name = @venue.name
-    @season = Season.find_by(id: @venue.season_id)
+    venue = Venue.find(params[:id])
+    @venue_name = venue.name
+    @season = Season.find_by(id: venue.season_id)
     if !@season.nil?
       @season = @season.title
     end
 
-    #delete affected events
-    Event.where(location: @venue.name).destroy_all
-    @venue.destroy
-
     respond_to do |format|
-      format.js
+      if Event.where(location: venue.name).destroy_all && venue.destroy
+        format.js
+      else
+        @message = 'Error: Unable to delete venue.'
+        format.js { render action: 'layouts/error'}
+      end
     end
   end
 
   def details
     @account = current_account
     @venue = Venue.find_by(name: params[:venue_name])
-    @slug = @venue.slug
     @season = Season.find_by(id: @venue.season_id)
-    if !@season.nil?
-      @seasonslug = @season.slug
-    end
 
     respond_to do |format|
-      format.js
+      if !@venue.nil?
+        format.js
+      else
+        @message = 'Error: Could not retrieve venue information.'
+        format.js { render action: 'layouts/error'}
+      end
     end
   end
 

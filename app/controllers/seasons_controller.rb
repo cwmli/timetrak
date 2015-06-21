@@ -33,18 +33,21 @@ class SeasonsController < ApplicationController
       @@current_season = nil
       redirect_to account_seasons_path(current_account)
     else
-      flash[:error] = 'Unable to update season.'
+      flash[:error] = 'Error: Unable to update season.'
       @@current_season = nil
       redirect_to account_seasons_path(current_account)
     end
   end
 
   def destroy
-    Season.find(params[:id]).destroy
-    Event.where(season_id: params[:id]).destroy_all
-    flash[:success] = 'Season deleted.'
-    redirect_to account_seasons_path(current_account)
-    @@current_season = nil #reset the variable
+    if Season.find(params[:id]).destroy && Event.where(season_id: params[:id]).destroy_all
+      flash[:success] = 'Season deleted.'
+      @@current_season = nil #reset the variable
+      redirect_to account_seasons_path(current_account)
+    else
+      flash[:error] = 'Error: Unable to delete season.'
+      redirect_to account_seasons_path(current_account)
+    end
   end
 
   def details
@@ -54,43 +57,49 @@ class SeasonsController < ApplicationController
 
     @account = current_account
 
-    @teamlist = @season_nfo.teams
-    if !@teamlist.nil? #not empty
-      @teamlist.each do |team|
+    teamlist = @season_nfo.teams
+    if !teamlist.nil? #not empty
+      teamlist.each do |team| #populate the team names
         @team_names.push(team.name)
       end
     end
 
     respond_to do |format|
-      format.js
+      if !@season_nfo.nil? #season could be found
+        format.js
+      else
+        @message = 'Error: Could not find season info with name: '+params[:season_name]+'.'
+        format.js { render action: 'layouts/error'}
+      end
     end
   end
 
-  def upload #read and submit uploaded data
-    @excel_file = Roo::Spreadsheet.open(params[:datafile])
-    @season = Season.find_by(title: params[:season_title])
+  def upload #read and submit uploaded data using Roo
+    excel_file = Roo::Spreadsheet.open(params[:datafile])
+    season = Season.find_by(title: params[:season_title])
     @failcount = 0
-    @sheets = @excel_file.sheets
-    @sheets.each do |sheet_name|
-      @current_sheet = @excel_file.sheet(sheet_name)
-      for row in @current_sheet.first_row+1..@current_sheet.last_row
-        @data = []
-        @rowdata = @current_sheet.row(row)
-        for index in 0..@current_sheet.last_column #assumption that rowdata has the same length as column_names
-          @data.push(@rowdata[index])
+    sheets = excel_file.sheets
+
+    sheets.each do |sheet_name|
+      current_sheet = excel_file.sheet(sheet_name)
+      for row in current_sheet.first_row+1..current_sheet.last_row
+        data = []
+        rowdata = current_sheet.row(row)
+        for index in 0..current_sheet.last_column #assumption that rowdata has the same length as column_names
+          data.push(rowdata[index])
         end
         #check where to put this data
         if sheet_name == "Teams"
-          @team = current_account.teams.build(name: @data[0])
-          if !@team.save
+          team = current_account.teams.build(name: data[0])
+          if !team.save
             @failcount += 1
           end
         else #is a venue upload
           #parse date restrictions:
-          @rsstart = DateTime.parse(@data[2])
-          @rsend = DateTime.parse(@data[3])
-          @venue = @season.venues.build(name: @data[0], location: @data[1], rs_start: @rsstart, rs_end: @rsend)
-          if !@venue.save
+          rsstart = DateTime.parse(data[2])
+          rsend = DateTime.parse(data[3])
+          venue = season.venues.build(name: data[0], location: data[1])
+          if !venue.save
             @failcount += 1
           end
         end

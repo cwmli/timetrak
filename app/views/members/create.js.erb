@@ -1,9 +1,3 @@
-$('body').prepend(" \
-<% if @success == 'false'%> \
-<%= j content_tag(:div, 'Error: Please make sure name and email is present.', id: 'error') %> \
-<% else %> \
-<%= j content_tag(:div, 'Member Added.', id: 'success') %> \
-<% end %>");
-
-$("#mask").fadeOut();
+$('body').prepend("<%= j content_tag(:div, 'Member Added.', id: 'success') %>");
+$("#mask").fadeOut(); 
 retrieveTeamInfo("<%= @team_name %>")
