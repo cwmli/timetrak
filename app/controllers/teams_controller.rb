@@ -47,10 +47,15 @@ class TeamsController < ApplicationController
 
   def link_to_season
     @team = Team.find(params[:id])
+    @season = current_season.id
 
     respond_to do |format|
       if @team.seasons << current_season #add a join between selected season and the team
-        format.js
+        if !current_season.generated.nil? #a season with generated schedule exists, insert team accordingly
+          format.js { render action: 'insert'}
+        else
+          format.js
+        end
       else
         @message = 'Error: Could not add team to season.'
         format.js { render action: 'layouts/error'}

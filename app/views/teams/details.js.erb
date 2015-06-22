@@ -33,7 +33,7 @@ $("#team-info").append("<h3>Participating in Season(s):</h3>");
 
 $("#team-info").append("<% if !@season.blank? %> \
 <% @season.each do |s| %> \
-<%= j link_to s.title, '/teams/unlink_from_season/'+@team.id.to_s, remote: true, class: 'button-main info-button' %> \
+<%= j link_to s.title, '/teams/unlink_from_season/'+@team.id.to_s, remote: true, title: 'Remove from season.', class: 'button-main info-button' %> \
 <% end %><% else %> \
 <%= j content_tag(:p, 'Not in any season.') %> \
 <% end %>");

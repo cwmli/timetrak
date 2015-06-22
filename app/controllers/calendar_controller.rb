@@ -41,8 +41,65 @@ class CalendarController < ApplicationController
     end
   end
 
+  def insert
+    team = Team.find(params[:id])
+    season = Season.find(params[:season_id])
+    venues = season.venues
+    oppositions = season.teams
+    total_teams = oppositions.count
+    events = season.events.where(scheduled: 1)
+    #get event starttimes and end timeslots
+    stime = events[events.keys[0]][0].starttime
+    etime = events[events.keys[0]][0].endtime
+    #ignore single events and group by week number
+    wn_events = events.group_by(&:week)
+    #find the max events per week and the permitted days
+    event_counts = []
+    startdates = []
+    selected_days = []
+    wn_events.each do |week_num, e|
+      event_counts.push(e.count/total_teams)
+      e.each do |s|
+        startdates.push(s.startdate)
+        if !selected_days.include?(s.startdate.wday)
+          selected_days.push(s.startdate.wday)
+        end
+      end
+    end
+    weeks_in_season = events.keys[events.length-1].to_i - events.keys[0].to_i
+    start = startdates.min
+    permitted_days = (start..start+1.year).select { |k| selected_days.include?(k.wday)}
+    games_per_week = event_counts.max
+    events_q = 1
+    events_req = (total_teams)*2
+    event_build_list = []
+    #this gives how many weeks are required (provided no pre-existing events)
+    weeks_required = ((events_req/2)/games_per_week.to_f).ceil
+
+    for w in 0..(weeks_in_season+weeks_required)-1 #check the first weeks
+      for g in 0..games_per_week.to_i-1 #check the permitted days
+        for t in 0..total_teams-1 #check through teams
+          for v in 0..venues.count-1 #check each venue
+            #check if an event for the team already exists and the location is open
+            match_event = oppositions[t].events.where(startdate: permitted_days[g+w*(games_per_week.to_i)]).where(location: venues[v].name)
+            if match_event.blank? && events_q <= events_req #this team is free at this time with location
+              event_build_list.push(oppositions[t].events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name))
+              event_build_list.push(team.events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name))
+              events_q += 1
+            else
+              next
+            end
+          end
+        end
+      end
+    end
+    event_build_list.each do |e|
+      e.save
+    end
+  end
+
   def generate
-    teams= Season.find(@@season).teams.in_groups(2) #split into two equal arrays
+    teams = Season.find(@@season).teams.in_groups(2) #split into two equal arrays
     venues = Season.find(@@season).venues
     start = Date.parse(params[:startdate])
     stime = params[:starttime]
@@ -75,8 +132,8 @@ class CalendarController < ApplicationController
               @message = 'Not enough venues.'
               throw (:error)
             elsif events_q <= events_req #queue new events for building later
-              event_build_list.push(@teams_in_season[0][t].events.build(season_id: @@season,team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: permitted_days[g+r*(games_per_week.to_i)], enddate: permitted_days[g+r*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[venue_index].name))
-              event_build_list.push(@teams_in_season[1][t].events.build(season_id: @@season,team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: permitted_days[g+r*(games_per_week.to_i)], enddate: permitted_days[g+r*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[venue_index].name)) #add the event for the opposing team too
+              event_build_list.push(@teams_in_season[0][t].events.build(scheduled: '1', season_id: @@season,team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: permitted_days[g+r*(games_per_week.to_i)], enddate: permitted_days[g+r*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[venue_index].name))
+              event_build_list.push(@teams_in_season[1][t].events.build(scheduled: '1', season_id: @@season,team1: @teams_in_season[0][t].name, team2: @teams_in_season[1][t].name, startdate: permitted_days[g+r*(games_per_week.to_i)], enddate: permitted_days[g+r*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[venue_index].name)) #add the event for the opposing team too
               venue_index += 1
               events_q += 1
             else
@@ -91,6 +148,7 @@ class CalendarController < ApplicationController
         end
       end
       @success = 1
+      Season.find(@@season).update(generated: '1')#Schedule has been generated in this season
       event_build_list.each do |e|
         e.save
       end
@@ -116,7 +174,7 @@ class CalendarController < ApplicationController
         @events.push(*teamupcoming)
       end
       @events_by_date.each do |date, events_on_date_hash| #array of events on that date
-        if events_on_date_hash.length > 1 #sort only if there are more than 2 events
+        if events_on_date_hash.length > 2 #sort only if there are more than 2 events
           @events_by_date[date] = events_on_date_hash.sort_by { |h| h[:starttime] }
         end
       end
@@ -142,7 +200,7 @@ class CalendarController < ApplicationController
     @events_by_date = @team.events.where(season_id: @@season).group_by(&:startdate)
 
     @events_by_date.each do |date, events_on_date_hash| #array of events on that date
-      if events_on_date_hash.length > 1 #sort only if there are more than 2 events
+      if events_on_date_hash.length > 2 #sort only if there are more than 2 events
         @events_by_date[date] = events_on_date_hash.sort_by { |h| h[:starttime] }
       end
     end

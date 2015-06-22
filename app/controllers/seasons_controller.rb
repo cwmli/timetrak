@@ -117,6 +117,6 @@ class SeasonsController < ApplicationController
 
   private
     def season_params
-      params.require(:season).permit(:title, :teams)
+      params.require(:season).permit(:title, :generated)
     end
 end

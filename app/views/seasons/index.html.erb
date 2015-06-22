@@ -85,7 +85,7 @@
               <% else %>
                 <% @teams.each do |t| %>
                   <% if !current_season.teams.include?(t) #is not already in the season%>
-                    <%= link_to t.name, '/teams/link_to_season/'+t.id.to_s, remote: true, id: 'team-button', class: 'button-main info-button' %>
+                    <%= link_to t.name, '/teams/link_to_season/'+t.id.to_s, remote: true, title: 'Insert into season.', id: 'team-button', class: 'button-main info-button' %>
                   <% end %>
                 <% end %>
                 <br>
