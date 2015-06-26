@@ -78,21 +78,23 @@ class CalendarController < ApplicationController
     for w in 0..(weeks_in_season+weeks_required)-1 #check the first weeks
       for g in 0..games_per_week.to_i-1 #check the permitted days
         for t in 0..total_teams-1 #check through teams
-          match_event = oppositions[t].events.where(season_id: season.id).where(scheduled: 1).where(startdate: permitted_days[g+w*(games_per_week.to_i)])
-          if match_event.blank?
-            for v in 0..venues.count-1 #check each venue
-              match_event.where(location: venues[v].name)
-              if match_event.blank? && events_q <= events_req #this team is free at this time with location
-                oppositions[t].events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name).save
-                team.events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name).save
-                events_q += 1
-                break #update the match_events
-              else
-                next
+          catch (:success) do #refresh all the match events when a new one has been created
+            match_event = oppositions[t].events.where(season_id: season.id).where(scheduled: 1).where(startdate: permitted_days[g+w*(games_per_week.to_i)])
+            if match_event.blank?
+              for v in 0..venues.count-1 #check each venue
+                vfiltered_match_event = Event.where(season_id: season.id).where(scheduled: 1).where(startdate: permitted_days[g+w*(games_per_week.to_i)]).where(location: venues[v].name)
+                if vfiltered_match_event.blank? && events_q <= events_req #this team is free at this time with location
+                  oppositions[t].events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name).save
+                  team.events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name).save
+                  events_q += 1
+                  throw (:success)#update the match_events
+                else
+                  next
+                end
               end
+            else
+              next
             end
-          else
-            next
           end
         end
       end
