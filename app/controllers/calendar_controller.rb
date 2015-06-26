@@ -45,14 +45,14 @@ class CalendarController < ApplicationController
     team = Team.find(params[:id])
     season = Season.find(params[:season_id])
     venues = season.venues
-    oppositions = season.teams
+    oppositions = season.teams.where("name != ?", team.name)
     total_teams = oppositions.count
     events = season.events.where(scheduled: 1)
     #get event starttimes and end timeslots
-    stime = events[events.keys[0]][0].starttime
-    etime = events[events.keys[0]][0].endtime
+    stime = events[0].starttime
+    etime = events[0].endtime
     #ignore single events and group by week number
-    wn_events = events.group_by(&:week)
+    wn_events = events.group_by{|u| u.startdate.strftime('%W')}
     #find the max events per week and the permitted days
     event_counts = []
     startdates = []
@@ -66,35 +66,40 @@ class CalendarController < ApplicationController
         end
       end
     end
-    weeks_in_season = events.keys[events.length-1].to_i - events.keys[0].to_i
+    weeks_in_season = (wn_events.keys[wn_events.count-1].to_i - wn_events.keys[0].to_i)+1
     start = startdates.min
     permitted_days = (start..start+1.year).select { |k| selected_days.include?(k.wday)}
     games_per_week = event_counts.max
     events_q = 1
     events_req = (total_teams)*2
-    event_build_list = []
     #this gives how many weeks are required (provided no pre-existing events)
     weeks_required = ((events_req/2)/games_per_week.to_f).ceil
 
     for w in 0..(weeks_in_season+weeks_required)-1 #check the first weeks
       for g in 0..games_per_week.to_i-1 #check the permitted days
         for t in 0..total_teams-1 #check through teams
-          for v in 0..venues.count-1 #check each venue
-            #check if an event for the team already exists and the location is open
-            match_event = oppositions[t].events.where(startdate: permitted_days[g+w*(games_per_week.to_i)]).where(location: venues[v].name)
-            if match_event.blank? && events_q <= events_req #this team is free at this time with location
-              event_build_list.push(oppositions[t].events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name))
-              event_build_list.push(team.events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name))
-              events_q += 1
-            else
-              next
+          match_event = oppositions[t].events.where(season_id: season.id).where(scheduled: 1).where(startdate: permitted_days[g+w*(games_per_week.to_i)])
+          if match_event.blank?
+            for v in 0..venues.count-1 #check each venue
+              match_event.where(location: venues[v].name)
+              if match_event.blank? && events_q <= events_req #this team is free at this time with location
+                oppositions[t].events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name).save
+                team.events.build(scheduled: '1', season_id: params[:season_id], team1: oppositions[t].name, team2: team.name, startdate: permitted_days[g+w*(games_per_week.to_i)], enddate: permitted_days[g+w*(games_per_week.to_i)], starttime: stime, endtime: etime, location: venues[v].name).save
+                events_q += 1
+                break #update the match_events
+              else
+                next
+              end
             end
+          else
+            next
           end
         end
       end
     end
-    event_build_list.each do |e|
-      e.save
+
+    respond_to do |format|
+      format.js
     end
   end
 

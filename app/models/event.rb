@@ -7,8 +7,4 @@ class Event < ActiveRecord::Base
   validates :team1, presence: true
   validates :team2, presence: true
   validates :startdate, presence: true
-
-  def week_num
-    self.startdate.strftime('%W')
-  end
 end
