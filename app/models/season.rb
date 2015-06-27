@@ -7,4 +7,5 @@ class Season < ActiveRecord::Base
   belongs_to :account
   has_and_belongs_to_many :teams, dependent: :nullify
   has_many :venues, dependent: :destroy
+  has_many :events, through: :teams
 end

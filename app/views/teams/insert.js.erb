@@ -1,0 +1,11 @@
+$.ajax({
+  url: '/calendar/insert/<%= @team.id %>',
+  data: { season_id: '<%= @season %>'}
+})
+$("body").prepend("<%= j content_tag(:div, 'Team added to season.', id: 'success') %>");
+$("#team-info").empty().fadeIn();
+//reload teams in season
+var selection = $("#s-season").find(":selected").text();
+retrieveSeasonTeams(selection)
+//reload a
+$("#static-teamslist").load(location.href + " #infob");

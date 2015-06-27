@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     get '/calendar/all/' => 'calendar#all'
     get '/calendar/retrieve/' => 'calendar#retrieve'
     get '/calendar/generate/' => 'calendar#generate'
+    get '/calendar/insert/:id' => 'calendar#insert' #insert team into generated season
 
     resources :accounts, except: :index do
       resources :seasons do
